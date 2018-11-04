@@ -30,9 +30,6 @@
             android:name=".CriarGrupo"
             android:parentActivityName=".MeusGrupos" />
         <activity
-            android:name=".NovoAmigo"
-            android:parentActivityName=".Amigos" />
-        <activity
             android:name=".CriarCategoria"
             android:parentActivityName=".MinhasListas" />
         <activity
