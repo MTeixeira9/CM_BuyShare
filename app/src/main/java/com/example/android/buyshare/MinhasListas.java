@@ -127,7 +127,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
             Toast.makeText(getApplicationContext(), "Sessão terminada com sucesso.", Toast.LENGTH_SHORT).show();
 
         }else if(id == R.id.meuPerfil) {
-            Intent meuPerfil = new Intent(MinhasListas.this, Amigos.class);
+            Intent meuPerfil = new Intent(MinhasListas.this, Perfil.class);
             startActivity(meuPerfil);
 
         }

@@ -45,11 +45,11 @@
         android:id="@+id/textView34"
         android:layout_width="105dp"
         android:layout_height="26dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:text="923456789"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/textView37"
-        tools:layout_editor_absoluteX="161dp" />
+        app:layout_constraintStart_toEndOf="@+id/textView28"
+        app:layout_constraintTop_toBottomOf="@+id/textView37" />
 
     <TextView
         android:id="@+id/textView33"
@@ -79,11 +79,13 @@
         android:id="@+id/textView28"
         android:layout_width="129dp"
         android:layout_height="26dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="8dp"
         android:text="Nº Telemóvel:"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/textView36"
-        tools:layout_editor_absoluteX="32dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView36" />
 
     <ImageView
         android:id="@+id/imageView"
