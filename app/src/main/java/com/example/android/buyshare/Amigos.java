@@ -33,7 +33,8 @@ public class Amigos extends AppCompatActivity {
                 //startActivityForResult(i, 1);
 
                 //POPUP
-                startActivity(new Intent(Amigos.this, PopUpAddAmigo.class));
+                Intent i = new Intent(Amigos.this, PopUpAddAmigo.class);
+                startActivityForResult(i, 1);
             }
         });
 
