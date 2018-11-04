@@ -17,6 +17,7 @@ public class PopUpAddAmigo extends Activity {
 
         int width = dm.widthPixels;
         int height = dm.heightPixels;
+        //ola
 
         getWindow().setLayout((int) (width*.8),(int) (height*.32));
         
