@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.android.buyshare">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".RegistoActivity"
+            android:parentActivityName=".LoginActivity" />
+        <activity android:name=".MinhasListas" />
+        <activity
+            android:name=".MeusGrupos"
+            android:parentActivityName=".MinhasListas" />
+        <activity
+            android:name=".Amigos"
+            android:parentActivityName=".MinhasListas" />
+        <activity
+            android:name=".CriarGrupo"
+            android:parentActivityName=".MeusGrupos" />
+        <activity
+            android:name=".NovoAmigo"
+            android:parentActivityName=".Amigos" />
+        <activity
+            android:name=".CriarCategoria"
+            android:parentActivityName=".MinhasListas" />
+        <activity
+            android:name=".NovaLista"
+            android:parentActivityName=".MinhasListas" />
+        <activity
+            android:name=".VerMembros"
+            android:parentActivityName=".NovaLista" />
+        <activity
+            android:name=".AdicionarCustoL"
+            android:parentActivityName=".NovaLista" />
+        <activity
+            android:name=".CriarGrupoAddM"
+            android:parentActivityName=".AdicionarMembrosMostraLista" />
+        <activity
+            android:name=".NovoAmigoAddM"
+            android:parentActivityName=".AdicionarMembrosMostraLista" />
+        <activity
+            android:name=".DividasPagar"
+            android:parentActivityName=".MinhasListas" />
+        <activity
+            android:name=".MostraLista"
+            android:parentActivityName=".MinhasListas" />
+        <activity
+            android:name=".DividasReceber"
+            android:parentActivityName=".MinhasListas" />
+        <activity
+            android:name=".AdicionarMembrosMostraLista"
+            android:parentActivityName=".MostraLista" />
+        <activity
+            android:name=".AdicionarMembrosNovaLista"
+            android:parentActivityName=".NovaLista" />
+
+        <activity
+            android:name=".Perfil"
+            android:parentActivityName=".MostraLista"/>
+
+    </application>
+
+</manifest>

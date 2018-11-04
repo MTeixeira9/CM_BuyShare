@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FragEstimarCustoLista">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="377dp"
+        android:layout_above="@+id/textView15"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentLeft="true">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dip"
+            android:stretchColumns="0,1">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/line1Col1"
+                    android:layout_column="0"
+                    android:text="Carne"
+                    android:textSize="20sp"></TextView>
+
+                <EditText
+                    android:id="@+id/line1Col2"
+                    android:layout_column="1"
+                    android:inputType="number" ></EditText>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/line2Col1"
+                    android:layout_column="0"
+                    android:text="Coca-cola"
+                    android:textSize="20sp"></TextView>
+
+                <EditText
+                    android:id="@+id/line2Col2"
+                    android:layout_column="1"
+                    android:inputType="number" ></EditText>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/line3Col1"
+                    android:layout_column="0"
+                    android:text="Sumol"
+                    android:textSize="20sp"></TextView>
+
+                <EditText
+                    android:id="@+id/line3Col2"
+                    android:layout_column="1"
+                    android:inputType="number" ></EditText>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/line4Col1"
+                    android:layout_column="0"
+                    android:text="Cervejas"
+                    android:textSize="20sp"></TextView>
+
+                <EditText
+                    android:id="@+id/line4Col2"
+                    android:layout_column="1"
+                    android:inputType="number" ></EditText>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/line5Col1"
+                    android:layout_column="0"
+                    android:text="Pão"
+                    android:textSize="20sp"></TextView>
+
+                <EditText
+                    android:id="@+id/line5Col2"
+                    android:layout_column="1"
+                    android:inputType="number" ></EditText>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/line6Col1"
+                    android:layout_column="0"
+                    android:text="Manteiga"
+                    android:textSize="20sp"></TextView>
+
+                <EditText
+                    android:id="@+id/line6Col2"
+                    android:layout_column="1"
+                    android:inputType="number" ></EditText>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/line7Col1"
+                    android:layout_column="0"
+                    android:text="Azeitonas"
+                    android:textSize="20sp"></TextView>
+
+                <EditText
+                    android:id="@+id/line7Col2"
+                    android:layout_column="1"
+                    android:inputType="number" ></EditText>
+
+            </TableRow>
+
+        </TableLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="66dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="90dp"
+        android:text="Custo:"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/editText12"
+        android:layout_width="90dp"
+        android:layout_height="25dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginEnd="63dp"
+        android:layout_marginRight="63dp"
+        android:layout_marginBottom="89dp"
+        android:layout_toEndOf="@+id/textView15"
+        android:layout_toRightOf="@+id/textView15"
+        android:ems="10"
+        android:inputType="number" />
+</RelativeLayout>

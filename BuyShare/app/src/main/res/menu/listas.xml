@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/meusGrupos"
+        android:title="Meus Grupos"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/amigos"
+        android:title="Amigos"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/arquivo"
+        android:title="Arquivo"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/meuPerfil"
+        android:title="Meu Perfil"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/terminarS"
+        android:title="Terminar Sessão"
+        app:showAsAction="never"/>
+
+</menu>
