@@ -8,7 +8,7 @@ public class NovoAmigoAddM extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_novo_amigo);
+        setContentView(R.layout.activity_novo_amigo_add_m);
 
         getSupportActionBar().setTitle("Novo Amigo");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
