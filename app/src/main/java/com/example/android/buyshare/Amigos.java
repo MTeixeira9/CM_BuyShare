@@ -29,8 +29,11 @@ public class Amigos extends AppCompatActivity {
         addAmigos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Amigos.this, NovoAmigo.class);
-                startActivityForResult(i, 1);
+                //Intent i = new Intent(Amigos.this, NovoAmigo.class);
+                //startActivityForResult(i, 1);
+
+                //POPUP
+                startActivity(new Intent(Amigos.this, PopUpAddAmigo.class));
             }
         });
 
@@ -38,6 +41,10 @@ public class Amigos extends AppCompatActivity {
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         mListAmigos.setAdapter(mAdapter);
 
+        //Amigos iniciais
+        mAdapter.add("João 967596499");
+        mAdapter.add("Tomé 917733456");
+        mAdapter.notifyDataSetChanged();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

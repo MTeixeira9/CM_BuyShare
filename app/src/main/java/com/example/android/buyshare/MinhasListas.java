@@ -121,14 +121,15 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
             Intent amigos = new Intent(MinhasListas.this, Amigos.class);
             startActivity(amigos);
 
-        }else if(id == R.id.terminarS) {
+        }else if(id == R.id.terminarS){
             Intent terminarS = new Intent(MinhasListas.this, LoginActivity.class);
             startActivity(terminarS);
             Toast.makeText(getApplicationContext(), "Sessão terminada com sucesso.", Toast.LENGTH_SHORT).show();
 
         }else if(id == R.id.meuPerfil) {
-            Intent perfil = new Intent(MinhasListas.this, Perfil.class);
-            startActivity(perfil);
+            Intent meuPerfil = new Intent(MinhasListas.this, Amigos.class);
+            startActivity(meuPerfil);
+
         }
 
         return super.onOptionsItemSelected(item);
