@@ -11,7 +11,9 @@ import android.widget.Toast;
 
 public class PopUpAddAmigo extends Activity {
 
-    private static final String msg = "Tem de preencher ambos os campos!";
+    private static final String msgErro = "Tem de preencher ambos os campos!";
+    private static final String msgAddAmigo = "Amigo adicionado com sucesso!";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +43,11 @@ public class PopUpAddAmigo extends Activity {
                     i.putExtra("nTlm", nTele);
                     i.putExtra("nomeA", nome);
                     setResult(RESULT_OK, i);
+                    Toast.makeText(getApplicationContext(), msgAddAmigo, Toast.LENGTH_LONG).show();
                     finish();
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), msgErro, Toast.LENGTH_LONG).show();
                 }
 
             }
