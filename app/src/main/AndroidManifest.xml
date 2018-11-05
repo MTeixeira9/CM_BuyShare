@@ -65,7 +65,9 @@
         <activity
             android:name=".PopUpAddAmigo"
             android:theme="@style/AppTheme.popUp" />
-        <activity android:name=".Perfil"></activity>
+        <activity
+            android:name=".Perfil"
+            android:parentActivityName=".MinhasListas" />
     </application>
 
 </manifest>
