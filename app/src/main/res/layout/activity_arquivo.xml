@@ -10,7 +10,7 @@
     <ListView
         android:id="@+id/listasArquivadas"
         android:layout_width="379dp"
-        android:layout_height="332dp"
+        android:layout_height="284dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
