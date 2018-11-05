@@ -62,8 +62,12 @@
         <activity
             android:name=".AdicionarMembrosNovaLista"
             android:parentActivityName=".NovaLista" />
-        <activity android:name=".PopUpAddAmigo"
-            android:theme="@style/AppTheme.popUp"/>
+        <activity
+            android:name=".PopUpAddAmigo"
+            android:theme="@style/AppTheme.popUp" />
+        <activity android:name=".PopUpCategoria"
+                android:theme="@style/AppTheme.popUp"
+            ></activity>
     </application>
 
 </manifest>
