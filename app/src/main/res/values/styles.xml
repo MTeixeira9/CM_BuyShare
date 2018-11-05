@@ -24,7 +24,7 @@
     <style name="AppTheme.texto" >
         <item name="android:textSize">16sp</item>
     </style>
-    
+
     <style name="AppTheme.popUp" >
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>

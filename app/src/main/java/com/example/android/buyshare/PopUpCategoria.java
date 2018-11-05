@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 public class PopUpCategoria extends AppCompatActivity {
 
-    private static final String msgErro = "Tem de preencher ambos os campos!";
+    private static final String msgErro = "Tem de dar um nome à categoria!";
     private static final String msgAddCat = "Categoria adicionada com sucesso!";
 
 
@@ -34,12 +34,12 @@ public class PopUpCategoria extends AppCompatActivity {
         addCategoria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView nomeCat = (TextView) findViewById(R.id.nomeCategoria);
+                TextView nomeCat = (TextView) findViewById(R.id.nomeCat);
                 Intent i = new Intent();
                 String nomeCategoria = nomeCat.getText().toString();
 
                 if (!nomeCategoria.equals("")){
-                    i.putExtra("nCat", nomeCategoria);
+                    i.putExtra("nomeC", nomeCategoria);
                     setResult(RESULT_OK, i);
                     Toast.makeText(getApplicationContext(), msgAddCat, Toast.LENGTH_LONG).show();
                     finish();
@@ -50,6 +50,7 @@ public class PopUpCategoria extends AppCompatActivity {
 
             }
         });
+
 
     }
 }
