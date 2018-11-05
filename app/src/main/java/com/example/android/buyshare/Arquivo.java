@@ -24,7 +24,7 @@ public class Arquivo extends AppCompatActivity {
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         listaArq.setAdapter(mAdapter);
 
-        //Amigos iniciais
+        //Listas iniciais
         mAdapter.add("Jantar de Aniversário");
         mAdapter.add("Jantar da Faculdade");
         mAdapter.add("Supermercado");
