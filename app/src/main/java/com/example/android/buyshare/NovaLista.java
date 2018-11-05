@@ -20,7 +20,9 @@ public class NovaLista extends AppCompatActivity {
     private ArrayAdapter<String> mAdapter;
     private ListView mShoppingList;
     private EditText mItemEdit;
-    private static final String msg = "Tem de dar um nome à Lista!";
+
+    private static final String msgErrLista = "Tem de dar um nome à Lista!";
+    private static final String msgErrAddProd = "Tem de inserir um produto!";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +48,8 @@ public class NovaLista extends AppCompatActivity {
                     finish();
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), msgErrLista, Toast.LENGTH_LONG).show();
                 }
-                //Intent i = new Intent(NovaLista.this, AdicionarCustoL.class);
-                //startActivity(i);
             }
         });
 
@@ -67,6 +67,9 @@ public class NovaLista extends AppCompatActivity {
                     mAdapter.add(item);
                     mAdapter.notifyDataSetChanged();
                     mItemEdit.setText("");
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), msgErrAddProd, Toast.LENGTH_LONG).show();
                 }
             }
         });
