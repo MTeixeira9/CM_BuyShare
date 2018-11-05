@@ -69,7 +69,9 @@
         <activity
             android:name=".Perfil"
             android:parentActivityName=".MinhasListas" />
-        <activity android:name=".Arquivo"></activity>
+        <activity
+            android:name=".Arquivo"
+            android:parentActivityName=".MinhasListas" />
     </application>
 
 </manifest>
