@@ -29,9 +29,7 @@
         <activity
             android:name=".CriarGrupo"
             android:parentActivityName=".MeusGrupos" />
-        <activity
-            android:name=".CriarCategoria"
-            android:parentActivityName=".MinhasListas" />
+
         <activity
             android:name=".NovaLista"
             android:parentActivityName=".MinhasListas" />
@@ -65,6 +63,9 @@
         <activity
             android:name=".PopUpAddAmigo"
             android:theme="@style/AppTheme.popUp" />
+        <activity android:name=".PopUpCategoria"
+                android:theme="@style/AppTheme.popUp"
+            ></activity>
         <activity
             android:name=".Perfil"
             android:parentActivityName=".MinhasListas" />

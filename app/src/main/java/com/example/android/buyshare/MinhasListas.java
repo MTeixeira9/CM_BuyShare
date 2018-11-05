@@ -63,7 +63,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         novaCat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MinhasListas.this, CriarCategoria.class);
+                Intent i = new Intent(MinhasListas.this, PopUpCategoria.class);
                 startActivityForResult(i, 1);
             }
         });
