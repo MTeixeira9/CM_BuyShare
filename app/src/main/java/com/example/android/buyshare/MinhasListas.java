@@ -130,7 +130,11 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
             Intent meuPerfil = new Intent(MinhasListas.this, Perfil.class);
             startActivity(meuPerfil);
 
-        }
+        }else if(id == R.id.arquivo) {
+            Intent arquivo = new Intent(MinhasListas.this, Arquivo.class);
+            startActivity(arquivo);
+
+    }
 
         return super.onOptionsItemSelected(item);
     }
