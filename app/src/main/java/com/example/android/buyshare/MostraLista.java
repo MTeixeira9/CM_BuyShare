@@ -22,11 +22,6 @@ public class MostraLista extends AppCompatActivity {
         getSupportActionBar().setTitle("Lista: " + nomeLista);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.frameListaCompras, new FragMostraItensLista());
-        ft.commit();
-
         Button guardar = (Button) findViewById(R.id.finComprar);
 
         guardar.setOnClickListener(new View.OnClickListener() {
@@ -58,10 +53,9 @@ public class MostraLista extends AppCompatActivity {
             startActivity(amigos);
 
         }else if(id == R.id.estimarCusto){
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.frameListaCompras, new FragEstimarCustoLista());
-            ft.commit();
+
+            Intent amigos = new Intent(MostraLista.this, EstimarCustoLista.class);
+            startActivity(amigos);
 
         }else if(id == R.id.finalizar) {
             Intent intent = new Intent(MostraLista.this, AdicionarCustoL.class);
