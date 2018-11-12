@@ -153,8 +153,33 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+<<<<<<< HEAD
         android:layout_marginBottom="55dp"
         android:background="@drawable/button_style"
         android:text="Custo" />
 
+=======
+        android:layout_marginBottom="90dp"
+        android:text="Custo:"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/editText12"
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginEnd="74dp"
+        android:layout_marginRight="74dp"
+        android:layout_marginBottom="90dp"
+        android:layout_toEndOf="@+id/textView15"
+        android:layout_toRightOf="@+id/textView15"
+        android:ems="10"
+        android:inputType="number"
+        android:text="0,00€"
+        android:textSize="20sp" />
+>>>>>>> c0044c66f4a6e19eb59d8a07f301d682aad53a7d
 </RelativeLayout>

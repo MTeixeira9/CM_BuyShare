@@ -46,6 +46,7 @@ public class Amigos extends AppCompatActivity {
         //Amigos iniciais
         mAdapter.add("João 967596499");
         mAdapter.add("Tomé 917733456");
+
         mAdapter.notifyDataSetChanged();
     }
 
