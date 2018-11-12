@@ -38,6 +38,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_minhas_listas);
 
         getSupportActionBar().setTitle("Minhas Listas");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //TextView textView = findViewById(R.id.textView);
         //registerForContextMenu(textView);
