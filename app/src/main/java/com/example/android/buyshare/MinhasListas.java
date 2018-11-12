@@ -39,9 +39,8 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
         getSupportActionBar().setTitle("Minhas Listas");
 
-        TextView textView = findViewById(R.id.textView);
-
-        registerForContextMenu(textView);
+        //TextView textView = findViewById(R.id.textView);
+        //registerForContextMenu(textView);
 
         Button novaCat = (Button) findViewById(R.id.novaCategoria);
         Button novaLista = (Button) findViewById(R.id.novaLista);
