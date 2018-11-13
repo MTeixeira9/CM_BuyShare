@@ -11,5 +11,6 @@ public class Perfil extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
 
         getSupportActionBar().setTitle("Meu Perfil");
+        
     }
 }
