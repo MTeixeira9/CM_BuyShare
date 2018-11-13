@@ -71,8 +71,10 @@
         <activity
             android:name=".Arquivo"
             android:parentActivityName=".MinhasListas" />
-        <activity android:name=".PopUpEstimarCusto" />
-        <activity android:name=".EstimarCustoLista"></activity>
+        <activity android:name=".PopUpEstimarCusto"
+            android:theme="@style/AppTheme.popUp" />
+        <activity android:name=".EstimarCustoLista"
+            android:parentActivityName=".MinhasListas"></activity>
     </application>
 
 </manifest>
