@@ -75,6 +75,8 @@
             android:theme="@style/AppTheme.popUp" />
         <activity android:name=".EstimarCustoLista"
             android:parentActivityName=".MinhasListas"></activity>
+        <activity android:name=".EditPerfil"></activity>
+>>>>>>> b91786fe5488cddfe8e2876503cc6d1fc7c3b437
     </application>
 
 </manifest>
