@@ -37,6 +37,7 @@ public class Perfil extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 String nome = data.getStringExtra("nome");
                 String password = data.getStringExtra("pwd");
+                String conf_pwd = data.getStringExtra("conf_Passw");
                 String nTlm = data.getStringExtra("nTlm");
                 String email = data.getStringExtra("email");
 
@@ -45,10 +46,19 @@ public class Perfil extends AppCompatActivity {
                 TextView nTlm_TV = (TextView) findViewById(R.id.nTlm_perfil);
                 TextView email_TV = (TextView) findViewById(R.id.email_perfil);
 
-                nomeTV.setText(nome);
-                pwdTV.setText(password);
-                nTlm_TV.setText(nTlm);
-                email_TV.setText(email);
+                if(!nome.equals("") || !nome.equals(nomeTV.getText().toString())){
+                    nomeTV.setText(nome);
+
+                }else if(password.equals(conf_pwd)){
+                    pwdTV.setText(password);
+
+                }else if(!nTlm.equals("") || !nTlm.equals(nTlm_TV.getText().toString())) {
+                    nTlm_TV.setText(nTlm);
+
+
+                }else if(!email.equals("") || !nTlm.equals(email_TV.getText().toString())) {
+                    email_TV.setText(email);
+                }
             }
         }
     }

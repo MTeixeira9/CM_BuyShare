@@ -37,11 +37,9 @@ public class EditPerfil extends AppCompatActivity {
                 String nTlm = nTlmET.getText().toString();
                 String email = emailET.getText().toString();
 
-                // && password.equals(conf_Passw) && !nTlm.equals("") && !email.equals("")
-
-                if (!nome.equals("")) {
+                if (!nome.equals("") || password.equals(conf_Passw) || !nTlm.equals("") || !email.equals("")) {
                     i.putExtra("nome", nome);
-                    i.putExtra("password", password);
+                    i.putExtra("pwd", password);
                     i.putExtra("conf_Passw", conf_Passw);
                     i.putExtra("nTlm", nTlm);
                     i.putExtra("email", email);
@@ -52,10 +50,7 @@ public class EditPerfil extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), "Falta inserir dados", Toast.LENGTH_LONG).show();
                 }
-
-
             }
-
         });
     }
 }
