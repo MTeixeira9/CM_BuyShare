@@ -24,6 +24,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TableLayout
+            android:id="@+id/table"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dip"
@@ -42,7 +43,7 @@
                 <EditText
                     android:id="@+id/line1Col2"
                     android:layout_column="1"
-                    android:inputType="number"></EditText>
+                    android:inputType="numberDecimal"></EditText>
 
             </TableRow>
 
@@ -59,7 +60,7 @@
                 <EditText
                     android:id="@+id/line2Col2"
                     android:layout_column="1"
-                    android:inputType="number"></EditText>
+                    android:inputType="numberDecimal"></EditText>
 
             </TableRow>
 
@@ -76,7 +77,7 @@
                 <EditText
                     android:id="@+id/line3Col2"
                     android:layout_column="1"
-                    android:inputType="number"></EditText>
+                    android:inputType="numberDecimal"></EditText>
 
             </TableRow>
 
@@ -93,7 +94,7 @@
                 <EditText
                     android:id="@+id/line4Col2"
                     android:layout_column="1"
-                    android:inputType="number"></EditText>
+                    android:inputType="numberDecimal"></EditText>
 
             </TableRow>
 
@@ -110,7 +111,7 @@
                 <EditText
                     android:id="@+id/line5Col2"
                     android:layout_column="1"
-                    android:inputType="number"></EditText>
+                    android:inputType="numberDecimal"></EditText>
 
             </TableRow>
 
@@ -127,7 +128,7 @@
                 <EditText
                     android:id="@+id/line6Col2"
                     android:layout_column="1"
-                    android:inputType="number"></EditText>
+                    android:inputType="numberDecimal"></EditText>
 
             </TableRow>
 
@@ -144,7 +145,7 @@
                 <EditText
                     android:id="@+id/line7Col2"
                     android:layout_column="1"
-                    android:inputType="number"></EditText>
+                    android:inputType="numberDecimal"></EditText>
 
             </TableRow>
 
