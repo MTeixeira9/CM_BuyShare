@@ -37,7 +37,11 @@ public class EditPerfil extends AppCompatActivity {
                 String nTlm = nTlmET.getText().toString();
                 String email = emailET.getText().toString();
 
-                if (!nome.equals("") || password.equals(conf_Passw) || !nTlm.equals("") || !email.equals("")) {
+                if (!password.equals(conf_Passw)){
+
+                    Toast.makeText(getApplicationContext(), "Palavra passe não coincide", Toast.LENGTH_SHORT).show();
+
+                }else if (!nome.equals("") || !password.equals("") || !conf_Passw.equals("")|| !nTlm.equals("") || !email.equals("")) {
                     i.putExtra("nome", nome);
                     i.putExtra("pwd", password);
                     i.putExtra("conf_Passw", conf_Passw);
