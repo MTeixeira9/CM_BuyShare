@@ -71,12 +71,13 @@
         <activity
             android:name=".Arquivo"
             android:parentActivityName=".MinhasListas" />
-
         <activity android:name=".PopUpEstimarCusto" />
         <activity android:name=".EstimarCustoLista" />
         <activity
             android:name=".EditPerfil"
-        android:parentActivityName=".Perfil" />
+            android:parentActivityName=".Perfil" />
+        <activity android:name=".MostraGrupo"
+            android:parentActivityName=".MeusGrupos"></activity>
     </application>
 
 </manifest>

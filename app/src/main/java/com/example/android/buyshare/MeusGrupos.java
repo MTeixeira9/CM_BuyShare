@@ -4,11 +4,12 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-public class MeusGrupos extends AppCompatActivity {
+public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ArrayAdapter<String> mAdapter;
     private ListView mListGrupos;
@@ -32,6 +33,7 @@ public class MeusGrupos extends AppCompatActivity {
         });
 
         mListGrupos = (ListView) findViewById(R.id.listGrupos);
+        mListGrupos.setOnItemClickListener(this);
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         mListGrupos.setAdapter(mAdapter);
     }
@@ -48,4 +50,14 @@ public class MeusGrupos extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent();
+        intent.setClass(this, MostraGrupo.class);
+        String grupo = (String) parent.getItemAtPosition(position);
+
+
+        intent.putExtra("nomeG", grupo);
+        startActivity(intent);
+    }
 }

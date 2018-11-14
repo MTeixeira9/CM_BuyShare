@@ -17,7 +17,7 @@ public class MostraLista extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostra_lista);
 
-        String nomeLista = getIntent().getStringExtra("nameL").toString();
+        String nomeLista = getIntent().getStringExtra("nameL");
 
         getSupportActionBar().setTitle("Lista: " + nomeLista);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
