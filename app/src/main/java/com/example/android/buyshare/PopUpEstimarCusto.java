@@ -26,7 +26,7 @@ public class PopUpEstimarCusto extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
 
         Double p = extras.getDouble("custo");
-        String info = "O preço da lista eh " + p.toString();
+        String info = "O preço da lista é " + p.toString() + "€";
         TextView t = (TextView) findViewById(R.id.custo);
         t.setText(info);
     }
