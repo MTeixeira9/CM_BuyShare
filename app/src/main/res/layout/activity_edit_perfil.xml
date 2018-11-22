@@ -21,26 +21,26 @@
 
     <EditText
         android:id="@+id/email_edit"
-        android:layout_width="238dp"
+        android:layout_width="252dp"
         android:layout_height="38dp"
         android:layout_marginTop="8dp"
-        android:inputType="textPassword"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/textView29"
         app:layout_constraintTop_toBottomOf="@+id/nTlm_perfil" />
 
     <EditText
         android:id="@+id/nTlm_perfil"
-        android:layout_width="169dp"
+        android:layout_width="184dp"
         android:layout_height="34dp"
         android:layout_marginTop="8dp"
+        android:inputType="number"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/textView28"
         app:layout_constraintTop_toBottomOf="@+id/conf_pwd_edit" />
 
     <EditText
         android:id="@+id/nome_perfil"
-        android:layout_width="230dp"
+        android:layout_width="248dp"
         android:layout_height="44dp"
         android:layout_marginTop="200dp"
         android:textSize="14sp"
@@ -121,19 +121,19 @@
 
     <TextView
         android:id="@+id/textView10"
-        android:layout_width="167dp"
+        android:layout_width="172dp"
         android:layout_height="35dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="8dp"
-        android:text="Confirmar Password"
+        android:text="Confirmar Password:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView36" />
 
     <EditText
         android:id="@+id/conf_pwd_edit"
-        android:layout_width="135dp"
+        android:layout_width="141dp"
         android:layout_height="35dp"
         android:layout_marginTop="8dp"
         android:ems="10"
@@ -144,7 +144,7 @@
 
     <EditText
         android:id="@+id/pass_edit"
-        android:layout_width="210dp"
+        android:layout_width="224dp"
         android:layout_height="40dp"
         android:layout_marginTop="8dp"
         android:ems="10"
