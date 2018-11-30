@@ -6,30 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".RegistoActivity">
 
-    <TextView
-        android:id="@+id/div2"
+    <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="63dp"
         android:layout_height="39dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="Nome"
-        android:textSize="20sp"
+        android:layout_marginTop="44dp"
         app:layout_constraintEnd_toStartOf="@+id/nomeRegisto"
-        app:layout_constraintHorizontal_bias="0.056"
+        app:layout_constraintHorizontal_bias="0.76"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/user" />
 
     <EditText
         android:id="@+id/nomeRegisto"
-        android:layout_width="162dp"
+        android:layout_width="260dp"
         android:layout_height="39dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginRight="28dp"
+        android:background="@drawable/border_style"
         android:ems="10"
+        android:hint="Nome"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +39,7 @@
         android:layout_height="39dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Password"
@@ -48,7 +47,7 @@
         app:layout_constraintEnd_toStartOf="@+id/passRegisto"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/div2" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <EditText
         android:id="@+id/passRegisto"
