@@ -19,7 +19,7 @@ public class MostraLista extends AppCompatActivity {
 
         String nomeLista = getIntent().getStringExtra("nameL");
 
-        getSupportActionBar().setTitle("Lista: " + nomeLista);
+        getSupportActionBar().setTitle(nomeLista);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button guardar = (Button) findViewById(R.id.finComprar);
