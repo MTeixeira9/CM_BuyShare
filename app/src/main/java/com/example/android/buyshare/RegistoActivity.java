@@ -8,8 +8,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.buyshare.BD.User;
-
 public class RegistoActivity extends AppCompatActivity {
 
     private static final String msg = "Registo efetuado com sucesso!";
