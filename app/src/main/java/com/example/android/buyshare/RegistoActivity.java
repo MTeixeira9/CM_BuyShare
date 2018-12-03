@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.buyshare.Database.User;
+
 public class RegistoActivity extends AppCompatActivity {
 
     private static final String msg = "Registo efetuado com sucesso!";
@@ -42,7 +44,7 @@ public class RegistoActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Tem que inserir todos os parâmetros", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    //User u = new User();
+                    User u = new User(nomeR, passR, telemovelR, emailR );
                     //u.setNome(nomeR);
                     //u.setEmail(emailR);
                     //u.setPassword(passR);
@@ -52,11 +54,11 @@ public class RegistoActivity extends AppCompatActivity {
                 }
 
 
-
-
-
             }
         });
 
     }
+
+
+
 }
