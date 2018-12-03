@@ -7,9 +7,45 @@
     tools:context=".Perfil">
 
     <ImageView
+        android:id="@+id/pen_user"
+        android:layout_width="25dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="204dp"
+        app:layout_constraintStart_toEndOf="@+id/nome_perfil"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/lapis" />
+
+    <ImageView
+        android:id="@+id/pen_pass"
+        android:layout_width="25dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toEndOf="@+id/pwd_perfil"
+        app:layout_constraintTop_toBottomOf="@+id/pen_user"
+        app:srcCompat="@drawable/lapis" />
+
+    <ImageView
+        android:id="@+id/pen_telemovel"
+        android:layout_width="25dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toEndOf="@+id/nTlm_perfil"
+        app:layout_constraintTop_toBottomOf="@+id/pen_pass"
+        app:srcCompat="@drawable/lapis" />
+
+    <ImageView
+        android:id="@+id/pen_email"
+        android:layout_width="25dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toEndOf="@+id/email_perfil"
+        app:layout_constraintTop_toBottomOf="@+id/pen_telemovel"
+        app:srcCompat="@drawable/lapis" />
+
+    <ImageView
         android:id="@+id/imageView11"
         android:layout_width="41dp"
-        android:layout_height="37dp"
+        android:layout_height="33dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="12dp"
@@ -21,8 +57,8 @@
         android:id="@+id/pwd_perfil"
         android:layout_width="198dp"
         android:layout_height="33dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/border_style"
         android:inputType="textPassword"
@@ -34,9 +70,9 @@
     <TextView
         android:id="@+id/email_perfil"
         android:layout_width="198dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/border_style"
         android:text="grupoL@hotmail.com"
@@ -48,8 +84,8 @@
         android:id="@+id/nTlm_perfil"
         android:layout_width="198dp"
         android:layout_height="33dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/border_style"
         android:text="923456789"
@@ -58,21 +94,29 @@
         app:layout_constraintTop_toBottomOf="@+id/pwd_perfil" />
 
     <TextView
-        android:id="@+id/nome_perfil"
-        android:layout_width="199dp"
+    android:id="@+id/nome_perfil"
+    android:layout_width="202dp"
+    android:layout_height="33dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="42dp"
+    android:background="@drawable/border_style"
+    android:text="Guilherme Guimarães"
+    android:textSize="18sp"
+    app:layout_constraintStart_toEndOf="@+id/imageView7"
+    app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <EditText
+        android:id="@+id/edit_nome_perfil"
+        android:layout_width="202dp"
         android:layout_height="33dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="204dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginLeft="52dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/border_style"
-        android:text="Guilherme Guimarães"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
         app:layout_constraintStart_toEndOf="@+id/imageView7"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -139,6 +183,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView9"
         app:srcCompat="@drawable/telemovel" />
+
+    <ImageView
+        android:id="@+id/pen_foto"
+        android:layout_width="25dp"
+        android:layout_height="26dp"
+        android:layout_marginBottom="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/nome_perfil"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:srcCompat="@drawable/lapis" />
 
 
 </android.support.constraint.ConstraintLayout>

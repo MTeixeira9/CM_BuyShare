@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class EditPerfil extends AppCompatActivity {
@@ -18,10 +20,14 @@ public class EditPerfil extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Editar Dados");
 
+
+
         Button guardarDados = (Button) findViewById(R.id.guardarDados);
         guardarDados.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
 
                 EditText nomeET = (EditText) findViewById(R.id.nome_perfil);
                 EditText passwordET = (EditText) findViewById(R.id.pass_edit);
