@@ -6,87 +6,73 @@
     android:layout_height="match_parent"
     tools:context=".Perfil">
 
-    <TextView
-        android:id="@+id/textView36"
-        android:layout_width="90dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="8dp"
-        android:text="Password:"
-        android:textSize="18sp"
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="41dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView27" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView10"
+        app:srcCompat="@drawable/email" />
 
     <TextView
         android:id="@+id/pwd_perfil"
-        android:layout_width="120dp"
-        android:layout_height="29dp"
-        android:layout_marginTop="8dp"
-        android:text="*********"
+        android:layout_width="198dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/border_style"
         android:inputType="textPassword"
+        android:text="*********"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textView36"
+        app:layout_constraintStart_toEndOf="@+id/imageView9"
         app:layout_constraintTop_toBottomOf="@+id/nome_perfil" />
 
     <TextView
         android:id="@+id/email_perfil"
         android:layout_width="198dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="96dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/border_style"
         android:text="grupoL@hotmail.com"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView29"
-        app:layout_constraintTop_toBottomOf="@+id/nTlm_perfil"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toEndOf="@+id/imageView11"
+        app:layout_constraintTop_toBottomOf="@+id/nTlm_perfil" />
 
     <TextView
         android:id="@+id/nTlm_perfil"
-        android:layout_width="105dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="198dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/border_style"
         android:text="923456789"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textView28"
+        app:layout_constraintStart_toEndOf="@+id/imageView10"
         app:layout_constraintTop_toBottomOf="@+id/pwd_perfil" />
 
     <TextView
         android:id="@+id/nome_perfil"
-        android:layout_width="120dp"
-        android:layout_height="29dp"
-        android:layout_marginTop="216dp"
-        android:text="Guilherme"
+        android:layout_width="199dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="204dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/border_style"
+        android:text="Guilherme Guimarães"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textView27"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintStart_toEndOf="@+id/imageView7"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView29"
-        android:layout_width="61dp"
-        android:layout_height="26dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="8dp"
-        android:text="Email:"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView28"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/textView28"
-        android:layout_width="129dp"
-        android:layout_height="26dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="8dp"
-        android:text="Nº Telemóvel:"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView36" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -94,26 +80,14 @@
         android:layout_height="134dp"
         android:layout_marginStart="84dp"
         android:layout_marginLeft="84dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.306"
+        app:layout_constraintHorizontal_bias="0.286"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/person"/>
-
-    <TextView
-        android:id="@+id/textView27"
-        android:layout_width="66dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="216dp"
-        android:text="Nome:"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:srcCompat="@drawable/person" />
 
     <Button
         android:id="@+id/alterarDados"
@@ -125,6 +99,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="56dp"
         android:background="@drawable/button_style"
+        android:textColor="@color/white"
         android:text="Alterar dados"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -132,8 +107,38 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="41dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="204dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/user" />
 
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="41dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView7"
+        app:srcCompat="@drawable/pass" />
 
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="41dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView9"
+        app:srcCompat="@drawable/telemovel" />
 
 
 </android.support.constraint.ConstraintLayout>
