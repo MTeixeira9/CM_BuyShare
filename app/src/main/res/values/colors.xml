@@ -5,4 +5,6 @@
     <color name="colorButton">#ffb47b</color>
     <color name="white">#ffffff</color>
     <color name="darkOrange">#ff892f</color>
+    <color name="softGreen">#2e9654</color>
+    <color name="darkGreen">#1f6539</color>
 </resources>

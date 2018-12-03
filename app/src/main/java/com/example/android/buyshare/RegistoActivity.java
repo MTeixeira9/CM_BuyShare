@@ -44,13 +44,13 @@ public class RegistoActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Tem que inserir todos os parâmetros", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    User u = new User();
-                    u.setNome(nomeR);
-                    u.setEmail(emailR);
-                    u.setPassword(passR);
-                    u.setNumTelemovel(telemovelR);
+                    //User u = new User();
+                    //u.setNome(nomeR);
+                    //u.setEmail(emailR);
+                    //u.setPassword(passR);
+                    //u.setNumTelemovel(telemovelR);
                     Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-                    LoginActivity.dataBase.myDataAcessObject().adicionarUtilizador(u);
+                    //LoginActivity.dataBase.myDataAcessObject().adicionarUtilizador(u);
                 }
                 
 
