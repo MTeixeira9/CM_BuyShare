@@ -14,7 +14,7 @@ import com.example.android.buyshare.BD.BuyShareDatabaase;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static BuyShareDatabaase dataBase;
+    //public static BuyShareDatabaase dataBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +24,13 @@ public class LoginActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        dataBase = Room.databaseBuilder(getApplicationContext(), BuyShareDatabaase.class, "userinfo").allowMainThreadQueries().build();
+        //dataBase = Room.databaseBuilder(getApplicationContext(), BuyShareDatabaase.class, "userinfo").allowMainThreadQueries().build();
         TextView registar = (TextView) findViewById(R.id.tvRegistar);
         Button entrar = (Button) findViewById(R.id.entrar);
 
-        TextView logo = (TextView) findViewById(R.id.logo);
-        Typeface customFont = Typeface.createFromAsset(getAssets(), "fonts/GILLUBCD.TTF");
-        logo.setTypeface(customFont);
+        //TextView logo = (TextView) findViewById(R.id.logo);
+        //Typeface customFont = Typeface.createFromAsset(getAssets(), "fonts/GILLUBCD.TTF");
+        //logo.setTypeface(customFont);
 
         registar.setOnClickListener(new View.OnClickListener() {
             @Override
