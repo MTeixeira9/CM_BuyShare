@@ -52,7 +52,7 @@ public class RegistoActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                     LoginActivity.dataBase.myDataAcessObject().adicionarUtilizador(u);
                 }
-                
+
 
 
 
