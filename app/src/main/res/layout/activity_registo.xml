@@ -26,16 +26,27 @@
         android:layout_width="260dp"
         android:layout_height="39dp"
         android:layout_marginTop="44dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginRight="52dp"
         android:background="@drawable/border_style"
         android:ems="10"
         android:hint="Nome"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/alertName"
+        android:layout_width="35dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/nomeRegisto"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/alert" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -57,16 +68,41 @@
         android:layout_width="259dp"
         android:layout_height="39dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginRight="52dp"
         android:background="@drawable/border_style"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
         app:layout_constraintTop_toBottomOf="@+id/nomeRegisto" />
+
+    <ImageView
+        android:id="@+id/alertPass"
+        android:layout_width="35dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/pass"
+        app:layout_constraintTop_toBottomOf="@+id/alertName"
+        app:srcCompat="@drawable/alert" />
+
+    <EditText
+        android:id="@+id/confPassRegisto"
+        android:layout_width="257dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginRight="52dp"
+        android:background="@drawable/border_style"
+        android:ems="10"
+        android:hint="Confirmar Password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pass" />
 
     <ImageView
         android:id="@+id/imageView4"
@@ -83,21 +119,18 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView3"
         app:srcCompat="@drawable/pass" />
 
-    <EditText
-        android:id="@+id/confPassRegisto"
-        android:layout_width="257dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
-        android:background="@drawable/border_style"
-        android:ems="10"
-        android:hint="Confirmar Password"
-        android:inputType="textPassword"
+    <ImageView
+        android:id="@+id/alertConfPass"
+        android:layout_width="35dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/pass" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/confPassRegisto"
+        app:layout_constraintTop_toBottomOf="@+id/alertPass"
+        app:srcCompat="@drawable/alert" />
 
     <ImageView
         android:id="@+id/imageView5"
@@ -109,7 +142,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toStartOf="@+id/emailRegisto"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.625"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView4"
         app:srcCompat="@drawable/email" />
@@ -117,30 +150,41 @@
     <EditText
         android:id="@+id/emailRegisto"
         android:layout_width="259dp"
-        android:layout_height="39dp"
+        android:layout_height="41dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginRight="52dp"
         android:background="@drawable/border_style"
         android:ems="10"
         android:hint="E-mail"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
         app:layout_constraintTop_toBottomOf="@+id/confPassRegisto" />
 
     <ImageView
+        android:id="@+id/alertEmail"
+        android:layout_width="35dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/emailRegisto"
+        app:layout_constraintTop_toBottomOf="@+id/alertConfPass"
+        app:srcCompat="@drawable/alert" />
+
+    <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="51dp"
-        android:layout_height="34dp"
+        android:layout_width="52dp"
+        android:layout_height="39dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toStartOf="@+id/tlmRegisto"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.714"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView5"
         app:srcCompat="@drawable/phone" />
@@ -148,18 +192,29 @@
     <EditText
         android:id="@+id/tlmRegisto"
         android:layout_width="257dp"
-        android:layout_height="39dp"
+        android:layout_height="41dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginRight="52dp"
         android:background="@drawable/border_style"
         android:ems="10"
         android:hint="Número de Telemóvel"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageView6"
         app:layout_constraintTop_toBottomOf="@+id/emailRegisto" />
+
+    <ImageView
+        android:id="@+id/alertNTlm"
+        android:layout_width="35dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/tlmRegisto"
+        app:layout_constraintTop_toBottomOf="@+id/alertEmail"
+        app:srcCompat="@drawable/alert" />
 
     <Button
         android:id="@+id/registar"
