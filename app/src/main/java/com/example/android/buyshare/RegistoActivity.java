@@ -48,7 +48,7 @@ public class RegistoActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 TextView nomeBox = (TextView) findViewById(R.id.nomeRegisto);
-                TextView passBox = (TextView) findViewById(R.id.pass);
+                TextView passBox = (TextView) findViewById(R.id.passRegisto);
                 TextView confirPassBox = (TextView) findViewById(R.id.confPassRegisto);
                 TextView emailBox = (TextView) findViewById(R.id.emailRegisto);
                 TextView telemovelBox= (TextView) findViewById(R.id.tlmRegisto);
@@ -63,20 +63,11 @@ public class RegistoActivity extends AppCompatActivity {
                     alertName.setVisibility(View.VISIBLE);
                     //Toast.makeText(getApplicationContext(), msgErro, Toast.LENGTH_LONG).show();
                 }
-                else if (passR.equals("") && confirPassR.equals("")) {
-
-                }
-                else if (emailR.equals("")) {
-
-                }
-                else if (telemovelR.equals("")){
-
-                }
                 else {
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     String userId = database.getReference("users").push().getKey();
 
-                    User.writeNewUser(userId, nomeR, passR, telemovelR, emailR);
+                    //User.writeNewUser(userId, nomeR, passR, telemovelR, emailR);
                     Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                 }
 

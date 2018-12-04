@@ -49,7 +49,7 @@ public class PopUpAddAmigo extends Activity {
                     setResult(RESULT_OK, i);
                     DatabaseReference database = FirebaseDatabase.getInstance().getReference();
                     DatabaseReference ref = database.child("users");
-                    User.addNewAmigo(ref, nTele);
+                    //User.addNewAmigo(ref, nTele);
                     Toast.makeText(getApplicationContext(), msgAddAmigo, Toast.LENGTH_LONG).show();
                     finish();
                 }

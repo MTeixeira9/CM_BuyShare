@@ -57,19 +57,19 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/pass"
+        app:layout_constraintEnd_toStartOf="@+id/passRegisto"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
         app:srcCompat="@drawable/pass" />
 
     <EditText
-        android:id="@+id/pass"
+        android:id="@+id/passRegisto"
         android:layout_width="259dp"
         android:layout_height="39dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="52dp"
-        android:layout_marginRight="52dp"
+        android:layout_marginEnd="53dp"
+        android:layout_marginRight="53dp"
         android:background="@drawable/border_style"
         android:ems="10"
         android:hint="Password"
@@ -86,7 +86,7 @@
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/pass"
+        app:layout_constraintStart_toEndOf="@+id/passRegisto"
         app:layout_constraintTop_toBottomOf="@+id/alertName"
         app:srcCompat="@drawable/alert" />
 
@@ -102,7 +102,7 @@
         android:hint="Confirmar Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pass" />
+        app:layout_constraintTop_toBottomOf="@+id/passRegisto" />
 
     <ImageView
         android:id="@+id/imageView4"
