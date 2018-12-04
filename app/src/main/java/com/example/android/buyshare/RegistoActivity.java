@@ -75,7 +75,7 @@ public class RegistoActivity extends AppCompatActivity {
                 }
                 else {
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    String userId = database.getReference("jobs").push().getKey();
+                    String userId = database.getReference("users").push().getKey();
 
                     User.writeNewUser(userId, nomeR, passR, telemovelR, emailR);
                     Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
