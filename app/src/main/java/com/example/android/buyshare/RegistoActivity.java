@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +29,7 @@ public class RegistoActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 TextView nomeBox = (TextView) findViewById(R.id.nomeRegisto);
-                TextView passBox = (TextView) findViewById(R.id.passRegisto);
+                TextView passBox = (TextView) findViewById(R.id.pass);
                 TextView confirPassBox = (TextView) findViewById(R.id.confPassRegisto);
                 TextView emailBox = (TextView) findViewById(R.id.emailRegisto);
                 TextView telemovelBox= (TextView) findViewById(R.id.tlmRegisto);

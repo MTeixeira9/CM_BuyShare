@@ -22,7 +22,7 @@
         app:srcCompat="@drawable/logo" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/numTel"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
@@ -32,8 +32,8 @@
         android:layout_marginRight="8dp"
         android:background="@drawable/border_style"
         android:ems="10"
-        android:hint="Nome"
-        android:inputType="textPersonName"
+        android:hint="Número de Telemóvel"
+        android:inputType="number"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/logo" />
 
     <EditText
-        android:id="@+id/passRegisto"
+        android:id="@+id/pass"
         android:layout_width="wrap_content"
         android:layout_height="44dp"
         android:layout_marginStart="8dp"
@@ -57,7 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/numTel" />
 
     <Button
         android:id="@+id/entrar"
@@ -71,7 +71,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passRegisto" />
+        app:layout_constraintTop_toBottomOf="@+id/pass" />
 
     <TextView
         android:id="@+id/tvRegistar"

@@ -9,6 +9,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.buyshare.Database.User;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class PopUpAddAmigo extends Activity {
 
     private static final String msgErro = "Tem de preencher ambos os campos!";
@@ -43,6 +47,9 @@ public class PopUpAddAmigo extends Activity {
                     i.putExtra("nTlm", nTele);
                     i.putExtra("nomeA", nome);
                     setResult(RESULT_OK, i);
+                    DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+                    DatabaseReference ref = database.child("users");
+                    User.addNewAmigo(ref, nTele);
                     Toast.makeText(getApplicationContext(), msgAddAmigo, Toast.LENGTH_LONG).show();
                     finish();
                 }

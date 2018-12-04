@@ -43,7 +43,10 @@ public class Amigos extends AppCompatActivity {
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         mListAmigos.setAdapter(mAdapter);
 
-        //Amigos iniciais
+        //Amigos da pessoa
+        //TODO
+        //FAZER PRIMEIRO LOGIN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         mAdapter.add("João 967596499");
         mAdapter.add("Tomé 917733456");
 
