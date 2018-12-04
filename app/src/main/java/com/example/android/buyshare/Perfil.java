@@ -54,7 +54,7 @@ public class Perfil extends AppCompatActivity {
                // text_nome.setEnabled(true);
                // text_nome.setClickable(true);
                // text_nome.setFocusableInTouchMode(true);
-
+     
 
               //  edit_nome.setVisibility(View.VISIBLE);
 
