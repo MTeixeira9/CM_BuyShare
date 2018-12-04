@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.buyshare.Database.User;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegistoActivity extends AppCompatActivity {
 
@@ -44,7 +45,12 @@ public class RegistoActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Tem que inserir todos os parâmetros", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    User u = new User(nomeR, passR, telemovelR, emailR );
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    String userId = database.getReference("jobs").push().getKey();
+
+                    User.writeNewUser(userId, nomeR, passR, telemovelR, emailR);
+
+                    //User u = new User(nomeR, passR, telemovelR, emailR );
                     //u.setNome(nomeR);
                     //u.setEmail(emailR);
                     //u.setPassword(passR);
