@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.example.android.buyshare.Database.User;
 import com.google.firebase.database.FirebaseDatabase;
 
+
+
 public class RegistoActivity extends AppCompatActivity {
 
     private static final String msg = "Registo efetuado com sucesso!";
