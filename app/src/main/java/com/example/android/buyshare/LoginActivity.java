@@ -23,13 +23,14 @@ import com.google.firebase.database.ValueEventListener;
 public class LoginActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
-
+    private String emptyFields = "Tem de preencher ambos os campos!";
+    private String loginSucess = "Sessão iniciada com sucesso!";
+    private String wrongPass = "A password inserida está errada!";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("users");
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
@@ -37,14 +38,8 @@ public class LoginActivity extends AppCompatActivity {
         //BASE DE DADOS
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
 
-
-        //dataBase = Room.databaseBuilder(getApplicationContext(), BuyShareDatabaase.class, "userinfo").allowMainThreadQueries().build();
         TextView registar = (TextView) findViewById(R.id.tvRegistar);
         Button entrar = (Button) findViewById(R.id.entrar);
-
-        //TextView logo = (TextView) findViewById(R.id.logo);
-        //Typeface customFont = Typeface.createFromAsset(getAssets(), "fonts/GILLUBCD.TTF");
-        //logo.setTypeface(customFont);
 
         registar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,67 +54,43 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText nTel =(EditText) findViewById(R.id.numTel);
                 EditText pass = (EditText) findViewById(R.id.passRegisto);
-                String numTelS = nTel.getText().toString();
-               // Toast.makeText(getApplicationContext(),numTelS,Toast.LENGTH_LONG).show();
 
+                final String numTelS = nTel.getText().toString();
                 final String passS = pass.getText().toString();
-                Intent i = new Intent(LoginActivity.this, MinhasListas.class);
 
+                if (numTelS.equals("") && passS.equals(""))
+                    Toast.makeText(getApplicationContext(), emptyFields, Toast.LENGTH_LONG).show();
+                else {
 
-                Query q = mDatabase.orderByChild("numeroTlm").equalTo(numTelS);
-                q.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Log.d("Pass","lol");
-                        for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                            Log.d("Pass------", "bosta");
-                            String p = String.valueOf(singleSnapshot.child("password").getValue());
-                            Toast.makeText(getApplicationContext(),p,Toast.LENGTH_LONG).show();
-                            if (p.equals(passS)){
-                               Intent i = new Intent(getApplicationContext(),MinhasListas.class);
-                                startActivity(i);
+                    Query q = mDatabase.orderByChild("numeroTlm").equalTo(numTelS);
+                    q.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                                String p = String.valueOf(singleSnapshot.child("password").getValue());
 
+                                if (p.equals(passS)) {
+                                    Toast.makeText(getApplicationContext(), loginSucess, Toast.LENGTH_LONG).show();
+                                    Intent i = new Intent(getApplicationContext(), MinhasListas.class);
+                                    i.putExtra("userTlm", numTelS);
+                                    startActivity(i);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), wrongPass, Toast.LENGTH_LONG).show();
+                                }
                             }
-
                         }
 
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Log.e("TAG", "onCancelled", databaseError.toException());
-                    }
-
-                });
-               /* if (numTelS != null && passS != null && loginUser(numTelS, passS)) {
-
-                    startActivity(i);
-                }*/
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Log.e("TAG", "onCancelled", databaseError.toException());
+                        }
+                    });
+                }
             }
         });
-
     }
 
     private void loginUser(String numTel, String pass) {
-
-
-
-        //String u = User.readUser(numTel);
-
-
-        /*boolean passou = false;
-
-        if (u != null) {
-            Toast.makeText(getApplicationContext(), "NAO Fodeu", Toast.LENGTH_LONG).show();
-            String passVerdadeira = u;
-            if (passVerdadeira.equals(pass))
-                passou = true;
-
-        }else{
-            Toast.makeText(getApplicationContext(), "Fodeu", Toast.LENGTH_LONG).show();
-        }*/
-
-
 
     }
 }
