@@ -24,7 +24,7 @@ public class User {
     private String password;
     private String numeroTlm;
     private String email;
-    //private static List<User> amigos;
+    private static List<User> amigos;
 
     public User(){
     }
@@ -34,7 +34,7 @@ public class User {
         this.password = password;
         this.numeroTlm = numeroTlm;
         this.email = email;
-        //this.amigos=new ArrayList<>();
+        this.amigos=new ArrayList<>();
 
     }
 
@@ -53,6 +53,11 @@ public class User {
     public String getEmail() {
         return email;
     }
+
+    public List<User> amigos (){
+        return amigos;
+    }
+
 /*
     public static void writeNewUser(String userId, String name, String pass, String nTel, String email) {
         User user = new User(name, pass, nTel, email);
