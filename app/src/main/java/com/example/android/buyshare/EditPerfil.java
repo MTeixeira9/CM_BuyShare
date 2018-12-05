@@ -1,6 +1,7 @@
 package com.example.android.buyshare;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,10 +13,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.buyshare.Database.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class EditPerfil extends AppCompatActivity {
+
+    private String userTlm;
+    private DatabaseReference mDatabase;
+    private EditText nomeET, passwordET, conf_PasswET, nTlmET, emailET;
+    private TextView nomeTV, pwdTV, nTlm_TV, email_TV;
+    private String nome, password, conf_Passw, nTlm, email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +33,19 @@ public class EditPerfil extends AppCompatActivity {
         setContentView(R.layout.activity_edit_perfil);
 
         getSupportActionBar().setTitle("Editar Dados");
+
+        userTlm = getIntent().getStringExtra("userTlm");
+
+
+        //BASE DE DADOS
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+
+        nomeET = (EditText) findViewById(R.id.nome_perfil);
+        passwordET = (EditText) findViewById(R.id.pass_edit);
+        conf_PasswET = (EditText) findViewById(R.id.conf_pwd_edit);
+        nTlmET = (EditText) findViewById(R.id.nTlm_perfil);
+        emailET = (EditText) findViewById(R.id.email_edit);
+
 
 
 
@@ -32,49 +55,54 @@ public class EditPerfil extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                EditText nomeET = (EditText) findViewById(R.id.nome_perfil);
-                EditText passwordET = (EditText) findViewById(R.id.pass_edit);
-                EditText conf_PasswET = (EditText) findViewById(R.id.conf_pwd_edit);
-                EditText nTlmET = (EditText) findViewById(R.id.nTlm_perfil);
-                EditText emailET = (EditText) findViewById(R.id.email_edit);
 
-                Intent i = new Intent();
-
-                String nome = nomeET.getText().toString();
-                String password = passwordET.getText().toString();
-                String conf_Passw = conf_PasswET.getText().toString();
-                String nTlm = nTlmET.getText().toString();
-                String email = emailET.getText().toString();
-
-                //---------------------------------------------------------------------------------------
-
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference mDatabase = database.getReference();
-                String userId = database.getReference("users").push().getKey();
+                nome = nomeET.getText().toString();
+                password = passwordET.getText().toString();
+                conf_Passw = conf_PasswET.getText().toString();
+                nTlm = nTlmET.getText().toString();
+                email = emailET.getText().toString();
 
 
-                User user = new User(nome, password, nTlm, email);
-                mDatabase.child("users").child(userId).setValue(user);
 
                 if (!password.equals(conf_Passw)){
 
                     Toast.makeText(getApplicationContext(), "Palavra passe não coincide", Toast.LENGTH_SHORT).show();
 
                 }else if (!nome.equals("") || !password.equals("") || !conf_Passw.equals("")|| !nTlm.equals("") || !email.equals("")) {
-                    i.putExtra("nome", nome);
-                    i.putExtra("pwd", password);
-                    i.putExtra("conf_Passw", conf_Passw);
-                    i.putExtra("nTlm", nTlm);
-                    i.putExtra("email", email);
 
-                  //  mDatabase.child("users").child(userId).child("username").setValue(name);
 
-                    setResult(RESULT_OK, i);
+                    mDatabase.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            Toast.makeText(getApplicationContext()," VALOR TELEMOVEL: " + userTlm, Toast.LENGTH_LONG).show();;
+
+                            for (DataSnapshot userSnapshot: dataSnapshot.getChildren()){
+                                User u = userSnapshot.getValue(User.class);
+                                if(u.getNumeroTlm().equals(userTlm)){
+                                    Toast.makeText(getApplicationContext(), "DENTRO IFFFFFFFFFFFFFFFFF", Toast.LENGTH_LONG).show();;
+                                    mDatabase.child("users").child(userTlm).child("nome").setValue(nome);
+                                    mDatabase.child("users").child(userTlm).child("password").setValue(password);
+                                    mDatabase.child("users").child(userTlm).child("numeroTlm").setValue(nTlm);
+                                    mDatabase.child("users").child(userTlm).child("email").setValue(email);
+
+// TODO: 05/12/2018  o problema estah aqui , nao é 'users' 
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
                     finish();
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Falta inserir dados", Toast.LENGTH_LONG).show();
                 }
+
             }
         });
     }
