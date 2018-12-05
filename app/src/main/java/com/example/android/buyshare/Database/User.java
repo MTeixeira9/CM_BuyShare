@@ -14,6 +14,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class User {
     private String password;
     private String numeroTlm;
     private String email;
-    //private static List<User> amigos;
+    private static ArrayList<String> amigos;
 
     public User(){
     }
@@ -34,7 +35,8 @@ public class User {
         this.password = password;
         this.numeroTlm = numeroTlm;
         this.email = email;
-        //this.amigos=new ArrayList<>();
+        this.amigos=new ArrayList<>();
+
 
     }
 
@@ -53,6 +55,11 @@ public class User {
     public String getEmail() {
         return email;
     }
+
+    public ArrayList<String> getAmigos (){
+        return amigos;
+    }
+
 /*
     public static void writeNewUser(String userId, String name, String pass, String nTel, String email) {
         User user = new User(name, pass, nTel, email);
@@ -60,15 +67,5 @@ public class User {
         LoginActivity.mDatabase.child("users").child(userId).setValue(user);
     }*/
 
-    public static String readUser(String numTel) {
-
-
-        return "";
-    }
-
-    public static void addNewAmigo(DatabaseReference dbr, String numTel){
-        //User u = readUser(dbr, numTel);
-        //amigos.add(u);
-    }
 
 }

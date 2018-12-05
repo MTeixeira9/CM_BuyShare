@@ -36,6 +36,9 @@ public class Amigos extends AppCompatActivity {
                 //POPUP
                 Intent i = new Intent(Amigos.this, PopUpAddAmigo.class);
                 startActivityForResult(i, 1);
+                //ir buscar quem estah autenticado
+                String userLogado = getIntent().getStringExtra("userTlm");
+                i.putExtra("userTlm", userLogado);
             }
         });
 
@@ -45,10 +48,7 @@ public class Amigos extends AppCompatActivity {
 
         //Amigos da pessoa
         //TODO
-        //FAZER PRIMEIRO LOGIN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        mAdapter.add("João 967596499");
-        mAdapter.add("Tomé 917733456");
 
         mAdapter.notifyDataSetChanged();
     }
