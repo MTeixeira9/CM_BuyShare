@@ -1,6 +1,7 @@
 package com.example.android.buyshare;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,10 +13,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.buyshare.Database.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 public class Perfil extends AppCompatActivity {
 
 
     private ArrayAdapter<String> mAdapter;
+    private TextView nomeTV, pwdTV, nTlm_TV, email_TV;
+    private String userTlm;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,58 +37,43 @@ public class Perfil extends AppCompatActivity {
 
         Button alteraDados = (Button) findViewById(R.id.alterarDados);
 
+        userTlm = getIntent().getStringExtra("userTlm");
 
+        nomeTV = findViewById(R.id.nome_perfil);
+        pwdTV = findViewById(R.id.pwd_perfil);
+        nTlm_TV = findViewById(R.id.nTlm_perfil);
+        email_TV = findViewById(R.id.email_perfil);
 
+        //BASE DE DADOS
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
 
-        EditText edit_nome = (EditText) findViewById(R.id.edit_nome_perfil);
-        TextView text_nome = (TextView) findViewById(R.id.nome_perfil);
-
-
-        text_nome.setFocusable(true);
-        text_nome.setEnabled(true);
-        text_nome.setClickable(true);
-        text_nome.setFocusableInTouchMode(true);
-
-
-
-
-        edit_nome.setVisibility(View.GONE);
-        text_nome.setVisibility(View.VISIBLE);
-
-        ImageView icon_perfil = (ImageView) findViewById(R.id.pen_user);
-        icon_perfil.setOnClickListener(new View.OnClickListener() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                //text_nome.setVisibility(View.GONE);
-                //text_nome.setFocusable(true);
-               // text_nome.setEnabled(true);
-               // text_nome.setClickable(true);
-               // text_nome.setFocusableInTouchMode(true);
+                for (DataSnapshot userSnapshot: dataSnapshot.getChildren()){
+                    User u = userSnapshot.getValue(User.class);
+                    if(u.getNumeroTlm().equals(userTlm)){
+                        nomeTV.setText(u.getNome());
+                        pwdTV.setText(u.getPassword());
+                        nTlm_TV.setText(u.getNumeroTlm());
+                        email_TV.setText(u.getEmail());
+                    }
+                }
+            }
 
-
-              //  edit_nome.setVisibility(View.VISIBLE);
-
-
-                //edit_nome.setText();
-
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-
-
-
-
-
-
-
-
 
         alteraDados.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Perfil.this, EditPerfil.class);
-                startActivityForResult(i, 1);
+                startActivity(i);
+                //startActivityForResult(i, 1);
             }
         });
     }

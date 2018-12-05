@@ -27,10 +27,9 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
     private ArrayAdapter<String> mAdapter;
     private ArrayAdapter<String> mAdapter2;
-
+    private String userTlm;
     private ListView mListCategorias;
     private ListView mListas;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +40,10 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
         Button novaCat = (Button) findViewById(R.id.novaCategoria);
         Button novaLista = (Button) findViewById(R.id.novaLista);
-        //ImageView img = (ImageView)findViewById(R.id.div1);
-       // ImageView img2 = (ImageView)findViewById(R.id.div2);
-        //TextView list1 = (TextView) findViewById(R.id.lista1);
+
+        userTlm = getIntent().getStringExtra("userTlm");
+
+        Toast.makeText(getApplicationContext(), userTlm, Toast.LENGTH_LONG).show();
 
         mListCategorias = (ListView) findViewById(R.id.listCategorias);
         mListas = (ListView) findViewById(R.id.listListasSemCat);
@@ -120,6 +120,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
         }else if(id == R.id.meuPerfil) {
             Intent meuPerfil = new Intent(MinhasListas.this, Perfil.class);
+            meuPerfil.putExtra("userTlm", userTlm);
             startActivity(meuPerfil);
 
         }else if(id == R.id.arquivo) {
