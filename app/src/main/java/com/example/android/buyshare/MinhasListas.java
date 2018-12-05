@@ -38,10 +38,6 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_minhas_listas);
 
         getSupportActionBar().setTitle("Minhas Listas");
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        //TextView textView = findViewById(R.id.textView);
-        //registerForContextMenu(textView);
 
         Button novaCat = (Button) findViewById(R.id.novaCategoria);
         Button novaLista = (Button) findViewById(R.id.novaLista);
@@ -57,8 +53,6 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
         mListCategorias.setAdapter(mAdapter);
         mListas.setAdapter(mAdapter2);
-
-
 
         novaCat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,8 +71,6 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         });
 
         mListas.setOnItemClickListener(this);
-
-
 
     }
 
