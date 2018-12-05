@@ -29,7 +29,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("users");
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
@@ -64,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 final String passS = pass.getText().toString();
                 Intent i = new Intent(LoginActivity.this, MinhasListas.class);
-
 
                 Query q = mDatabase.orderByChild("numeroTlm").equalTo(numTelS);
                 q.addListenerForSingleValueEvent(new ValueEventListener() {
