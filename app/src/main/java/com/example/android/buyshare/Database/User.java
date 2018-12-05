@@ -56,14 +56,11 @@ public class User {
         return email;
     }
 /*
-
     public static void writeNewUser(String userId, String name, String pass, String nTel, String email) {
-        Log.d("11111111111111111 " + userId + " " + name, pass + " " + nTel + " " + email );
         User user = new User(name, pass, nTel, email);
 
         LoginActivity.mDatabase.child("users").child(userId).setValue(user);
-    }
-*/
+    }*/
 
     public static String readUser(String numTel) {
 

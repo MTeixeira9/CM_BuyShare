@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.buyshare.Database.User;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
@@ -65,7 +66,11 @@ public class RegistoActivity extends AppCompatActivity {
                 }
                 else {
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference mDatabase = database.getReference();
                     String userId = database.getReference("users").push().getKey();
+
+                    User user = new User(nomeR, passR, telemovelR, emailR);
+                    mDatabase.child("users").child(userId).setValue(user);
 
                     //User.writeNewUser(userId, nomeR, passR, telemovelR, emailR);
                     Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
