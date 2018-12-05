@@ -11,6 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.buyshare.Database.User;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class EditPerfil extends AppCompatActivity {
 
     @Override
@@ -28,7 +32,6 @@ public class EditPerfil extends AppCompatActivity {
             public void onClick(View v) {
 
 
-
                 EditText nomeET = (EditText) findViewById(R.id.nome_perfil);
                 EditText passwordET = (EditText) findViewById(R.id.pass_edit);
                 EditText conf_PasswET = (EditText) findViewById(R.id.conf_pwd_edit);
@@ -43,6 +46,16 @@ public class EditPerfil extends AppCompatActivity {
                 String nTlm = nTlmET.getText().toString();
                 String email = emailET.getText().toString();
 
+                //---------------------------------------------------------------------------------------
+
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference mDatabase = database.getReference();
+                String userId = database.getReference("users").push().getKey();
+
+
+                User user = new User(nome, password, nTlm, email);
+                mDatabase.child("users").child(userId).setValue(user);
+
                 if (!password.equals(conf_Passw)){
 
                     Toast.makeText(getApplicationContext(), "Palavra passe não coincide", Toast.LENGTH_SHORT).show();
@@ -53,6 +66,8 @@ public class EditPerfil extends AppCompatActivity {
                     i.putExtra("conf_Passw", conf_Passw);
                     i.putExtra("nTlm", nTlm);
                     i.putExtra("email", email);
+
+                  //  mDatabase.child("users").child(userId).child("username").setValue(name);
 
                     setResult(RESULT_OK, i);
                     finish();
