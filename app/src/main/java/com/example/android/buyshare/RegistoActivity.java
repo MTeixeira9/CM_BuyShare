@@ -1,5 +1,6 @@
 package com.example.android.buyshare;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -149,6 +150,8 @@ public class RegistoActivity extends AppCompatActivity {
 
                     //User.writeNewUser(userId, nomeR, passR, telemovelR, emailR);
                     Toast.makeText(getApplicationContext(), MSG_SUC, Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(RegistoActivity.this, LoginActivity.class);
+                    startActivity(i);
                 }
             }
         });
