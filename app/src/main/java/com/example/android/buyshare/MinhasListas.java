@@ -41,6 +41,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         Button novaCat = (Button) findViewById(R.id.novaCategoria);
         Button novaLista = (Button) findViewById(R.id.novaLista);
 
+        //ir buscar quem estah autenticado
         userTlm = getIntent().getStringExtra("userTlm");
 
         Toast.makeText(getApplicationContext(), userTlm, Toast.LENGTH_LONG).show();
@@ -111,6 +112,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
         }else if(id == R.id.amigos){
             Intent amigos = new Intent(MinhasListas.this, Amigos.class);
+            amigos.putExtra("userTlm", userTlm);
             startActivity(amigos);
 
         }else if(id == R.id.terminarS){

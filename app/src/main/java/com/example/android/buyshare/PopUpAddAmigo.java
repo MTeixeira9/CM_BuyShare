@@ -19,10 +19,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class PopUpAddAmigo extends Activity {
 
     private static final String msgErro = "Tem de preencher ambos os campos!";
     private static final String msgAddAmigo = "Amigo adicionado com sucesso!";
+    private User logado ;
+    private User aAdicionar ;
+    private String tlmUserLogado;
 
 
     @Override
@@ -38,6 +43,9 @@ public class PopUpAddAmigo extends Activity {
         int height = dm.heightPixels;
 
         getWindow().setLayout((int) (width * .8), (int) (height * .32));
+
+        //telemovel user logado
+        tlmUserLogado = getIntent().getStringExtra("userTlm");
 
         Button addAmigo = (Button) findViewById(R.id.enviarConvite);
         addAmigo.setOnClickListener(new View.OnClickListener() {
@@ -55,21 +63,32 @@ public class PopUpAddAmigo extends Activity {
                     setResult(RESULT_OK, i);
 
                     //Adicionar amigos
-                    DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
+                    final DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
 
-                    //Query q = database.orderByChild("numeroTlm").equalTo(nTele);
+
                     database.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                                 User u = userSnapshot.getValue(User.class);
 
+                                //amigo a adicionar
                                 if (u.getNumeroTlm().equals(nTele)) {
-                                    //ir buscar user autenticado
-                                    
-
-                                    Toast.makeText(getApplicationContext(), "EXISTE " + u.getEmail(), Toast.LENGTH_LONG).show();
+                                    aAdicionar = userSnapshot.getValue(User.class);
+                                    Toast.makeText(getApplicationContext(), "Amigo p/ add " + aAdicionar.getEmail(), Toast.LENGTH_LONG).show();
                                 }
+                                if(u.getNumeroTlm().equals(tlmUserLogado)){
+
+                                    logado = userSnapshot.getValue(User.class);
+
+                                    //DatabaseReference amigosRef = database.push();
+                                    //amigosRef.child(logado.getNumeroTlm()).child("amigos").setValue("0123");
+
+
+
+                                    Toast.makeText(getApplicationContext(), "User logado " + logado.getEmail(), Toast.LENGTH_LONG).show();
+                                }
+
                             }
                         }
 
