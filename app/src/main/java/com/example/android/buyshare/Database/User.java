@@ -25,8 +25,6 @@ public class User {
     private String numeroTlm;
     private String email;
     //private static List<User> amigos;
-    //private static User currUser;
-
 
     public User(){
     }
