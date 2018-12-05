@@ -7,42 +7,6 @@
     tools:context=".Perfil">
 
     <ImageView
-        android:id="@+id/pen_user"
-        android:layout_width="25dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="204dp"
-        app:layout_constraintStart_toEndOf="@+id/nome_perfil"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/lapis" />
-
-    <ImageView
-        android:id="@+id/pen_pass"
-        android:layout_width="25dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintStart_toEndOf="@+id/pwd_perfil"
-        app:layout_constraintTop_toBottomOf="@+id/pen_user"
-        app:srcCompat="@drawable/lapis" />
-
-    <ImageView
-        android:id="@+id/pen_telemovel"
-        android:layout_width="25dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintStart_toEndOf="@+id/nTlm_perfil"
-        app:layout_constraintTop_toBottomOf="@+id/pen_pass"
-        app:srcCompat="@drawable/lapis" />
-
-    <ImageView
-        android:id="@+id/pen_email"
-        android:layout_width="25dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintStart_toEndOf="@+id/email_perfil"
-        app:layout_constraintTop_toBottomOf="@+id/pen_telemovel"
-        app:srcCompat="@drawable/lapis" />
-
-    <ImageView
         android:id="@+id/imageView11"
         android:layout_width="41dp"
         android:layout_height="33dp"
@@ -105,18 +69,6 @@
     android:textSize="18sp"
     app:layout_constraintStart_toEndOf="@+id/imageView7"
     app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-    <EditText
-        android:id="@+id/edit_nome_perfil"
-        android:layout_width="202dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginLeft="52dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/border_style"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView7"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -183,15 +135,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView9"
         app:srcCompat="@drawable/telemovel" />
-
-    <ImageView
-        android:id="@+id/pen_foto"
-        android:layout_width="25dp"
-        android:layout_height="26dp"
-        android:layout_marginBottom="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/nome_perfil"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:srcCompat="@drawable/lapis" />
 
 
 </android.support.constraint.ConstraintLayout>
