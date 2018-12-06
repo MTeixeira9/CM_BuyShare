@@ -20,7 +20,6 @@
         app:layout_constraintTop_toBottomOf="@+id/conf_pwd_edit" />
 
 
-
     <EditText
         android:id="@+id/nome_perfil"
         android:layout_width="248dp"
@@ -71,7 +70,7 @@
         android:layout_height="34dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/border_style"
         android:ems="10"
         android:inputType="textPassword"
@@ -85,7 +84,7 @@
         android:layout_height="34dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/border_style"
         android:ems="10"
         android:inputType="textPassword"
@@ -110,7 +109,7 @@
         android:layout_height="34dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView8"
         app:srcCompat="@drawable/pass" />
@@ -121,7 +120,7 @@
         android:layout_height="34dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView19"
         app:srcCompat="@drawable/pass" />
@@ -133,10 +132,21 @@
         android:layout_height="34dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView21"
         app:srcCompat="@drawable/email" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:background="@drawable/button_style"
+        android:text="Alterar"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 
 </android.support.constraint.ConstraintLayout>
