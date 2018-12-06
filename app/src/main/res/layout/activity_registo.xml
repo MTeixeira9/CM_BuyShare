@@ -36,19 +36,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/alertName"
-        android:layout_width="35dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/nomeRegisto"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/alert" />
-
-    <ImageView
         android:id="@+id/imageView3"
         android:layout_width="50dp"
         android:layout_height="40dp"
@@ -76,19 +63,6 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nomeRegisto" />
-
-    <ImageView
-        android:id="@+id/alertPass"
-        android:layout_width="35dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/passRegisto"
-        app:layout_constraintTop_toBottomOf="@+id/alertName"
-        app:srcCompat="@drawable/alert" />
 
     <EditText
         android:id="@+id/confPassRegisto"
@@ -120,19 +94,6 @@
         app:srcCompat="@drawable/pass" />
 
     <ImageView
-        android:id="@+id/alertConfPass"
-        android:layout_width="35dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/confPassRegisto"
-        app:layout_constraintTop_toBottomOf="@+id/alertPass"
-        app:srcCompat="@drawable/alert" />
-
-    <ImageView
         android:id="@+id/imageView5"
         android:layout_width="49dp"
         android:layout_height="42dp"
@@ -162,19 +123,6 @@
         app:layout_constraintTop_toBottomOf="@+id/confPassRegisto" />
 
     <ImageView
-        android:id="@+id/alertEmail"
-        android:layout_width="35dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/emailRegisto"
-        app:layout_constraintTop_toBottomOf="@+id/alertConfPass"
-        app:srcCompat="@drawable/alert" />
-
-    <ImageView
         android:id="@+id/imageView6"
         android:layout_width="52dp"
         android:layout_height="39dp"
@@ -202,19 +150,6 @@
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailRegisto" />
-
-    <ImageView
-        android:id="@+id/alertNTlm"
-        android:layout_width="35dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/tlmRegisto"
-        app:layout_constraintTop_toBottomOf="@+id/alertEmail"
-        app:srcCompat="@drawable/alert" />
 
     <Button
         android:id="@+id/registar"

@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,9 +18,14 @@ import java.util.regex.Pattern;
 public class RegistoActivity extends AppCompatActivity {
 
     private static final String MSG_SUC = "Registo efetuado com sucesso!";
-    //private static final String MSG_EMAIL_ERRO = "Tem que inserir todos os parâmetros";
-    //private static final String MSG_PASS_ERRO = "As palavras passe não coicidem";
-    private ImageView alertName, alertPass, alertConfPass, alertEmail, alertNTlm;
+    private static final String MSG_EMAIL_ERRO = "Tem que inserir um email";
+    private static final String MSG_INV_EMAIL_ERRO = "Tem que inserir um email válido";
+    private static final String MSG_NOME_ERRO = "Tem que inserir um nome";
+    private static final String MSG_PASS_ERRO = "Tem que inserir uma password";
+    private static final String MSG_PASSES_ERRO = "As palavras passe não coicidem";
+    private static final String MSG_NUM_ERRO = "Tem que inserir um número de telemóvel";
+    private static final String MSG_INV_NUM_ERRO = "O número deve conter 9 dígitos";
+
     private boolean emptyName, emptyPass, emptyConfpass, emptyEmail, emptyNTlm;
 
     public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
@@ -42,22 +46,7 @@ public class RegistoActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Registo");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //INIT
-        alertName = (ImageView) findViewById(R.id.alertName);
-        alertPass = (ImageView) findViewById(R.id.alertPass);
-        alertConfPass = (ImageView) findViewById(R.id.alertConfPass);
-        alertEmail = (ImageView) findViewById(R.id.alertEmail);
-        alertNTlm = (ImageView) findViewById(R.id.alertNTlm);
-
-        //GONE
-        alertName.setVisibility(View.GONE);
-        alertPass.setVisibility(View.GONE);
-        alertConfPass.setVisibility(View.GONE);
-        alertEmail.setVisibility(View.GONE);
-        alertNTlm.setVisibility(View.GONE);
-
         Button registo = (Button) findViewById(R.id.registar);
-
         registo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,60 +70,47 @@ public class RegistoActivity extends AppCompatActivity {
                 emptyNTlm = false;
 
                 if(nomeR.equals("")){
-                    alertName.setVisibility(View.VISIBLE);
+                    nomeBox.setError(MSG_NOME_ERRO);
                     emptyName = true;
-                }
-                else{
-                    alertName.setVisibility(View.INVISIBLE);
                 }
 
                 if(passR.equals("")){
-                    alertPass.setVisibility(View.VISIBLE);
+                    passBox.setError(MSG_PASS_ERRO);
                     emptyPass = true;
                 }
 
                 if(confirPassR.equals("")){
-                    alertConfPass.setVisibility(View.VISIBLE);
+                    confirPassBox.setError(MSG_PASS_ERRO);
                     emptyConfpass = true;
                 }
 
                 if (!emptyPass && !emptyConfpass){
-                    if (passR.equals(confirPassR)){
-                        alertPass.setVisibility(View.INVISIBLE);
-                        alertConfPass.setVisibility(View.INVISIBLE);
-                    }
-                    else{
-                        alertPass.setVisibility(View.VISIBLE);
-                        alertConfPass.setVisibility(View.VISIBLE);
+                    if (!passR.equals(confirPassR)){
+                        passBox.setError(MSG_PASSES_ERRO);
+                        confirPassBox.setError(MSG_PASSES_ERRO);
                         emptyConfpass = true;
                         emptyPass = true;
                     }
                 }
 
                 if(emailR.equals("")){
-                    alertEmail.setVisibility(View.VISIBLE);
+                    emailBox.setError(MSG_EMAIL_ERRO);
                     emptyEmail = true;
                 }
                 else{
-                    if (isValidEmail(emailR)){
-                        alertEmail.setVisibility(View.INVISIBLE);
-                    }
-                    else{
-                        alertEmail.setVisibility(View.VISIBLE);
+                    if (!isValidEmail(emailR)){
+                        emailBox.setError(MSG_INV_EMAIL_ERRO);
                         emptyEmail = true;
                     }
                 }
 
                 if(telemovelR.equals("")){
-                    alertNTlm.setVisibility(View.VISIBLE);
+                    telemovelBox.setError(MSG_NUM_ERRO);
                     emptyNTlm = true;
                 }
                 else{
-                    if(telemovelR.length() == 9){
-                        alertNTlm.setVisibility(View.INVISIBLE);
-                    }
-                    else{
-                        alertNTlm.setVisibility(View.VISIBLE);
+                    if(telemovelR.length() != 9){
+                        telemovelBox.setError(MSG_INV_NUM_ERRO);
                         emptyNTlm = true;
                     }
                 }
