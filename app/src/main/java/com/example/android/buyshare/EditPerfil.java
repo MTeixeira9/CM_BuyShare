@@ -92,6 +92,10 @@ public class EditPerfil extends AppCompatActivity {
                                     mDatabase.child(userTlm).child("password").setValue(password);
                                 }
                             }
+
+                            Intent i = new Intent(EditPerfil.this, Perfil.class);
+                            i.putExtra("userTlm", userTlm);
+                            startActivity(i);
                         }
 
                         @Override
