@@ -37,8 +37,6 @@ public class User {
         this.email = email;
         this.amigos=new ArrayList<>();
         amigos.add("");
-
-
     }
 
     public String getPassword(){
