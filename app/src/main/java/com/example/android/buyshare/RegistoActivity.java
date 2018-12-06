@@ -122,21 +122,22 @@ public class RegistoActivity extends AppCompatActivity {
 
                 if (!emptyName && !emptyPass && !emptyConfpass && !emptyEmail && !emptyNTlm) {
 
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference mDatabase = database.getReference("users");
+                    FirebaseDatabase fd = FirebaseDatabase.getInstance();
+                    DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+                    //DatabaseReference mDatabase = database.getReference("users");
 
-                    if (userIsRegisted(mDatabase, telemovelR)) {
-                        Toast.makeText(getApplicationContext(), MSG_USER_EXIST_ERRO, Toast.LENGTH_LONG).show();
-                    } else {
+                    //if (userIsRegisted(mDatabase, telemovelR)) {
+                      //  Toast.makeText(getApplicationContext(), MSG_USER_EXIST_ERRO, Toast.LENGTH_LONG).show();
+                    //} else {
 
-                        String userId = database.getReference("users").push().getKey();
+                        String userId = fd.getReference("users").push().getKey();
                         User user = new User(nomeR, passR, telemovelR, emailR);
-                        mDatabase.child(userId).setValue(user);
+                        database.child("users").child(userId).setValue(user);
 
                         Toast.makeText(getApplicationContext(), MSG_SUC, Toast.LENGTH_LONG).show();
                         Intent i = new Intent(RegistoActivity.this, LoginActivity.class);
                         startActivity(i);
-                    }
+                    //}
                 }
             }
         });
@@ -151,7 +152,6 @@ public class RegistoActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                    Toast.makeText(getApplicationContext(), "ENTROU", Toast.LENGTH_LONG).show();
                     exists[0] = true;
                 }
             }
