@@ -129,8 +129,7 @@ public class RegistoActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), MSG_USER_EXIST_ERRO, Toast.LENGTH_LONG).show();
                     } else {
 
-                        String userId = telemovelR;
-                                //database.getReference("users").push().getKey();
+                        String userId = database.getReference("users").push().getKey();
                         User user = new User(nomeR, passR, telemovelR, emailR);
                         mDatabase.child(userId).setValue(user);
 
