@@ -130,9 +130,9 @@ public class RegistoActivity extends AppCompatActivity {
                       //  Toast.makeText(getApplicationContext(), MSG_USER_EXIST_ERRO, Toast.LENGTH_LONG).show();
                     //} else {
 
-                        String userId = fd.getReference("users").push().getKey();
+                        //String userId = fd.getReference("users").push().getKey();
                         User user = new User(nomeR, passR, telemovelR, emailR);
-                        database.child("users").child(userId).setValue(user);
+                        database.child("users").child(telemovelR).setValue(user);
 
                         Toast.makeText(getApplicationContext(), MSG_SUC, Toast.LENGTH_LONG).show();
                         Intent i = new Intent(RegistoActivity.this, LoginActivity.class);

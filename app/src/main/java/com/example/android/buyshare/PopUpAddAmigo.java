@@ -20,6 +20,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PopUpAddAmigo extends Activity {
 
@@ -122,13 +124,27 @@ public class PopUpAddAmigo extends Activity {
     private void addAmigo(final String numTAdd , final String numTLog, final DatabaseReference mDatabase) {
         Log.d("ORDEM ----","3");
 
+        /*
         Query q = mDatabase.orderByChild("numeroTlm").equalTo(numTLog);
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
+            */
+                DatabaseReference amigosRef = mDatabase.child("amigos").push();
+                Log.d("ORDEM ----","4");
+                String key = amigosRef.getKey();
+                Map<String, Object> map = new HashMap<>();
+                Log.d("ORDEM ----","5");
+                map.put(numTAdd, "NOME");
 
+                amigosRef.updateChildren(map);
+
+
+                /*
+                for (DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
+                    Log.d("ORDEM ----","4");
                     User u = singleSnapshot.child("amigos").getValue(User.class);
+                    Log.d("ORDEM ----","5");
                     ArrayList<String> lAmigos = u.getAmigos();
                     lAmigos.add(numTAdd);
                     mDatabase.child(numTLog).child("amigos").setValue(lAmigos);
@@ -140,6 +156,7 @@ public class PopUpAddAmigo extends Activity {
                 Log.e("TAG", "onCancelled", databaseError.toException());
             }
         });
+            */
 
     }
 }
