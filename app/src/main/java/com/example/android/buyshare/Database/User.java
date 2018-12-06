@@ -36,6 +36,7 @@ public class User {
         this.numeroTlm = numeroTlm;
         this.email = email;
         this.amigos=new ArrayList<>();
+        amigos.add("");
 
 
     }
