@@ -17,12 +17,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class EditPerfil extends AppCompatActivity {
 
     private String userTlm;
     private DatabaseReference mDatabase;
+    private Query q;
     private EditText nomeET, passwordET, conf_PasswET, nTlmET, emailET;
     private TextView nomeTV, pwdTV, nTlm_TV, email_TV;
     private String nome, password, conf_Passw, nTlm, email;
@@ -47,6 +49,7 @@ public class EditPerfil extends AppCompatActivity {
         emailET = (EditText) findViewById(R.id.email_edit);
 
 
+        q = mDatabase.orderByChild("numeroTlm").equalTo(userTlm);
 
 
         Button guardarDados = (Button) findViewById(R.id.guardarDados);
@@ -54,15 +57,11 @@ public class EditPerfil extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-
                 nome = nomeET.getText().toString();
                 password = passwordET.getText().toString();
                 conf_Passw = conf_PasswET.getText().toString();
                 nTlm = nTlmET.getText().toString();
                 email = emailET.getText().toString();
-
-
 
                 if (!password.equals(conf_Passw)){
 
@@ -71,23 +70,22 @@ public class EditPerfil extends AppCompatActivity {
                 }else if (!nome.equals("") || !password.equals("") || !conf_Passw.equals("")|| !nTlm.equals("") || !email.equals("")) {
 
 
-                    mDatabase.addValueEventListener(new ValueEventListener() {
+                    q.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            Toast.makeText(getApplicationContext()," VALOR TELEMOVEL: " + userTlm, Toast.LENGTH_LONG).show();;
+                            for (DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
 
-                            for (DataSnapshot userSnapshot: dataSnapshot.getChildren()){
-                                User u = userSnapshot.getValue(User.class);
-                                if(u.getNumeroTlm().equals(userTlm)){
-                                    Toast.makeText(getApplicationContext(), "DENTRO IFFFFFFFFFFFFFFFFF", Toast.LENGTH_LONG).show();;
-                                    mDatabase.child("users").child(userTlm).child("nome").setValue(nome);
-                                    mDatabase.child("users").child(userTlm).child("password").setValue(password);
-                                    mDatabase.child("users").child(userTlm).child("numeroTlm").setValue(nTlm);
-                                    mDatabase.child("users").child(userTlm).child("email").setValue(email);
+                                //mDatabase.child(mDatabase.push().getKey()).setValue(nome);
+                                mDatabase.child("numeroTlm").child(userTlm).child(mDatabase.push().getKey()).setValue(nome);
 
-// TODO: 05/12/2018  o problema estah aqui , nao é 'users' 
-                                }
+                                //mDatabase.child("numeroTlm").child(userTlm).child("nome").setValue(nome);
+                                //mDatabase.child("numeroTlm").child(userTlm).child("password").setValue(password);
+                                //mDatabase.child("numeroTlm").child(userTlm).child("numeroTlm").setValue(nTlm);
+                               //mDatabase.child("numeroTlm").child(userTlm).child("email").setValue(email);
+
+
+
                             }
                         }
 
