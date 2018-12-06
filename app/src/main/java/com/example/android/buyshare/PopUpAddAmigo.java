@@ -119,19 +119,19 @@ public class PopUpAddAmigo extends Activity {
 
     }
 
-    private void addAmigo(String numTAdd , final String numTLog, DatabaseReference database) {
+    private void addAmigo(final String numTAdd , final String numTLog, final DatabaseReference mDatabase) {
         Log.d("ORDEM ----","3");
-        
-        Query listaAmigos = database.child(numTLog).child("amigos");
-        listaAmigos.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        Query q = mDatabase.orderByChild("numeroTlm").equalTo(numTLog);
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Toast.makeText(getApplicationContext(), "Entrei no METODOO ", Toast.LENGTH_LONG).show();
-                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                    ArrayList<String> amigosLogado = singleSnapshot.getValue(ArrayList.class);
-                    amigosLogado.add(numTLog);
-                    Toast.makeText(getApplicationContext(), "ADICIONEI O AMIGO!!! " + numTLog, Toast.LENGTH_LONG).show();
+                for (DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
 
+                    User u = singleSnapshot.child("amigos").getValue(User.class);
+                    ArrayList<String> lAmigos = u.getAmigos();
+                    lAmigos.add(numTAdd);
+                    mDatabase.child(numTLog).child("amigos").setValue(lAmigos);
                 }
             }
 
