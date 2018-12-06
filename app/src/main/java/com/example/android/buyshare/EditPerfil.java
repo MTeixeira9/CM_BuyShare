@@ -76,16 +76,21 @@ public class EditPerfil extends AppCompatActivity {
 
                             for (DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
 
-                                //mDatabase.child(mDatabase.push().getKey()).setValue(nome);
-                                mDatabase.child("numeroTlm").child(userTlm).child(mDatabase.push().getKey()).setValue(nome);
+                                if(!nome.equals("")) {
+                                    mDatabase.child(userTlm).child("nome").setValue(nome);
+                                }
 
-                                //mDatabase.child("numeroTlm").child(userTlm).child("nome").setValue(nome);
-                                //mDatabase.child("numeroTlm").child(userTlm).child("password").setValue(password);
-                                //mDatabase.child("numeroTlm").child(userTlm).child("numeroTlm").setValue(nTlm);
-                               //mDatabase.child("numeroTlm").child(userTlm).child("email").setValue(email);
+                                if(!email.equals("")) {
+                                    mDatabase.child(userTlm).child("email").setValue(email);
+                                }
 
+                                if(!nTlm.equals("")) {
+                                    mDatabase.child(userTlm).child("numeroTlm").setValue(nTlm);
+                                }
 
-
+                                if(!password.equals("")) {
+                                    mDatabase.child(userTlm).child("password").setValue(password);
+                                }
                             }
                         }
 
@@ -95,13 +100,18 @@ public class EditPerfil extends AppCompatActivity {
                         }
                     });
 
-                    finish();
+
+                    //finish();
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Falta inserir dados", Toast.LENGTH_LONG).show();
                 }
 
+                Intent i = new Intent(EditPerfil.this, Perfil.class);
+                i.putExtra("userTlm", userTlm);
+                startActivity(i);
             }
+
         });
     }
 }
