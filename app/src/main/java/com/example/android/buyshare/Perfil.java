@@ -85,37 +85,4 @@ public class Perfil extends AppCompatActivity {
             }
         });
     }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                String nome = data.getStringExtra("nome");
-                String password = data.getStringExtra("pwd");
-                //String conf_pwd = data.getStringExtra("conf_Passw");
-                String nTlm = data.getStringExtra("nTlm");
-                String email = data.getStringExtra("email");
-
-                TextView nomeTV = (TextView) findViewById(R.id.nome_perfil);
-                TextView pwdTV = (TextView) findViewById(R.id.pwd_perfil);
-                TextView nTlm_TV = (TextView) findViewById(R.id.nTlm_perfil);
-                TextView email_TV = (TextView) findViewById(R.id.email_perfil);
-
-
-               if(!nome.equals("") ){
-                   nomeTV.setText(nome);
-               }else if(!password.equals("")){
-                   pwdTV.setText(password);
-               }else if(!nTlm.equals("")){
-                   nTlm_TV.setText(nTlm);
-               }else if(!email.equals("")){
-                   email_TV.setText(email);
-               }
-
-
-
-
-
-            }
-        }
-    }
 }
