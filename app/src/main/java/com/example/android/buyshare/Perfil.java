@@ -58,6 +58,7 @@ public class Perfil extends AppCompatActivity {
                         pwdTV.setText(u.getPassword());
                         nTlm_TV.setText(u.getNumeroTlm());
                         email_TV.setText(u.getEmail());
+                        Toast.makeText(getApplicationContext(),u.getEmail(),Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -72,8 +73,8 @@ public class Perfil extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Perfil.this, EditPerfil.class);
+                i.putExtra("userTlm", userTlm);
                 startActivity(i);
-                //startActivityForResult(i, 1);
             }
         });
     }

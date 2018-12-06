@@ -44,8 +44,6 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         //ir buscar quem estah autenticado
         userTlm = getIntent().getStringExtra("userTlm");
 
-        Toast.makeText(getApplicationContext(), userTlm, Toast.LENGTH_LONG).show();
-
         mListCategorias = (ListView) findViewById(R.id.listCategorias);
         mListas = (ListView) findViewById(R.id.listListasSemCat);
 
