@@ -17,20 +17,9 @@
         android:background="@drawable/border_style"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/imageView23"
-        app:layout_constraintTop_toBottomOf="@+id/nTlm_perfil" />
-
-    <EditText
-        android:id="@+id/nTlm_perfil"
-        android:layout_width="248dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/border_style"
-        android:inputType="number"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView22"
         app:layout_constraintTop_toBottomOf="@+id/conf_pwd_edit" />
+
+
 
     <EditText
         android:id="@+id/nome_perfil"
@@ -61,23 +50,20 @@
 
     <Button
         android:id="@+id/guardarDados"
-        android:layout_width="136dp"
+        android:layout_width="144dp"
         android:layout_height="42dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="44dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="36dp"
         android:background="@drawable/button_style"
         android:text="Guardar"
-        android:textSize="22sp"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_edit"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/email_edit" />
 
     <EditText
         android:id="@+id/conf_pwd_edit"
@@ -140,16 +126,6 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView19"
         app:srcCompat="@drawable/pass" />
 
-    <ImageView
-        android:id="@+id/imageView22"
-        android:layout_width="38dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView21"
-        app:srcCompat="@drawable/telemovel" />
 
     <ImageView
         android:id="@+id/imageView23"
@@ -159,7 +135,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView22"
+        app:layout_constraintTop_toBottomOf="@+id/imageView21"
         app:srcCompat="@drawable/email" />
 
 

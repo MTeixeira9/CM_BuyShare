@@ -96,9 +96,9 @@ public class EditPerfil extends AppCompatActivity {
                                 }
 
                                 if(!email.equals("")) {
-                                    if (!isValidEmail(email)) {
-                                        emailET.setError(MSG_INV_EMAIL_ERRO);
-                                    }
+                                    //if (!isValidEmail(email)) {
+                                      //  emailET.setError(MSG_INV_EMAIL_ERRO);
+                                   // }
                                     mDatabase.child(userTlm).child("email").setValue(email);
                                 }
 
