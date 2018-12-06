@@ -18,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class Perfil extends AppCompatActivity {
@@ -47,19 +48,25 @@ public class Perfil extends AppCompatActivity {
         //BASE DE DADOS
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
 
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        Query q = mDatabase.orderByChild("numeroTlm").equalTo(userTlm);
+
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                for (DataSnapshot userSnapshot: dataSnapshot.getChildren()){
-                    User u = userSnapshot.getValue(User.class);
-                    if(u.getNumeroTlm().equals(userTlm)){
-                        nomeTV.setText(u.getNome());
-                        pwdTV.setText(u.getPassword());
-                        nTlm_TV.setText(u.getNumeroTlm());
-                        email_TV.setText(u.getEmail());
-                        Toast.makeText(getApplicationContext(),u.getEmail(),Toast.LENGTH_LONG).show();
-                    }
+                for (DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
+
+                    //Valores da base de dados
+                    String nTelemovel = String.valueOf(singleSnapshot.child("numeroTlm").getValue());
+                    String nome = String.valueOf(singleSnapshot.child("nome").getValue());
+                    String pass = String.valueOf(singleSnapshot.child("password").getValue());
+                    String email = String.valueOf(singleSnapshot.child("email").getValue());
+
+                    nomeTV.setText(nome);
+                    pwdTV.setText(pass);
+                    nTlm_TV.setText(nTelemovel);
+                    email_TV.setText(email);
+
                 }
             }
 
