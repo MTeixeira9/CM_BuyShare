@@ -20,6 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.regex.Pattern;
+
 public class EditPerfil extends AppCompatActivity {
 
     private String userTlm;
@@ -28,6 +30,19 @@ public class EditPerfil extends AppCompatActivity {
     private EditText nomeET, passwordET, conf_PasswET, nTlmET, emailET;
     private TextView nomeTV, pwdTV, nTlm_TV, email_TV;
     private String nome, password, conf_Passw, nTlm, email;
+
+    private static final String MSG_INV_EMAIL_ERRO = "Tem que inserir um email válido";
+
+
+    public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
+            "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                    "\\@" +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                    "(" +
+                    "\\." +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                    ")+"
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +96,9 @@ public class EditPerfil extends AppCompatActivity {
                                 }
 
                                 if(!email.equals("")) {
+                                    if (!isValidEmail(email)) {
+                                        emailET.setError(MSG_INV_EMAIL_ERRO);
+                                    }
                                     mDatabase.child(userTlm).child("email").setValue(email);
                                 }
 
@@ -118,4 +136,11 @@ public class EditPerfil extends AppCompatActivity {
 
         });
     }
+
+
+    public final static boolean isValidEmail(String email) {
+        return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
+    }
+
+
 }
