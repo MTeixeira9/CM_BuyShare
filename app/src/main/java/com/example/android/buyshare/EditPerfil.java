@@ -1,6 +1,10 @@
 package com.example.android.buyshare;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +34,7 @@ public class EditPerfil extends AppCompatActivity {
     private EditText nomeET, passwordET, conf_PasswET, nTlmET, emailET;
     private TextView nomeTV, pwdTV, nTlm_TV, email_TV;
     private String nome, password, conf_Passw, nTlm, email;
+    private static int RESULT_LOAD_IMAGE = 1;
 
     private static final String MSG_INV_EMAIL_ERRO = "Tem que inserir um email válido";
 
@@ -60,11 +65,22 @@ public class EditPerfil extends AppCompatActivity {
         nomeET = (EditText) findViewById(R.id.nome_perfil);
         passwordET = (EditText) findViewById(R.id.pass_edit);
         conf_PasswET = (EditText) findViewById(R.id.conf_pwd_edit);
-        nTlmET = (EditText) findViewById(R.id.nTlm_perfil);
         emailET = (EditText) findViewById(R.id.email_edit);
 
 
         q = mDatabase.orderByChild("numeroTlm").equalTo(userTlm);
+
+        Button loadImage = (Button) findViewById(R.id.button_load_image);
+        loadImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                startActivityForResult(i, RESULT_LOAD_IMAGE);
+            }
+        });
 
 
         Button guardarDados = (Button) findViewById(R.id.guardarDados);
@@ -140,6 +156,30 @@ public class EditPerfil extends AppCompatActivity {
 
     public final static boolean isValidEmail(String email) {
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            ImageView imageView = (ImageView) findViewById(R.id.imageView);
+            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+
+        }
+
     }
 
 
