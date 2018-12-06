@@ -16,7 +16,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @IgnoreExtraProperties
 public class User {
@@ -25,7 +27,7 @@ public class User {
     private String password;
     private String numeroTlm;
     private String email;
-    private static ArrayList<String> amigos;
+    private static Map<String,String> amigos = new HashMap<>();
 
     public User(){
     }
@@ -35,9 +37,7 @@ public class User {
         this.password = password;
         this.numeroTlm = numeroTlm;
         this.email = email;
-        this.amigos=new ArrayList<>();
-        amigos.add("");
-
+        //this.amigos=new ArrayList<>();
 
     }
 
@@ -57,7 +57,7 @@ public class User {
         return email;
     }
 
-    public ArrayList<String> getAmigos (){
+    public Map<String, String> getAmigos (){
         return amigos;
     }
 
