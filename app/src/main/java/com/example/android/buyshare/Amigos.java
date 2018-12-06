@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -35,10 +36,14 @@ public class Amigos extends AppCompatActivity {
 
                 //POPUP
                 Intent i = new Intent(Amigos.this, PopUpAddAmigo.class);
-                startActivityForResult(i, 1);
-                //ir buscar quem estah autenticado
                 String userLogado = getIntent().getStringExtra("userTlm");
                 i.putExtra("userTlm", userLogado);
+                startActivityForResult(i, 1);
+                //ir buscar quem estah autenticado
+
+                //Toast.makeText(getApplicationContext(), "O NUMERO DO LOGADO EH  " + userLogado, Toast.LENGTH_LONG).show();
+
+
             }
         });
 
