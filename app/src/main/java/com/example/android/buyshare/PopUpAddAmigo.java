@@ -112,9 +112,15 @@ public class PopUpAddAmigo extends Activity {
 
 
                         //Lista Amigos logado
-                        database.addValueEventListener(new ValueEventListener() {
+
+                        DatabaseReference refListaAmLogado = database.child(logado.getNumeroTlm()).child("amigos");
+
+                        refListaAmLogado.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+
                                 GenericTypeIndicator<ArrayList<String>> genericTypeIndicator =new GenericTypeIndicator<ArrayList<String>>(){};
                                 ArrayList<String> amigosLogado =dataSnapshot.getValue(genericTypeIndicator);
                                 amigosLogado.add(logado.getNumeroTlm());
