@@ -16,6 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -28,6 +29,7 @@ public class PopUpAddAmigo extends Activity {
     private User logado ;
     private User aAdicionar ;
     private String tlmUserLogado;
+    private Boolean userAdExiste = false;
 
 
     @Override
@@ -46,6 +48,9 @@ public class PopUpAddAmigo extends Activity {
 
         //telemovel user logado
         tlmUserLogado = getIntent().getStringExtra("userTlm");
+        Toast.makeText(getApplicationContext(), "O NUMERO DO LOGADO EH  " + tlmUserLogado, Toast.LENGTH_LONG).show();
+
+
 
         Button addAmigo = (Button) findViewById(R.id.enviarConvite);
         addAmigo.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +62,7 @@ public class PopUpAddAmigo extends Activity {
                 final String nTele = nTelemovel.getText().toString();
                 String nome = nomeAmigo.getText().toString();
 
+
                 if (!nome.equals("") && !nTele.equals("")) {
                     i.putExtra("nTlm", nTele);
                     i.putExtra("nomeA", nome);
@@ -65,33 +71,18 @@ public class PopUpAddAmigo extends Activity {
                     //Adicionar amigos
                     final DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
 
-
-                    database.addValueEventListener(new ValueEventListener() {
+                    //Amigo a adicionar
+                    Query qAAdicionar = database.orderByChild("numeroTlm").equalTo(nTele);
+                    qAAdicionar.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                                User u = userSnapshot.getValue(User.class);
-
-                                //amigo a adicionar
-                                if (u.getNumeroTlm().equals(nTele)) {
-                                    aAdicionar = userSnapshot.getValue(User.class);
-                                    Toast.makeText(getApplicationContext(), "Amigo p/ add " + aAdicionar.getEmail(), Toast.LENGTH_LONG).show();
-                                }
-                                if(u.getNumeroTlm().equals(tlmUserLogado)){
-
-                                    logado = userSnapshot.getValue(User.class);
-
-                                    //DatabaseReference amigosRef = database.push();
-                                    //amigosRef.child(logado.getNumeroTlm()).child("amigos").setValue("0123");
-
-
-
-                                    Toast.makeText(getApplicationContext(), "User logado " + logado.getEmail(), Toast.LENGTH_LONG).show();
-                                }
+                            for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                                aAdicionar = singleSnapshot.getValue(User.class);
+                                userAdExiste = true;
+                                Toast.makeText(getApplicationContext(), "Amigo p/ add " + aAdicionar.getEmail(), Toast.LENGTH_LONG).show();
 
                             }
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                             Log.e("TAG", "onCancelled", databaseError.toException());
@@ -99,6 +90,46 @@ public class PopUpAddAmigo extends Activity {
                     });
 
 
+                    //User logado
+                    Query qLogado = database.orderByChild("numeroTlm").equalTo(tlmUserLogado);
+                    qLogado.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                                logado = singleSnapshot.getValue(User.class);
+                                Toast.makeText(getApplicationContext(), "User logado " + logado.getEmail(), Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Log.e("TAG", "onCancelled", databaseError.toException());
+                        }
+                    });
+
+
+                    if(userAdExiste){
+
+
+                        //Lista Amigos logado
+                        database.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                GenericTypeIndicator<ArrayList<String>> genericTypeIndicator =new GenericTypeIndicator<ArrayList<String>>(){};
+                                ArrayList<String> amigosLogado =dataSnapshot.getValue(genericTypeIndicator);
+                                amigosLogado.add(logado.getNumeroTlm());
+                                Toast.makeText(getApplicationContext(), "ADICIONEI O AMIGO!!! " + logado.getNumeroTlm(), Toast.LENGTH_LONG).show();
+
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.e("TAG", "onCancelled", databaseError.toException());
+                            }
+                        });
+
+
+
+                    }
                     finish();
                 } else {
                     Toast.makeText(getApplicationContext(), msgErro, Toast.LENGTH_LONG).show();
