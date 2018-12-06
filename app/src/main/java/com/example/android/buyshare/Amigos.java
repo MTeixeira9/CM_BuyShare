@@ -15,6 +15,9 @@ import java.util.ArrayList;
 
 public class Amigos extends AppCompatActivity {
 
+    private static final String MSG_ERRO1 = "O utilizador já se encontra na sua lista de amigos!";
+    private static final String MSG_ERRO2 = "Não pode ser amigo de si próprio!";
+
     private ArrayAdapter<String> mAdapter;
     private ListView mListAmigos;
 
@@ -31,19 +34,12 @@ public class Amigos extends AppCompatActivity {
         addAmigos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent i = new Intent(Amigos.this, NovoAmigo.class);
-                //startActivityForResult(i, 1);
 
                 //POPUP
                 Intent i = new Intent(Amigos.this, PopUpAddAmigo.class);
                 String userLogado = getIntent().getStringExtra("userTlm");
                 i.putExtra("userTlm", userLogado);
                 startActivityForResult(i, 1);
-                //ir buscar quem estah autenticado
-
-                //Toast.makeText(getApplicationContext(), "O NUMERO DO LOGADO EH  " + userLogado, Toast.LENGTH_LONG).show();
-
-
             }
         });
 
@@ -54,21 +50,24 @@ public class Amigos extends AppCompatActivity {
         //Amigos da pessoa
         //TODO
 
-
         mAdapter.notifyDataSetChanged();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
+            if (resultCode == -1) {
+                Toast.makeText(getApplicationContext(), MSG_ERRO1, Toast.LENGTH_LONG).show();
+            }
+            else if (resultCode == -2) {
+                Toast.makeText(getApplicationContext(), MSG_ERRO2, Toast.LENGTH_LONG).show();
+            }
+            else if (requestCode == 1) {
                 String nome = data.getStringExtra("nomeA");
                 String tlmv = data.getStringExtra("nTlm");
                 String novoAmigo = nome + " " + tlmv;
                 mAdapter.add(novoAmigo);
                 mAdapter.notifyDataSetChanged();
-
             }
         }
     }
-
 }
