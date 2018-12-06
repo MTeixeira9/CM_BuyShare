@@ -130,9 +130,8 @@ public class PopUpAddAmigo extends Activity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             */
-                DatabaseReference amigosRef = mDatabase.child("amigos").push();
+                DatabaseReference amigosRef = mDatabase.child(numTLog).child("amigos").push();
                 Log.d("ORDEM ----","4");
-                String key = amigosRef.getKey();
                 Map<String, Object> map = new HashMap<>();
                 Log.d("ORDEM ----","5");
                 map.put(numTAdd, "NOME");
