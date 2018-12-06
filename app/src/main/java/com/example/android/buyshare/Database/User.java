@@ -37,7 +37,6 @@ public class User {
         this.password = password;
         this.numeroTlm = numeroTlm;
         this.email = email;
-        //this.amigos=new ArrayList<>();
 
     }
 
