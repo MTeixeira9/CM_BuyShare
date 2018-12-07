@@ -2,6 +2,7 @@ package com.example.android.buyshare;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -24,6 +25,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.regex.Pattern;
 
 public class EditPerfil extends AppCompatActivity {
@@ -70,15 +73,22 @@ public class EditPerfil extends AppCompatActivity {
 
         q = mDatabase.orderByChild("numeroTlm").equalTo(userTlm);
 
+
         Button loadImage = (Button) findViewById(R.id.button_load_image);
         loadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(
-                        Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                //Intent i = new Intent(
+                        //Intent.ACTION_PICK,
+                        //android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+                //startActivityForResult(i, RESULT_LOAD_IMAGE);
+
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
+
+
             }
         });
 
@@ -158,7 +168,7 @@ public class EditPerfil extends AppCompatActivity {
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
     }
 
-
+/*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -180,7 +190,29 @@ public class EditPerfil extends AppCompatActivity {
 
         }
 
-    }
+    }*/
 
+
+    @Override
+    protected void onActivityResult(int reqCode, int resultCode, Intent data) {
+        super.onActivityResult(reqCode, resultCode, data);
+
+
+        if (resultCode == RESULT_OK) {
+            try {
+                final Uri imageUri = data.getData();
+                ImageView imageView = (ImageView) findViewById(R.id.imageView);
+                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                imageView.setImageBitmap(selectedImage);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
+            }
+
+        }else {
+            Toast.makeText(getApplicationContext(), "You haven't picked Image",Toast.LENGTH_LONG).show();
+        }
+    }
 
 }
