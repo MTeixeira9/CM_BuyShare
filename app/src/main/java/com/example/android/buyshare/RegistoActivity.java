@@ -1,12 +1,16 @@
 package com.example.android.buyshare;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.regex.Pattern;
 
 
@@ -32,6 +38,8 @@ public class RegistoActivity extends AppCompatActivity {
     private static final String MSG_NUM_ERRO = "Tem que inserir um número de telemóvel";
     private static final String MSG_INV_NUM_ERRO = "O número deve conter 9 dígitos";
     private static final String MSG_USER_EXIST_ERRO = "O número deve conter 9 dígitos";
+
+    private static int RESULT_LOAD_IMAGE = 1;
 
     private boolean emptyName, emptyPass, emptyConfpass, emptyEmail, emptyNTlm;
 
@@ -52,6 +60,20 @@ public class RegistoActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Registo");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Button insereFoto = findViewById(R.id.escolherFoto);
+        insereFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
+
+            }
+        });
+
+
+
 
         Button registo = (Button) findViewById(R.id.registar);
         registo.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +97,8 @@ public class RegistoActivity extends AppCompatActivity {
                 emptyConfpass = false;
                 emptyEmail = false;
                 emptyNTlm = false;
+
+
 
                 if (nomeR.equals("")) {
                     nomeBox.setError(MSG_NOME_ERRO);
@@ -167,6 +191,28 @@ public class RegistoActivity extends AppCompatActivity {
 
     public final static boolean isValidEmail(String email) {
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
+    }
+
+    @Override
+    protected void onActivityResult(int reqCode, int resultCode, Intent data) {
+        super.onActivityResult(reqCode, resultCode, data);
+
+
+        if (resultCode == RESULT_OK) {
+            try {
+                final Uri imageUri = data.getData();
+                ImageView imageView = (ImageView) findViewById(R.id.imageView);
+                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                imageView.setImageBitmap(selectedImage);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
+            }
+
+        }else {
+            Toast.makeText(getApplicationContext(), "You haven't picked Image",Toast.LENGTH_LONG).show();
+        }
     }
 
 }

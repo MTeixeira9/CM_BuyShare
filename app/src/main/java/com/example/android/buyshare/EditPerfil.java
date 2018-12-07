@@ -1,5 +1,6 @@
 package com.example.android.buyshare;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -27,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 public class EditPerfil extends AppCompatActivity {
@@ -38,6 +40,10 @@ public class EditPerfil extends AppCompatActivity {
     private TextView nomeTV, pwdTV, nTlm_TV, email_TV;
     private String nome, password, conf_Passw, nTlm, email;
     private static int RESULT_LOAD_IMAGE = 1;
+
+
+
+
 
     private static final String MSG_INV_EMAIL_ERRO = "Tem que inserir um email válido";
 
@@ -214,5 +220,12 @@ public class EditPerfil extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "You haven't picked Image",Toast.LENGTH_LONG).show();
         }
     }
+
+
+
+
+
+
+
 
 }
