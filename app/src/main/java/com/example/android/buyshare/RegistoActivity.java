@@ -37,11 +37,11 @@ public class RegistoActivity extends AppCompatActivity {
     private static final String MSG_PASSES_ERRO = "As palavras passe não coicidem";
     private static final String MSG_NUM_ERRO = "Tem que inserir um número de telemóvel";
     private static final String MSG_INV_NUM_ERRO = "O número deve conter 9 dígitos";
-    private static final String MSG_USER_EXIST_ERRO = "O número deve conter 9 dígitos";
+    private static final String MSG_USER_EXIST_ERRO = "O user já se encontra registado";
 
     private static int RESULT_LOAD_IMAGE = 1;
 
-    private boolean emptyName, emptyPass, emptyConfpass, emptyEmail, emptyNTlm;
+    private boolean emptyName, emptyPass, emptyConfpass, emptyEmail, emptyNTlm, res;
 
     public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -72,33 +72,29 @@ public class RegistoActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         Button registo = (Button) findViewById(R.id.registar);
         registo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                TextView nomeBox = (TextView) findViewById(R.id.nomeRegisto);
-                TextView passBox = (TextView) findViewById(R.id.passRegisto);
-                TextView confirPassBox = (TextView) findViewById(R.id.confPassRegisto);
-                TextView emailBox = (TextView) findViewById(R.id.emailRegisto);
-                TextView telemovelBox = (TextView) findViewById(R.id.tlmRegisto);
+                final TextView nomeBox = (TextView) findViewById(R.id.nomeRegisto);
+                final TextView passBox = (TextView) findViewById(R.id.passRegisto);
+                final TextView confirPassBox = (TextView) findViewById(R.id.confPassRegisto);
+                final TextView emailBox = (TextView) findViewById(R.id.emailRegisto);
+                final TextView telemovelBox = (TextView) findViewById(R.id.tlmRegisto);
 
-                String nomeR = nomeBox.getText().toString();
-                String passR = passBox.getText().toString();
-                String confirPassR = confirPassBox.getText().toString();
-                String emailR = emailBox.getText().toString();
-                String telemovelR = telemovelBox.getText().toString();
+                final String nomeR = nomeBox.getText().toString();
+                final String passR = passBox.getText().toString();
+                final String confirPassR = confirPassBox.getText().toString();
+                final String emailR = emailBox.getText().toString();
+                final String telemovelR = telemovelBox.getText().toString();
 
                 emptyName = false;
                 emptyPass = false;
                 emptyConfpass = false;
                 emptyEmail = false;
                 emptyNTlm = false;
-
-
+                res = false;
 
                 if (nomeR.equals("")) {
                     nomeBox.setError(MSG_NOME_ERRO);
@@ -146,50 +142,43 @@ public class RegistoActivity extends AppCompatActivity {
 
                 if (!emptyName && !emptyPass && !emptyConfpass && !emptyEmail && !emptyNTlm) {
 
-                    FirebaseDatabase fd = FirebaseDatabase.getInstance();
-                    DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-                    DatabaseReference mDatabase = fd.getReference("users");
+                    final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+                    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
 
-                    if (userIsRegisted(mDatabase, telemovelR)) {
-                        Toast.makeText(getApplicationContext(), MSG_USER_EXIST_ERRO, Toast.LENGTH_LONG).show();
-                    } else {
+                    mDatabase.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                                User u = singleSnapshot.getValue(User.class);
+                                if (u.getNumeroTlm().equals(telemovelR)) {
+                                    res = true;
+                                } else {
+                                    res = false;
+                                }
+                            }
 
-                        //String userId = fd.getReference("users").push().getKey();
-                        User user = new User(nomeR, passR, telemovelR, emailR);
-                        database.child("users").child(telemovelR).setValue(user);
+                            if (res) {
+                                telemovelBox.setError(MSG_USER_EXIST_ERRO);
+                            } else {
 
-                        Toast.makeText(getApplicationContext(), MSG_SUC, Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(RegistoActivity.this, LoginActivity.class);
-                        startActivity(i);
-                    }
+                                //String userId = fd.getReference("users").push().getKey();
+                                User user = new User(nomeR, passR, telemovelR, emailR);
+                                database.child("users").child(telemovelR).setValue(user);
+
+                                Toast.makeText(getApplicationContext(), MSG_SUC, Toast.LENGTH_LONG).show();
+                                Intent i = new Intent(RegistoActivity.this, LoginActivity.class);
+                                startActivity(i);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Log.e("TAG", "onCancelled", databaseError.toException());
+                        }
+                    });
                 }
             }
         });
-
-    }
-
-    private boolean userIsRegisted(DatabaseReference mDatabase, String numTelS) {
-        final boolean[] exists = {false};
-        Toast.makeText(getApplicationContext(), "ANTES", Toast.LENGTH_LONG).show();
-        Query q = mDatabase.orderByChild("numeroTlm").equalTo(numTelS);
-        q.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                    String p = String.valueOf(singleSnapshot.child("numeroTlm").getValue());
-
-                    if (!p.equals(""))
-                        exists[0] = true;
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("TAG", "onCancelled", databaseError.toException());
-            }
-        });
-
-        return exists[0];
     }
 
     public final static boolean isValidEmail(String email) {
@@ -199,8 +188,6 @@ public class RegistoActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
-
-
 
         if (resultCode == RESULT_OK) {
             try {
@@ -214,8 +201,8 @@ public class RegistoActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
             }
 
-        }else {
-            Toast.makeText(getApplicationContext(), "You haven't picked Image",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "You haven't picked Image", Toast.LENGTH_LONG).show();
         }
     }
 
