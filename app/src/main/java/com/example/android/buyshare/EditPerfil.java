@@ -26,6 +26,9 @@ import com.example.android.buyshare.Database.Upload;
 import com.example.android.buyshare.Database.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -59,6 +62,8 @@ public class EditPerfil extends AppCompatActivity {
 
     private StorageTask mUploadTask;
     private EditText mEditTextFileName;
+    
+    private FirebaseAuth mAuth;
 
     private ProgressBar mProgressBar;
 
@@ -89,6 +94,16 @@ public class EditPerfil extends AppCompatActivity {
 
         userTlm = getIntent().getStringExtra("userTlm");
 
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(user != null){
+        }else{
+            signInAnonymously();
+        }
+        
+        
+        
 
         //BASE DE DADOS
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
@@ -135,9 +150,6 @@ public class EditPerfil extends AppCompatActivity {
                 }
             }
         });
-
-
-
 
 
         Button guardarDados = (Button) findViewById(R.id.guardarDados);
@@ -210,6 +222,18 @@ public class EditPerfil extends AppCompatActivity {
         });
     }
 
+    private void signInAnonymously() {
+        mAuth.signInAnonymously().addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
+            }
+        }).addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.e("MainActivity", "signFailed****** ", exception);
+            }
+        });
+    }
 
     public final static boolean isValidEmail(String email) {
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
@@ -256,13 +280,6 @@ public class EditPerfil extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-
-
     private String getFileExtension(Uri uri) {
         ContentResolver cR = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
@@ -270,11 +287,13 @@ public class EditPerfil extends AppCompatActivity {
     }
 
     private void uploadFile() {
-        Toast.makeText(getApplicationContext(), "mImageUri: " + mImageUri, Toast.LENGTH_LONG).show();
+        Log.d("Antes do if", "Antes do if");
 
         if (mImageUri != null) {
            final StorageReference fileReference = mStorageRefUpload.child(System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
+
+            Log.d("Dentro do if", "Dentro do if");
 
             mUploadTask = fileReference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -284,12 +303,14 @@ public class EditPerfil extends AppCompatActivity {
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    mProgressBar.setProgress(0);
+                                   // mProgressBar.setProgress(0);
                                 }
                             }, 500);
 
+                            Log.d("Antes criacao tabela", "Antes criacao tabela");
+
                             Toast.makeText(getApplicationContext(), "Upload successful", Toast.LENGTH_LONG).show();
-                            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
+                            Upload upload = new Upload("Ola".trim(),
                                     fileReference.getDownloadUrl().toString());
                             String uploadId = mDatabaseUpload.push().getKey();
                             mDatabaseUpload.child(uploadId).setValue(upload);
@@ -305,7 +326,7 @@ public class EditPerfil extends AppCompatActivity {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                             double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                            mProgressBar.setProgress((int) progress);
+                            //mProgressBar.setProgress((int) progress);
                         }
                     });
         } else {
