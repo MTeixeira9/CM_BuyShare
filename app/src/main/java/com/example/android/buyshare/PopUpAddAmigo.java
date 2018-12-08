@@ -9,25 +9,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.android.buyshare.Database.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class PopUpAddAmigo extends Activity {
 
     private static final String MSG_ERRO = "Tem de preencher ambos os campos!";
-    private static final String MSG_SUCESSO = "Amigo adicionado com sucesso!";
 
     private User aAdicionar;
     private User logado;
     private String tlmUserLogado;
-    private String nomeLogado;
     private Intent i;
 
     @Override
@@ -42,41 +38,65 @@ public class PopUpAddAmigo extends Activity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width * .8), (int) (height * .32));
+        getWindow().setLayout((int) (width * .30), (int) (height * .30));
 
         //telemovel user logado
         tlmUserLogado = getIntent().getStringExtra("userTlm");
 
-        Button addAmigo = (Button) findViewById(R.id.enviarConvite);
+        Button addAmigo = findViewById(R.id.enviarConvite);
         addAmigo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText nTelemovel = (EditText) findViewById(R.id.nTelemovel);
-                EditText nomeAmigo = (EditText) findViewById(R.id.nomeAmigo);
+                EditText nTelemovel = findViewById(R.id.nTelemovel);
+
                 i = new Intent();
                 final String nTele = nTelemovel.getText().toString();
-                final String nome = nomeAmigo.getText().toString();
 
-                if (!nome.equals("") && !nTele.equals("")) {
-
+                if (!nTele.equals("")) {
                     //Adicionar amigos
-                    final DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
-
-                    //User logado
-                    Query qlogado = database.orderByChild("numeroTlm").equalTo(tlmUserLogado);
-                    qlogado.addListenerForSingleValueEvent(new ValueEventListener() {
+                    final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
+                    mDatabase.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                                logado = singleSnapshot.getValue(User.class);
-                                nomeLogado = logado.getNome();
-
-                                //add um amigo que jah estah na lista dos amigos do logado
-                                if (logado.getAmigos().get(nTele) != null) {
-                                    setResult(-1, i);
-                                    i.putExtra("userTlm", tlmUserLogado);
-                                    finish();
+                                User u = singleSnapshot.getValue(User.class);
+                                //ir buscar user logado
+                                if (u.getNumeroTlm().equals(tlmUserLogado)) {
+                                    logado = u;
                                 }
+                                //ir buscar user a add
+                                if (u.getNumeroTlm().equals(nTele)) {
+                                    aAdicionar = u;
+                                }
+                            }
+
+                            //add um amigo que nao estah registado
+                            if (aAdicionar == null) {
+                                setResult(0, i);
+                                i.putExtra("userTlm", tlmUserLogado);
+                                finish();
+                            }
+
+                            //add um amigo que jah estah na lista dos amigos do logado
+                            else if (logado.getAmigos().get(nTele) != null) {
+                                setResult(-1, i);
+                                i.putExtra("userTlm", tlmUserLogado);
+                                finish();
+                            }
+                            //nao pode ser amigo de si proprio
+                            else if (logado.getNome().equals(aAdicionar.getNome())) {
+                                setResult(-2, i);
+                                i.putExtra("userTlm", tlmUserLogado);
+                                finish();
+                            }
+                            //add novo amigo
+                            else {
+                                mDatabase.child(tlmUserLogado).child("amigos").child(aAdicionar.getNumeroTlm()).setValue(aAdicionar.getNome());
+                                i.putExtra("nTlm", aAdicionar.getNumeroTlm());
+                                i.putExtra("nomeA", aAdicionar.getNome());
+                                i.putExtra("userTlm", tlmUserLogado);
+                                setResult(1, i);
+                                finish();
                             }
                         }
 
@@ -85,43 +105,8 @@ public class PopUpAddAmigo extends Activity {
                             Log.e("TAG", "onCancelled", databaseError.toException());
                         }
                     });
-
-                    //Amigo a adicionar
-                    Query qAAdicionar = database.orderByChild("numeroTlm").equalTo(nTele);
-                    qAAdicionar.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                                aAdicionar = singleSnapshot.getValue(User.class);
-
-                                //nao pode ser amigo de si proprio
-                                if (nomeLogado.equals(aAdicionar.getNome())) {
-                                    setResult(-2, i);
-                                    i.putExtra("userTlm", tlmUserLogado);
-                                    finish();
-                                }
-
-                                database.child(tlmUserLogado).child("amigos").child(aAdicionar.getNumeroTlm()).setValue(aAdicionar.getNome());
-                                Toast.makeText(getApplicationContext(), MSG_SUCESSO, Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            Log.e("TAG", "onCancelled", databaseError.toException());
-                        }
-                    });
-
-                    if (logado != null && aAdicionar != null) {
-                        i.putExtra("nTlm", nTele);
-                        i.putExtra("nomeA", nome);
-                        i.putExtra("userTlm", tlmUserLogado);
-                        setResult(1, i);
-                        finish();
-                    }
-
                 } else {
-                    Toast.makeText(getApplicationContext(), MSG_ERRO, Toast.LENGTH_LONG).show();
+                    nTelemovel.setError(MSG_ERRO);
                 }
             }
         });
