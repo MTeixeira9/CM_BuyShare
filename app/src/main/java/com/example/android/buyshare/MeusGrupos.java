@@ -45,7 +45,6 @@ public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemC
                 String novoGrupo = nome;
                 mAdapter.add(novoGrupo);
                 mAdapter.notifyDataSetChanged();
-
             }
         }
     }

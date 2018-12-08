@@ -41,7 +41,7 @@ public class RegistoActivity extends AppCompatActivity {
 
     private static int RESULT_LOAD_IMAGE = 1;
 
-    private boolean emptyName, emptyPass, emptyConfpass, emptyEmail, emptyNTlm, res;
+    private boolean emptyName, emptyPass, emptyConfpass, emptyEmail, emptyNTlm, res = false;;
 
     public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -94,7 +94,6 @@ public class RegistoActivity extends AppCompatActivity {
                 emptyConfpass = false;
                 emptyEmail = false;
                 emptyNTlm = false;
-                res = false;
 
                 if (nomeR.equals("")) {
                     nomeBox.setError(MSG_NOME_ERRO);
@@ -142,9 +141,8 @@ public class RegistoActivity extends AppCompatActivity {
 
                 if (!emptyName && !emptyPass && !emptyConfpass && !emptyEmail && !emptyNTlm) {
 
-                    final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-                    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
-
+                    //final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+                    final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
                     mDatabase.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -152,6 +150,7 @@ public class RegistoActivity extends AppCompatActivity {
                                 User u = singleSnapshot.getValue(User.class);
                                 if (u.getNumeroTlm().equals(telemovelR)) {
                                     res = true;
+                                    break;
                                 } else {
                                     res = false;
                                 }
@@ -163,7 +162,7 @@ public class RegistoActivity extends AppCompatActivity {
 
                                 //String userId = fd.getReference("users").push().getKey();
                                 User user = new User(nomeR, passR, telemovelR, emailR);
-                                database.child("users").child(telemovelR).setValue(user);
+                                mDatabase.child(telemovelR).setValue(user);
 
                                 Toast.makeText(getApplicationContext(), MSG_SUC, Toast.LENGTH_LONG).show();
                                 Intent i = new Intent(RegistoActivity.this, LoginActivity.class);

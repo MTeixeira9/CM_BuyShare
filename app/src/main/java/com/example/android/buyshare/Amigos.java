@@ -61,7 +61,7 @@ public class Amigos extends AppCompatActivity {
             else if (resultCode == -2) {
                 Toast.makeText(getApplicationContext(), MSG_ERRO2, Toast.LENGTH_LONG).show();
             }
-            else if (requestCode == 1) {
+            else if (resultCode == 1) {
                 String nome = data.getStringExtra("nomeA");
                 String tlmv = data.getStringExtra("nTlm");
                 String novoAmigo = nome + " " + tlmv;

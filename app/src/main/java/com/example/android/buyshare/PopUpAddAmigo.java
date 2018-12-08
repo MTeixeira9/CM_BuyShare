@@ -112,11 +112,13 @@ public class PopUpAddAmigo extends Activity {
                         }
                     });
 
-                    i.putExtra("nTlm", nTele);
-                    i.putExtra("nomeA", nome);
-                    i.putExtra("userTlm", tlmUserLogado);
-                    setResult(1, i);
-                    finish();
+                    if (logado != null && aAdicionar != null) {
+                        i.putExtra("nTlm", nTele);
+                        i.putExtra("nomeA", nome);
+                        i.putExtra("userTlm", tlmUserLogado);
+                        setResult(1, i);
+                        finish();
+                    }
 
                 } else {
                     Toast.makeText(getApplicationContext(), MSG_ERRO, Toast.LENGTH_LONG).show();
