@@ -148,11 +148,11 @@ public class RegistoActivity extends AppCompatActivity {
 
                     FirebaseDatabase fd = FirebaseDatabase.getInstance();
                     DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-                    //DatabaseReference mDatabase = database.getReference("users");
+                    DatabaseReference mDatabase = fd.getReference("users");
 
-                    //if (userIsRegisted(mDatabase, telemovelR)) {
-                      //  Toast.makeText(getApplicationContext(), MSG_USER_EXIST_ERRO, Toast.LENGTH_LONG).show();
-                    //} else {
+                    if (userIsRegisted(mDatabase, telemovelR)) {
+                        Toast.makeText(getApplicationContext(), MSG_USER_EXIST_ERRO, Toast.LENGTH_LONG).show();
+                    } else {
 
                         //String userId = fd.getReference("users").push().getKey();
                         User user = new User(nomeR, passR, telemovelR, emailR);
@@ -161,7 +161,7 @@ public class RegistoActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), MSG_SUC, Toast.LENGTH_LONG).show();
                         Intent i = new Intent(RegistoActivity.this, LoginActivity.class);
                         startActivity(i);
-                    //}
+                    }
                 }
             }
         });
@@ -176,7 +176,10 @@ public class RegistoActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                    exists[0] = true;
+                    String p = String.valueOf(singleSnapshot.child("numeroTlm").getValue());
+
+                    if (!p.equals(""))
+                        exists[0] = true;
                 }
             }
 
