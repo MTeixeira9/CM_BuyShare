@@ -157,17 +157,19 @@ public class EditPerfil extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
                 nome = nomeET.getText().toString();
                 password = passwordET.getText().toString();
                 conf_Passw = conf_PasswET.getText().toString();
-                nTlm = nTlmET.getText().toString();
+                //nTlm = nTlmET.getText().toString();
                 email = emailET.getText().toString();
+
 
                 if (!password.equals(conf_Passw)){
 
                     Toast.makeText(getApplicationContext(), "Palavra passe não coincide", Toast.LENGTH_SHORT).show();
 
-                }else if (!nome.equals("") || !password.equals("") || !conf_Passw.equals("")|| !nTlm.equals("") || !email.equals("")) {
+                }else if (!nome.equals("") || !password.equals("") || !conf_Passw.equals("")||  !email.equals("")) {
 
 
                     q.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -185,10 +187,6 @@ public class EditPerfil extends AppCompatActivity {
                                       //  emailET.setError(MSG_INV_EMAIL_ERRO);
                                    // }
                                     mDatabase.child(userTlm).child("email").setValue(email);
-                                }
-
-                                if(!nTlm.equals("")) {
-                                    mDatabase.child(userTlm).child("numeroTlm").setValue(nTlm);
                                 }
 
                                 if(!password.equals("")) {
@@ -239,32 +237,6 @@ public class EditPerfil extends AppCompatActivity {
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
     }
 
-
-
-/*
-    @Override
-    protected void onActivityResult(int reqCode, int resultCode, Intent data) {
-        super.onActivityResult(reqCode, resultCode, data);
-
-
-        if (reqCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            try {
-                final Uri mImageUri = data.getData();
-                ImageView imageView = (ImageView) findViewById(R.id.imageView);
-                final InputStream imageStream = getContentResolver().openInputStream(mImageUri);
-                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                imageView.setImageBitmap(selectedImage);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
-            }
-
-        }else {
-            Toast.makeText(getApplicationContext(), "You haven't picked Image",Toast.LENGTH_LONG).show();
-        }
-    }
-*/
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -287,13 +259,11 @@ public class EditPerfil extends AppCompatActivity {
     }
 
     private void uploadFile() {
-        Log.d("Antes do if", "Antes do if");
 
         if (mImageUri != null) {
            final StorageReference fileReference = mStorageRefUpload.child(System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
 
-            Log.d("Dentro do if", "Dentro do if");
 
             mUploadTask = fileReference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -307,13 +277,13 @@ public class EditPerfil extends AppCompatActivity {
                                 }
                             }, 500);
 
-                            Log.d("Antes criacao tabela", "Antes criacao tabela");
-
                             Toast.makeText(getApplicationContext(), "Upload successful", Toast.LENGTH_LONG).show();
-                            Upload upload = new Upload("Ola".trim(),
+                            Upload upload = new Upload("Ola",
                                     fileReference.getDownloadUrl().toString());
                             String uploadId = mDatabaseUpload.push().getKey();
-                            mDatabaseUpload.child(uploadId).setValue(upload);
+
+                            mDatabaseUpload.child(userTlm).setValue(upload);
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -333,11 +303,4 @@ public class EditPerfil extends AppCompatActivity {
             Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
-
-
-
-
 }

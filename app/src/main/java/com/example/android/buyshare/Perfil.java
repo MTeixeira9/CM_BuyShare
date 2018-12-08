@@ -1,6 +1,8 @@
 package com.example.android.buyshare;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,14 +22,23 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
+import java.io.InputStream;
+import java.net.URL;
 
 public class Perfil extends AppCompatActivity {
 
 
     private ArrayAdapter<String> mAdapter;
     private TextView nomeTV, pwdTV, nTlm_TV, email_TV;
+    private ImageView image;
     private String userTlm;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase, mDatabase2;
+    private StorageReference mStorage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +58,14 @@ public class Perfil extends AppCompatActivity {
 
         //BASE DE DADOS
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        mStorage = FirebaseStorage.getInstance().getReference("uploads");
+
+        mDatabase2 = FirebaseDatabase.getInstance().getReference("upload");
+
 
         Query q = mDatabase.orderByChild("numeroTlm").equalTo(userTlm);
+
+
 
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -67,6 +84,15 @@ public class Perfil extends AppCompatActivity {
                     nTlm_TV.setText(nTelemovel);
                     email_TV.setText(email);
 
+
+
+
+
+
+
+
+
+
                 }
             }
 
@@ -84,5 +110,16 @@ public class Perfil extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    public static Bitmap getBitmap(String url) {
+        try {
+            InputStream is = (InputStream) new URL(url).getContent();
+            Bitmap d = BitmapFactory.decodeStream(is);
+            is.close();
+            return d;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
