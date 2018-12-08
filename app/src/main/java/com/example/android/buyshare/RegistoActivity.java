@@ -198,6 +198,7 @@ public class RegistoActivity extends AppCompatActivity {
         super.onActivityResult(reqCode, resultCode, data);
 
 
+
         if (resultCode == RESULT_OK) {
             try {
                 final Uri imageUri = data.getData();

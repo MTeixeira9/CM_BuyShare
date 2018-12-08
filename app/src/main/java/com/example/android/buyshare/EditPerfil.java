@@ -1,30 +1,44 @@
 package com.example.android.buyshare;
 
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.buyshare.Database.Upload;
 import com.example.android.buyshare.Database.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -34,13 +48,21 @@ import java.util.regex.Pattern;
 public class EditPerfil extends AppCompatActivity {
 
     private String userTlm;
-    private DatabaseReference mDatabase;
     private Query q;
     private EditText nomeET, passwordET, conf_PasswET, nTlmET, emailET;
     private TextView nomeTV, pwdTV, nTlm_TV, email_TV;
     private String nome, password, conf_Passw, nTlm, email;
-    private static int RESULT_LOAD_IMAGE = 1;
+    private static final int RESULT_LOAD_IMAGE = 1;
 
+    private DatabaseReference mDatabase, mDatabaseUpload;
+    private StorageReference mStorageRefUpload;
+
+    private StorageTask mUploadTask;
+    private EditText mEditTextFileName;
+
+    private ProgressBar mProgressBar;
+
+    private Uri mImageUri;
 
 
 
@@ -71,6 +93,10 @@ public class EditPerfil extends AppCompatActivity {
         //BASE DE DADOS
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
 
+        mDatabaseUpload = FirebaseDatabase.getInstance().getReference("upload");
+        mStorageRefUpload = FirebaseStorage.getInstance().getReference("upload");
+
+
         nomeET = (EditText) findViewById(R.id.nome_perfil);
         passwordET = (EditText) findViewById(R.id.pass_edit);
         conf_PasswET = (EditText) findViewById(R.id.conf_pwd_edit);
@@ -84,19 +110,34 @@ public class EditPerfil extends AppCompatActivity {
         loadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent i = new Intent(
-                        //Intent.ACTION_PICK,
-                        //android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                //Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                //photoPickerIntent.setType("image/*");
+               // startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
 
-                //startActivityForResult(i, RESULT_LOAD_IMAGE);
-
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent, RESULT_LOAD_IMAGE);
 
 
             }
         });
+
+        Button upload = (Button) findViewById(R.id.uploadFoto);
+        upload.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (mUploadTask != null && mUploadTask.isInProgress()) {
+                    Toast.makeText(getApplicationContext(), "Upload in progress", Toast.LENGTH_SHORT).show();
+                } else {
+                    uploadFile();
+                }
+            }
+        });
+
+
+
 
 
         Button guardarDados = (Button) findViewById(R.id.guardarDados);
@@ -174,41 +215,19 @@ public class EditPerfil extends AppCompatActivity {
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
     }
 
+
+
 /*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
-
-            ImageView imageView = (ImageView) findViewById(R.id.imageView);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-
-        }
-
-    }*/
-
-
     @Override
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
 
 
-        if (resultCode == RESULT_OK) {
+        if (reqCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             try {
-                final Uri imageUri = data.getData();
+                final Uri mImageUri = data.getData();
                 ImageView imageView = (ImageView) findViewById(R.id.imageView);
-                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                final InputStream imageStream = getContentResolver().openInputStream(mImageUri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                 imageView.setImageBitmap(selectedImage);
             } catch (FileNotFoundException e) {
@@ -220,7 +239,79 @@ public class EditPerfil extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "You haven't picked Image",Toast.LENGTH_LONG).show();
         }
     }
+*/
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            mImageUri = data.getData();
+
+            Picasso.get().load(mImageUri).into(imageView);
+        }
+    }
+
+
+
+
+
+
+
+
+
+    private String getFileExtension(Uri uri) {
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+    private void uploadFile() {
+        Toast.makeText(getApplicationContext(), "mImageUri: " + mImageUri, Toast.LENGTH_LONG).show();
+
+        if (mImageUri != null) {
+           final StorageReference fileReference = mStorageRefUpload.child(System.currentTimeMillis()
+                    + "." + getFileExtension(mImageUri));
+
+            mUploadTask = fileReference.putFile(mImageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mProgressBar.setProgress(0);
+                                }
+                            }, 500);
+
+                            Toast.makeText(getApplicationContext(), "Upload successful", Toast.LENGTH_LONG).show();
+                            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
+                                    fileReference.getDownloadUrl().toString());
+                            String uploadId = mDatabaseUpload.push().getKey();
+                            mDatabaseUpload.child(uploadId).setValue(upload);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                            mProgressBar.setProgress((int) progress);
+                        }
+                    });
+        } else {
+            Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
 

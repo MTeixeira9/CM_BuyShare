@@ -155,5 +155,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
+    <Button
+        android:id="@+id/uploadFoto"
+        android:layout_width="87dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="44dp"
+        android:background="@drawable/button_style"
+        android:text="Upload"
+        app:layout_constraintBottom_toTopOf="@+id/nome_perfil"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.093"
+        app:layout_constraintStart_toEndOf="@+id/imageView" />
+
 
 </android.support.constraint.ConstraintLayout>
