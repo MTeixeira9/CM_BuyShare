@@ -117,9 +117,5 @@ public class PopUpAddAmigo extends Activity {
         });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mDatabase.removeEventListener(mListener);
-    }
+
 }
