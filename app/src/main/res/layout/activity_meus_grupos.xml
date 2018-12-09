@@ -19,6 +19,7 @@
         android:background="@drawable/button_style"
         android:text="Criar Novo Grupo"
         android:textSize="22sp"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

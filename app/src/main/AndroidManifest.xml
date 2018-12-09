@@ -27,8 +27,8 @@
             android:name=".Amigos"
             android:parentActivityName=".MinhasListas" />
         <activity
-            android:name=".CriarGrupo"
-            android:parentActivityName=".MeusGrupos" />
+            android:name=".PopUpCriarGrupo"
+            android:theme="@style/AppTheme.popUp"/>
         <activity
             android:name=".NovaLista"
             android:parentActivityName=".MinhasListas" />

@@ -1,8 +1,10 @@
 package com.example.android.buyshare;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,7 +15,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class CriarGrupo extends AppCompatActivity {
+public class PopUpCriarGrupo extends Activity {
 
     private static final String msg = "Tem de preencher ambos os campos!";
 
@@ -22,8 +24,14 @@ public class CriarGrupo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_criar_grupo);
 
-        getSupportActionBar().setTitle("Criar Grupo");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        getWindow().setLayout((int) (width * .75), (int) (height * .25));
 
         Button addGrupo = (Button) findViewById(R.id.criarGrupo);
         addGrupo.setOnClickListener(new View.OnClickListener() {

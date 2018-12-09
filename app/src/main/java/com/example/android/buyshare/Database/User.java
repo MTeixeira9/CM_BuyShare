@@ -28,6 +28,7 @@ public class User {
     private String numeroTlm;
     private String email;
     private static Map<String,String> amigos;
+    private static List<Grupo> grupos;
 
     public User(){
     }
@@ -38,6 +39,7 @@ public class User {
         this.numeroTlm = numeroTlm;
         this.email = email;
         amigos = new HashMap<>();
+        grupos = new ArrayList<>();
     }
 
     public String getPassword(){
@@ -60,12 +62,6 @@ public class User {
         return amigos;
     }
 
-/*
-    public static void writeNewUser(String userId, String name, String pass, String nTel, String email) {
-        User user = new User(name, pass, nTel, email);
-
-        LoginActivity.mDatabase.child("users").child(userId).setValue(user);
-    }*/
 
 
 }

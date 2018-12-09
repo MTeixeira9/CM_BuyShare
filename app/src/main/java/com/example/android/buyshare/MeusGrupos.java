@@ -13,6 +13,7 @@ public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemC
 
     private ArrayAdapter<String> mAdapter;
     private ListView mListGrupos;
+    private String userLogado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +25,13 @@ public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemC
 
         Button novoGrupo = (Button) findViewById(R.id.novoGrupo);
 
+        userLogado = getIntent().getStringExtra("userTlm");
+
         novoGrupo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MeusGrupos.this, CriarGrupo.class);
+                Intent i = new Intent(MeusGrupos.this, PopUpCriarGrupo.class);
+                i.putExtra("userTlm", userLogado);
                 startActivityForResult(i, 1);
             }
         });
