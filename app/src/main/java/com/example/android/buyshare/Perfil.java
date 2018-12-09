@@ -3,6 +3,7 @@ package com.example.android.buyshare;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 
@@ -38,7 +40,7 @@ public class Perfil extends AppCompatActivity {
     private String userTlm;
     private DatabaseReference mDatabase, mDatabase2;
     private StorageReference mStorage;
-
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class Perfil extends AppCompatActivity {
         pwdTV = findViewById(R.id.pwd_perfil);
         nTlm_TV = findViewById(R.id.nTlm_perfil);
         email_TV = findViewById(R.id.email_perfil);
+        imageView = findViewById(R.id.imageView_editPerfil);
 
         //BASE DE DADOS
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
@@ -65,10 +68,10 @@ public class Perfil extends AppCompatActivity {
 
         Query q = mDatabase.orderByChild("numeroTlm").equalTo(userTlm);
 
-        Query q2 = mDatabase2.child(userTlm).child("imageUrl");
 
-        String url = q2.toString();
-        Log.d(url,"url");
+
+
+
 
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -88,9 +91,11 @@ public class Perfil extends AppCompatActivity {
                     email_TV.setText(email);
 
 
+                    String url = mDatabase2.child(userTlm).child("imageUrl").toString();
 
 
-
+                    Bitmap bmImg = getBitmap(url);
+                    imageView.setImageBitmap(bmImg);
 
 
 
