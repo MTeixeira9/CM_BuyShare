@@ -74,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Intent i = new Intent(getApplicationContext(), MinhasListas.class);
                                     i.putExtra("userTlm", numTelS);
                                     startActivity(i);
+                                    finish();
                                 } else {
                                     Toast.makeText(getApplicationContext(), wrongPass, Toast.LENGTH_LONG).show();
                                 }
