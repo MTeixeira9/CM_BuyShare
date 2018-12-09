@@ -16,12 +16,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -71,10 +74,6 @@ public class Perfil extends AppCompatActivity {
         Query q2 = mDatabase2.child(userTlm).child("imageUrl");
 
 
-
-
-
-
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -93,16 +92,8 @@ public class Perfil extends AppCompatActivity {
 
 
 
-                    String url = mDatabase2.child(userTlm).child("imageUrl").toString();
-
-
-                    Bitmap bmImg = getBitmap(url);
-                    imageView.setImageBitmap(bmImg);
-
-
-
-
-
+                    //String url = mDatabase2.child(userTlm).child("imageUrl").toString();
+                    //mStorage.child(url);
 
                 }
             }
@@ -123,14 +114,4 @@ public class Perfil extends AppCompatActivity {
         });
     }
 
-    public static Bitmap getBitmap(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Bitmap d = BitmapFactory.decodeStream(is);
-            is.close();
-            return d;
-        } catch (Exception e) {
-            return null;
-        }
-    }
 }

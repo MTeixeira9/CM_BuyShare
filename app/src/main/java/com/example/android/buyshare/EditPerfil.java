@@ -2,6 +2,7 @@ package com.example.android.buyshare;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -108,8 +109,8 @@ public class EditPerfil extends AppCompatActivity {
         q = mDatabase.orderByChild("numeroTlm").equalTo(userTlm);
 
 
-        Button loadImage = (Button) findViewById(R.id.button_load_image);
-        loadImage.setOnClickListener(new View.OnClickListener() {
+        Button alterar = (Button) findViewById(R.id.button_load_image);
+        alterar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -264,12 +265,16 @@ public class EditPerfil extends AppCompatActivity {
                                 public void run() {
                                    // mProgressBar.setProgress(0);
                                 }
-                            }, 500);
+                            }, 5);
 
                             Toast.makeText(getApplicationContext(), "Upload successful", Toast.LENGTH_LONG).show();
                             Upload upload = new Upload("Ola",
                                     fileReference.getDownloadUrl().toString());
+
+
+
                             String uploadId = mDatabaseUpload.push().getKey();
+
 
                             mDatabaseUpload.child(userTlm).setValue(upload);
 
