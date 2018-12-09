@@ -79,11 +79,6 @@ public class Amigos extends AppCompatActivity {
                             mAdapter.add(amigo.getValue() + " " + amigo.getKey());
                             mAdapter.notifyDataSetChanged();
                         }
-
-
-
-
-
                 }
             }
 

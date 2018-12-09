@@ -25,6 +25,8 @@ public class PopUpAddAmigo extends Activity {
     private User logado;
     private String tlmUserLogado;
     private Intent i;
+    private DatabaseReference mDatabase;
+    private ValueEventListener mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +57,8 @@ public class PopUpAddAmigo extends Activity {
                 if (!nTele.equals("")) {
                     //Adicionar amigos
 
-                    final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
-                    mDatabase.addValueEventListener(new ValueEventListener() {
+                    mDatabase = FirebaseDatabase.getInstance().getReference("users");
+                    mListener = mDatabase.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
@@ -105,11 +107,19 @@ public class PopUpAddAmigo extends Activity {
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                             Log.e("TAG", "onCancelled", databaseError.toException());
                         }
+
+
                     });
                 } else {
                     nTelemovel.setError(MSG_ERRO);
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mDatabase.removeEventListener(mListener);
     }
 }
