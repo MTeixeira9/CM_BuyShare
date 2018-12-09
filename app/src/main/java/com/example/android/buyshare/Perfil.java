@@ -41,6 +41,7 @@ public class Perfil extends AppCompatActivity {
     private DatabaseReference mDatabase, mDatabase2;
     private StorageReference mStorage;
     private ImageView imageView;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
