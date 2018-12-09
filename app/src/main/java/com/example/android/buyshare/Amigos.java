@@ -22,9 +22,9 @@ import java.util.Map;
 
 public class Amigos extends AppCompatActivity {
 
-    private static final String MSG_ERRO0 = "O utilizador que quer adicionar não está registado!";
     private static final String MSG_ERRO1 = "O utilizador já se encontra na sua lista de amigos!";
     private static final String MSG_ERRO2 = "Não pode ser amigo de si próprio!";
+    private static final String MSG_ERRO3 = "O utilizador que quer adicionar não está registado!";
     private static final String MSG_SUCESSO = "Amigo adicionado com sucesso!";
 
     private ArrayAdapter<String> mAdapter;
@@ -98,8 +98,8 @@ public class Amigos extends AppCompatActivity {
             else if (resultCode == -2) {
                 Toast.makeText(getApplicationContext(), MSG_ERRO2, Toast.LENGTH_LONG).show();
             }
-            else if (resultCode == 0) {
-                Toast.makeText(getApplicationContext(), MSG_ERRO0, Toast.LENGTH_LONG).show();
+            else if (resultCode == -3) {
+                Toast.makeText(getApplicationContext(), MSG_ERRO3, Toast.LENGTH_LONG).show();
             }
             else if (resultCode == 1) {
                 String nome = data.getStringExtra("nomeA");
