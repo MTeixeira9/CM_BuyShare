@@ -119,8 +119,8 @@ public class Amigos extends AppCompatActivity {
                 String nome = data.getStringExtra("nomeA");
                 String tlmv = data.getStringExtra("nTlm");
                 String novoAmigo = nome + " " + tlmv;
-                mAdapter.add(novoAmigo);
-                mAdapter.notifyDataSetChanged();
+                //mAdapter.add(novoAmigo);
+                ///mAdapter.notifyDataSetChanged();
                 Toast.makeText(getApplicationContext(), MSG_SUCESSO, Toast.LENGTH_LONG).show();
             }
         }
