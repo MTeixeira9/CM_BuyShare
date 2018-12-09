@@ -1,27 +1,16 @@
 package com.example.android.buyshare;
 
-import android.app.LauncherActivity;
-import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupMenu;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.Stack;
 
 public class MinhasListas extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -107,26 +96,21 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         int id = item.getItemId();
         if(id == R.id.meusGrupos){
             Intent grupos = new Intent(MinhasListas.this, MeusGrupos.class);
-            finish();
             startActivity(grupos);
         }else if(id == R.id.amigos){
             Intent amigos = new Intent(MinhasListas.this, Amigos.class);
             amigos.putExtra("userTlm", userTlm);
-            finish();
             startActivity(amigos);
         }else if(id == R.id.terminarS){
             Intent terminarS = new Intent(MinhasListas.this, LoginActivity.class);
-            finish();
             startActivity(terminarS);
             Toast.makeText(getApplicationContext(), "Sessão terminada com sucesso.", Toast.LENGTH_SHORT).show();
         }else if(id == R.id.meuPerfil) {
             Intent meuPerfil = new Intent(MinhasListas.this, Perfil.class);
             meuPerfil.putExtra("userTlm", userTlm);
-            finish();
             startActivity(meuPerfil);
         }else if(id == R.id.arquivo) {
             Intent arquivo = new Intent(MinhasListas.this, Arquivo.class);
-            finish();
             startActivity(arquivo);
     }
 

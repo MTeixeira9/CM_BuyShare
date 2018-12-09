@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +19,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.FileNotFoundException;
@@ -166,7 +165,6 @@ public class RegistoActivity extends AppCompatActivity {
 
                                 Toast.makeText(getApplicationContext(), MSG_SUC, Toast.LENGTH_LONG).show();
                                 Intent i = new Intent(RegistoActivity.this, LoginActivity.class);
-                                finish();
                                 startActivity(i);
                             }
                         }
