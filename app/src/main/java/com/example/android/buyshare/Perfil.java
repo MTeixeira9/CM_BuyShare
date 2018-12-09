@@ -65,7 +65,10 @@ public class Perfil extends AppCompatActivity {
 
         Query q = mDatabase.orderByChild("numeroTlm").equalTo(userTlm);
 
+        Query q2 = mDatabase2.child(userTlm).child("imageUrl");
 
+        String url = q2.toString();
+        Log.d(url,"url");
 
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
