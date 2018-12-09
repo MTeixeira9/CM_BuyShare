@@ -96,6 +96,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         int id = item.getItemId();
         if(id == R.id.meusGrupos){
             Intent grupos = new Intent(MinhasListas.this, MeusGrupos.class);
+            grupos.putExtra("userTlm", userTlm);
             startActivity(grupos);
         }else if(id == R.id.amigos){
             Intent amigos = new Intent(MinhasListas.this, Amigos.class);
