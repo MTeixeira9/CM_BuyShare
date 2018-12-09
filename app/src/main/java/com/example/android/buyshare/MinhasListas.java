@@ -107,27 +107,27 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         int id = item.getItemId();
         if(id == R.id.meusGrupos){
             Intent grupos = new Intent(MinhasListas.this, MeusGrupos.class);
-            startActivity(grupos);
             finish();
+            startActivity(grupos);
         }else if(id == R.id.amigos){
             Intent amigos = new Intent(MinhasListas.this, Amigos.class);
             amigos.putExtra("userTlm", userTlm);
-            startActivity(amigos);
             finish();
+            startActivity(amigos);
         }else if(id == R.id.terminarS){
             Intent terminarS = new Intent(MinhasListas.this, LoginActivity.class);
+            finish();
             startActivity(terminarS);
             Toast.makeText(getApplicationContext(), "Sessão terminada com sucesso.", Toast.LENGTH_SHORT).show();
-            finish();
         }else if(id == R.id.meuPerfil) {
             Intent meuPerfil = new Intent(MinhasListas.this, Perfil.class);
             meuPerfil.putExtra("userTlm", userTlm);
-            startActivity(meuPerfil);
             finish();
+            startActivity(meuPerfil);
         }else if(id == R.id.arquivo) {
             Intent arquivo = new Intent(MinhasListas.this, Arquivo.class);
-            startActivity(arquivo);
             finish();
+            startActivity(arquivo);
     }
 
         return super.onOptionsItemSelected(item);

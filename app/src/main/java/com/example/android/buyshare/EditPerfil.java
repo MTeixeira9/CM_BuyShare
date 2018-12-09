@@ -196,8 +196,8 @@ public class EditPerfil extends AppCompatActivity {
 
                             Intent i = new Intent(EditPerfil.this, Perfil.class);
                             i.putExtra("userTlm", userTlm);
-                            startActivity(i);
                             finish();
+                            startActivity(i);
                         }
 
                         @Override
@@ -215,8 +215,8 @@ public class EditPerfil extends AppCompatActivity {
 
                 Intent i = new Intent(EditPerfil.this, Perfil.class);
                 i.putExtra("userTlm", userTlm);
-                startActivity(i);
                 finish();
+                startActivity(i);
             }
 
         });

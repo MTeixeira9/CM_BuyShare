@@ -166,8 +166,8 @@ public class RegistoActivity extends AppCompatActivity {
 
                                 Toast.makeText(getApplicationContext(), MSG_SUC, Toast.LENGTH_LONG).show();
                                 Intent i = new Intent(RegistoActivity.this, LoginActivity.class);
-                                startActivity(i);
                                 finish();
+                                startActivity(i);
                             }
                         }
 

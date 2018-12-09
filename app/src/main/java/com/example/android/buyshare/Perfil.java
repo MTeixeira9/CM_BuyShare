@@ -110,6 +110,7 @@ public class Perfil extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(Perfil.this, EditPerfil.class);
                 i.putExtra("userTlm", userTlm);
+                finish();
                 startActivity(i);
             }
         });

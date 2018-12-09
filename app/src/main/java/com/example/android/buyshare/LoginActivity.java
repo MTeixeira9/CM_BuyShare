@@ -45,8 +45,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(LoginActivity.this, RegistoActivity.class);
-                startActivity(i);
                 finish();
+                startActivity(i);
             }
         });
 
@@ -74,8 +74,8 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), loginSucess, Toast.LENGTH_LONG).show();
                                     Intent i = new Intent(getApplicationContext(), MinhasListas.class);
                                     i.putExtra("userTlm", numTelS);
-                                    startActivity(i);
                                     finish();
+                                    startActivity(i);
                                 } else {
                                     Toast.makeText(getApplicationContext(), wrongPass, Toast.LENGTH_LONG).show();
                                 }
@@ -90,9 +90,5 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private void loginUser(String numTel, String pass) {
-
     }
 }
