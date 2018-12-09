@@ -54,6 +54,7 @@ public class PopUpAddAmigo extends Activity {
 
                 if (!nTele.equals("")) {
                     //Adicionar amigos
+
                     final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
                     mDatabase.addValueEventListener(new ValueEventListener() {
                         @Override

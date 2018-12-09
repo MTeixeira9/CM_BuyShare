@@ -1,15 +1,13 @@
 package com.example.android.buyshare;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.buyshare.Database.User;
@@ -17,10 +15,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 public class Amigos extends AppCompatActivity {
@@ -67,9 +63,9 @@ public class Amigos extends AppCompatActivity {
         //adicionar logo os amigos da base de dados
         final DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference("users");
 
-        //Query q = mDataBase.orderByChild("numeroTlm").equalTo(userLogado);
+        Query q = mDataBase.orderByChild("numeroTlm").equalTo(userLogado);
 
-        mDataBase.addValueEventListener(new ValueEventListener() {
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -77,16 +73,12 @@ public class Amigos extends AppCompatActivity {
 
                     User u = singleSnapShot.getValue(User.class);
 
-
-
-                    if(u.getNumeroTlm().equals(userLogado)){
-
                         Map<String, String> amigos = u.getAmigos();
                         for (Map.Entry<String,String> amigo: amigos.entrySet()){
                             mAdapter.add(amigo.getValue() + " " + amigo.getKey());
                             mAdapter.notifyDataSetChanged();
                         }
-                    }
+
 
 
 

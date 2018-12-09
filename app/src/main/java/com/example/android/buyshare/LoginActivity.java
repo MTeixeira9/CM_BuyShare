@@ -1,9 +1,9 @@
 package com.example.android.buyshare;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.buyshare.Database.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,8 +44,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(LoginActivity.this, RegistoActivity.class);
-                startActivity(i);
                 finish();
+                startActivity(i);
             }
         });
 
@@ -75,7 +74,6 @@ public class LoginActivity extends AppCompatActivity {
                                     Intent i = new Intent(getApplicationContext(), MinhasListas.class);
                                     i.putExtra("userTlm", numTelS);
                                     startActivity(i);
-                                    finish();
                                 } else {
                                     Toast.makeText(getApplicationContext(), wrongPass, Toast.LENGTH_LONG).show();
                                 }
@@ -90,9 +88,5 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private void loginUser(String numTel, String pass) {
-
     }
 }

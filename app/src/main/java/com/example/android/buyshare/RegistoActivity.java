@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -40,7 +40,10 @@ public class RegistoActivity extends AppCompatActivity {
 
     private static int RESULT_LOAD_IMAGE = 1;
 
-    private boolean emptyName, emptyPass, emptyConfpass, emptyEmail, emptyNTlm, res = false;;
+    private boolean emptyName, emptyPass, emptyConfpass, emptyEmail, emptyNTlm, res = false;
+
+    private DatabaseReference mDatabase;
+    private ValueEventListener mListener;
 
     public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -141,8 +144,8 @@ public class RegistoActivity extends AppCompatActivity {
                 if (!emptyName && !emptyPass && !emptyConfpass && !emptyEmail && !emptyNTlm) {
 
                     //final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-                    final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
-                    mDatabase.addValueEventListener(new ValueEventListener() {
+                    mDatabase = FirebaseDatabase.getInstance().getReference("users");
+                    mListener = mDatabase.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
@@ -166,7 +169,6 @@ public class RegistoActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), MSG_SUC, Toast.LENGTH_LONG).show();
                                 Intent i = new Intent(RegistoActivity.this, LoginActivity.class);
                                 startActivity(i);
-                                finish();
                             }
                         }
 
@@ -178,6 +180,12 @@ public class RegistoActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mDatabase.removeEventListener(mListener);
     }
 
     public final static boolean isValidEmail(String email) {
