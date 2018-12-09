@@ -27,7 +27,7 @@ public class User {
     private String password;
     private String numeroTlm;
     private String email;
-    private static Map<String,String> amigos = new HashMap<>();
+    private static Map<String,String> amigos;
 
     public User(){
     }
@@ -37,7 +37,7 @@ public class User {
         this.password = password;
         this.numeroTlm = numeroTlm;
         this.email = email;
-
+        amigos = new HashMap<>();
     }
 
     public String getPassword(){
