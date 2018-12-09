@@ -67,9 +67,9 @@ public class Amigos extends AppCompatActivity {
         //adicionar logo os amigos da base de dados
         final DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference("users");
 
-        //Query q = mDataBase.orderByChild("numeroTlm").equalTo(userLogado);
+        Query q = mDataBase.orderByChild("numeroTlm").equalTo(userLogado);
 
-        mDataBase.addValueEventListener(new ValueEventListener() {
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -77,16 +77,12 @@ public class Amigos extends AppCompatActivity {
 
                     User u = singleSnapShot.getValue(User.class);
 
-
-
-                    if(u.getNumeroTlm().equals(userLogado)){
-
                         Map<String, String> amigos = u.getAmigos();
                         for (Map.Entry<String,String> amigo: amigos.entrySet()){
                             mAdapter.add(amigo.getValue() + " " + amigo.getKey());
                             mAdapter.notifyDataSetChanged();
                         }
-                    }
+
 
 
 
