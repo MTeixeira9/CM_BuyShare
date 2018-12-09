@@ -3,19 +3,16 @@ package com.example.android.buyshare;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.android.buyshare.Database.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +21,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -62,9 +58,7 @@ public class Perfil extends AppCompatActivity {
 
         mDatabase2 = FirebaseDatabase.getInstance().getReference("upload");
 
-
         Query q = mDatabase.orderByChild("numeroTlm").equalTo(userTlm);
-
         Query q2 = mDatabase2.child(userTlm).child("imageUrl");
 
         String url = q2.toString();
@@ -73,7 +67,6 @@ public class Perfil extends AppCompatActivity {
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 for (DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
 
                     //Valores da base de dados
@@ -86,15 +79,6 @@ public class Perfil extends AppCompatActivity {
                     pwdTV.setText(pass);
                     nTlm_TV.setText(nTelemovel);
                     email_TV.setText(email);
-
-
-
-
-
-
-
-
-
 
                 }
             }
@@ -110,7 +94,6 @@ public class Perfil extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(Perfil.this, EditPerfil.class);
                 i.putExtra("userTlm", userTlm);
-                finish();
                 startActivity(i);
             }
         });
