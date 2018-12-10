@@ -27,8 +27,9 @@ public class User {
     private String password;
     private String numeroTlm;
     private String email;
-    private static Map<String,String> amigos;
-    private static List<Grupo> grupos;
+    private Map<String,String> amigos;
+    private List<Grupo> grupos;
+    private List<Lista> listas;
 
     public User(){
     }
@@ -40,6 +41,7 @@ public class User {
         this.email = email;
         amigos = new HashMap<>();
         grupos = new ArrayList<>();
+        listas = new ArrayList<>();
     }
 
     public String getPassword(){
@@ -65,4 +67,9 @@ public class User {
     public List<Grupo> getGrupos() {
         return grupos;
     }
+
+    public List<Lista> getListas() {
+        return listas;
+    }
+
 }

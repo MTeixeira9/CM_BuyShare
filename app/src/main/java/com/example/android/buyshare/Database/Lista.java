@@ -14,15 +14,12 @@ public class Lista {
 
 
     public Lista(){
-
     }
-
 
     public Lista(String criadorLista, String nomeLista, List<String> produtos  ){
         this.nomeLista = nomeLista;
         this.produtos = produtos;
         this.criadorLista = criadorLista;
-
     }
 
     public String getNomeLista() { return nomeLista;}
