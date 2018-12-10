@@ -19,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.FileNotFoundException;
@@ -40,10 +41,9 @@ public class RegistoActivity extends AppCompatActivity {
 
     private static int RESULT_LOAD_IMAGE = 1;
 
-    private boolean emptyName, emptyPass, emptyConfpass, emptyEmail, emptyNTlm, res = false;
+    private boolean emptyName, emptyPass, emptyConfpass, emptyEmail, emptyNTlm, res;
 
     private DatabaseReference mDatabase;
-    private ValueEventListener mListener;
 
     public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -143,19 +143,14 @@ public class RegistoActivity extends AppCompatActivity {
 
                 if (!emptyName && !emptyPass && !emptyConfpass && !emptyEmail && !emptyNTlm) {
 
-                    //final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+                    res = false;
                     mDatabase = FirebaseDatabase.getInstance().getReference("users");
-                    mListener = mDatabase.addValueEventListener(new ValueEventListener() {
+                    Query q = mDatabase.orderByChild("numeroTlm").equalTo(telemovelR);
+                    q.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                                User u = singleSnapshot.getValue(User.class);
-                                if (u.getNumeroTlm().equals(telemovelR)) {
                                     res = true;
-                                    break;
-                                } else {
-                                    res = false;
-                                }
                             }
 
                             if (res) {
@@ -180,12 +175,6 @@ public class RegistoActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mDatabase.removeEventListener(mListener);
     }
 
     public final static boolean isValidEmail(String email) {
