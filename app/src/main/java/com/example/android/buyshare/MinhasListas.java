@@ -39,7 +39,6 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
         mDatabase = FirebaseDatabase.getInstance().getReference("Lista");
 
-
         mListCategorias = (ListView) findViewById(R.id.listCategorias);
         mListas = (ListView) findViewById(R.id.listListasSemCat);
 
