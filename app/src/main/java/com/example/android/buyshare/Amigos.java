@@ -66,9 +66,8 @@ public class Amigos extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot singleSnapShot : dataSnapshot.getChildren()) {
-
                     User u = singleSnapShot.getValue(User.class);
-                    Map<String, String> amigos = u.getAmigos();
+                    Map<String, String> amigos = (Map<String, String>)  u.getAmigos();
 
                     if(amigos != null) {
                         for (Map.Entry<String, String> amigo : amigos.entrySet()) {
