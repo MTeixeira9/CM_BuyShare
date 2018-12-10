@@ -44,7 +44,9 @@ public class PopUpCriarGrupo extends Activity {
 
         getWindow().setLayout((int) (width * .75), (int) (height * .25));
 
+
         userLogado = getIntent().getStringExtra("userTlm");
+
 
         final Button addGrupo = (Button) findViewById(R.id.criarGrupo);
         addGrupo.setOnClickListener(new View.OnClickListener() {
@@ -55,8 +57,8 @@ public class PopUpCriarGrupo extends Activity {
                 final Intent i = new Intent();
                 final String nomeG = nomeGrupo.getText().toString();
 
-                if (!nomeG.equals("")) {
 
+                if (!nomeG.equals("")) {
                     //DatabaseReference mDataBaseG = FirebaseDatabase.getInstance().getReference("grupos");
                     final DatabaseReference mDataBaseU = FirebaseDatabase.getInstance().getReference("users");
                     mDataBaseU.addValueEventListener(new ValueEventListener() {
@@ -65,8 +67,9 @@ public class PopUpCriarGrupo extends Activity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                             for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                                Toast.makeText(getApplicationContext(), "OLA", Toast.LENGTH_LONG).show();
                                 User u = singleSnapshot.getValue(User.class);
-                                T
+                                Toast.makeText(getApplicationContext(), "Criei o user", Toast.LENGTH_LONG).show();
                                 boolean grupoJahExiste = false;
 
                                 for (Grupo g: u.getGrupos()){
