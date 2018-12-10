@@ -70,9 +70,11 @@ public class Amigos extends AppCompatActivity {
                     User u = singleSnapShot.getValue(User.class);
                     Map<String, String> amigos = u.getAmigos();
 
-                    for (Map.Entry<String, String> amigo : amigos.entrySet()) {
-                        mAdapter.add(amigo.getValue() + " " + amigo.getKey());
-                        mAdapter.notifyDataSetChanged();
+                    if(amigos != null) {
+                        for (Map.Entry<String, String> amigo : amigos.entrySet()) {
+                            mAdapter.add(amigo.getValue() + " " + amigo.getKey());
+                            mAdapter.notifyDataSetChanged();
+                        }
                     }
                 }
             }
@@ -104,7 +106,7 @@ public class Amigos extends AppCompatActivity {
         }
     }
 
-    @Override
+    /**@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
@@ -113,5 +115,5 @@ public class Amigos extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }
