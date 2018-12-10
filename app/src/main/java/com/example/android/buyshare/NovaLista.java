@@ -15,11 +15,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.buyshare.Database.Lista;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class NovaLista extends AppCompatActivity {
 
     private ArrayAdapter<String> mAdapter;
     private ListView mShoppingList;
     private EditText mItemEdit;
+    private String userTlm;
+    private DatabaseReference mDatabase;
 
     private static final String msgErrLista = "Tem de dar um nome à Lista!";
     private static final String msgErrAddProd = "Tem de inserir um produto!";
@@ -32,16 +41,32 @@ public class NovaLista extends AppCompatActivity {
         getSupportActionBar().setTitle("Nova Lista");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //ir buscar quem estah autenticado
+        userTlm = getIntent().getStringExtra("userTlm");
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("lista");
+
 
         Button guardarLista = (Button) findViewById(R.id.guardarLista);
         guardarLista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+
                 EditText nomeL = (EditText) findViewById(R.id.nomeL);
                 Intent i = new Intent();
                 String nome = nomeL.getText().toString();
 
+                List<String > compras = new ArrayList<>();
+                compras.add("Pao");
+                compras.add("Acucar");
+
+
+
+                Lista lista = new Lista(userTlm, nome, compras);
+                mDatabase.child(userTlm).setValue("lista");
+
+/*
                 if (!nome.equals("")){
                     i.putExtra("nomeL", nome);
                     setResult(RESULT_OK, i);
@@ -50,6 +75,8 @@ public class NovaLista extends AppCompatActivity {
                 else{
                     Toast.makeText(getApplicationContext(), msgErrLista, Toast.LENGTH_LONG).show();
                 }
+*/
+
             }
         });
 

@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class MinhasListas extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ArrayAdapter<String> mAdapter;
@@ -19,6 +22,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
     private String userTlm;
     private ListView mListCategorias;
     private ListView mListas;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,8 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
         //ir buscar quem estah autenticado
         userTlm = getIntent().getStringExtra("userTlm");
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("Lista");
 
 
         mListCategorias = (ListView) findViewById(R.id.listCategorias);
