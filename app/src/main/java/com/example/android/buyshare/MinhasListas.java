@@ -2,6 +2,7 @@ package com.example.android.buyshare;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,14 +13,22 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.android.buyshare.Database.Lista;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MinhasListas extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ArrayAdapter<String> mAdapter;
     private ArrayAdapter<String> mAdapter2;
-    private String userTlm;
+    private String userTlm, listaEnviar;
     private ListView mListCategorias;
     private ListView mListas;
     private DatabaseReference mDatabase;
@@ -37,7 +46,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         //ir buscar quem estah autenticado
         userTlm = getIntent().getStringExtra("userTlm");
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("Lista");
+
 
 
         mListCategorias = (ListView) findViewById(R.id.listCategorias);
@@ -48,6 +57,8 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
         mListCategorias.setAdapter(mAdapter);
         mListas.setAdapter(mAdapter2);
+
+
 
         novaCat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,34 +72,43 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MinhasListas.this, NovaLista.class);
-                startActivityForResult(i,2);
+                i.putExtra("userTlm", userTlm);
+                startActivity(i);
             }
         });
 
+        mDatabase = FirebaseDatabase.getInstance().getReference("lista");
+
+        Query q = mDatabase.orderByChild("numeroTlm").equalTo(userTlm);
+
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot singleSnapShot : dataSnapshot.getChildren()){
+
+                    Lista l = singleSnapShot.getValue(Lista.class);
+                    List<Lista> listas = new ArrayList<>();
+                    listas.add(l);
+
+                    mAdapter2.add(l.getNomeLista());
+                    mAdapter2.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
         mListas.setOnItemClickListener(this);
 
+
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1){
-            if (resultCode == RESULT_OK){
-                String nome = data.getStringExtra("nomeC");
-                //String novaCat = nome;
-                mAdapter.add(nome);
-                mAdapter.notifyDataSetChanged();
-
-            }
-        }
-        if (requestCode == 2){
-            if (resultCode == RESULT_OK){
-                String nome = data.getStringExtra("nomeL");
-                //String novaLista = nome;
-                mAdapter2.add(nome);
-                mAdapter2.notifyDataSetChanged();
-
-            }
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){

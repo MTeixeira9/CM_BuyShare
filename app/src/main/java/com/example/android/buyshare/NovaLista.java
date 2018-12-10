@@ -1,6 +1,7 @@
 package com.example.android.buyshare;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,11 +17,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.buyshare.Database.Lista;
+import com.example.android.buyshare.Database.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class NovaLista extends AppCompatActivity {
 
@@ -54,7 +61,7 @@ public class NovaLista extends AppCompatActivity {
 
 
                 EditText nomeL = (EditText) findViewById(R.id.nomeL);
-                Intent i = new Intent();
+
                 String nome = nomeL.getText().toString();
 
                 List<String > compras = new ArrayList<>();
@@ -62,20 +69,23 @@ public class NovaLista extends AppCompatActivity {
                 compras.add("Acucar");
 
 
-
                 Lista lista = new Lista(userTlm, nome, compras);
-                mDatabase.child(userTlm).setValue("lista");
+                String key = mDatabase.push().getKey();
 
-/*
+                mDatabase.child(userTlm).child(key).setValue(lista);
+               // mDatabase.child(userTlm).setValue(lista);
+
+
                 if (!nome.equals("")){
-                    i.putExtra("nomeL", nome);
-                    setResult(RESULT_OK, i);
+                    Intent i = new Intent(NovaLista.this, MinhasListas.class);
+                    i.putExtra("listaAEnviar", nome);
+                    startActivity(i);
                     finish();
                 }
                 else{
                     Toast.makeText(getApplicationContext(), msgErrLista, Toast.LENGTH_LONG).show();
                 }
-*/
+
 
             }
         });
@@ -83,7 +93,12 @@ public class NovaLista extends AppCompatActivity {
         mItemEdit = (EditText) findViewById(R.id.produtoInserido);
         mShoppingList = (ListView) findViewById(R.id.listViewItems);
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+
         mShoppingList.setAdapter(mAdapter);
+
+
+
+
 
         ImageButton addProduto = (ImageButton) findViewById(R.id.addProdButton);
         addProduto.setOnClickListener(new View.OnClickListener() {
