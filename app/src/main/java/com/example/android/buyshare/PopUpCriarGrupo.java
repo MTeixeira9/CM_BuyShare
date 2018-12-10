@@ -17,7 +17,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PopUpCriarGrupo extends Activity {
 
@@ -25,6 +29,7 @@ public class PopUpCriarGrupo extends Activity {
     private String userLogado;
     private DatabaseReference mDataBaseU;
     private Intent i;
+    private  ValueEventListener mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,29 +59,37 @@ public class PopUpCriarGrupo extends Activity {
                 final String nomeG = nomeGrupo.getText().toString();
 
                 if (!nomeG.equals("")) {
-                    //DatabaseReference mDataBaseG = FirebaseDatabase.getInstance().getReference("grupos");
+                    final DatabaseReference mDataBaseG = FirebaseDatabase.getInstance().getReference("grupos");
 
                     mDataBaseU = FirebaseDatabase.getInstance().getReference("users");
-                    mDataBaseU.addValueEventListener(new ValueEventListener() {
+                    Query q = mDataBaseU.orderByChild("numeroTlm").equalTo(userLogado);
+                    q.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            Toast.makeText(getApplicationContext(), "AQUI", Toast.LENGTH_LONG).show();
-                            for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
 
+                            for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                                Toast.makeText(getApplicationContext(), "AQUI", Toast.LENGTH_LONG).show();
                                 User u = singleSnapshot.getValue(User.class);
                                 boolean grupoJahExiste = false;
 
+                                if (u.getGrupos() != null) {
 
-                                for (String g: u.getGrupos()){
-                                    //Se o grupo jah existe
-                                    if(g.equals(nomeG)){
-                                        setResult(-1, i);
-                                        grupoJahExiste = true;
+                                    for (String g : u.getGrupos()) {
+                                        //Se o grupo jah existe
+                                        if (g.equals(nomeG)) {
+                                            setResult(-1, i);
+                                            grupoJahExiste = true;
+                                        }
                                     }
                                 }
-                                if(!grupoJahExiste){
-                                    Grupo gAdd = new Grupo(nomeG);
-                                    mDataBaseU.child("grupos").setValue(gAdd);
+                                if (!grupoJahExiste) {
+                                    Grupo gAdd = new Grupo(nomeG, u.getNome());
+                                    List<String> grupos = u.getGrupos();
+                                    grupos.add(nomeG);
+                                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                    String key = database.getReference("grupos").push().getKey();
+                                    mDataBaseU.child(userLogado).child("grupos").setValue(grupos);
+                                    mDataBaseG.child(key).setValue(gAdd);
                                     i.putExtra("nomeGrupo", nomeG);
                                     setResult(1, i);
                                     finish();
@@ -99,4 +112,5 @@ public class PopUpCriarGrupo extends Activity {
             }
         });
     }
+
 }
