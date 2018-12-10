@@ -77,17 +77,17 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         });
 
         mDatabase = FirebaseDatabase.getInstance().getReference("lista");
-
+/*
         Query q = mDatabase.orderByChild("numeroTlm").equalTo(userTlm);
 
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapShot : dataSnapshot.getChildren()){
-
+/*
                     Lista l = singleSnapShot.getValue(Lista.class);
-                    List<Lista> listas = new ArrayList<>();
-                    listas.add(l);
+                   // List<Lista> listas = new ArrayList<>();
+                    //listas.add(l);
 
                     mAdapter2.add(l.getNomeLista());
                     mAdapter2.notifyDataSetChanged();
@@ -100,7 +100,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-
+*/
 
 
         mListas.setOnItemClickListener(this);

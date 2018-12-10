@@ -60,15 +60,14 @@ public class PopUpCriarGrupo extends Activity {
                     mDataBaseU.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                            Toast.makeText(getApplicationContext(), "AQUI", Toast.LENGTH_LONG).show();
                             for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                                Toast.makeText(getApplicationContext(), "AQUI", Toast.LENGTH_LONG).show();
+
                                 User u = singleSnapshot.getValue(User.class);
                                 boolean grupoJahExiste = false;
 
 
                                 for (String g: u.getGrupos()){
-
                                     //Se o grupo jah existe
                                     if(g.equals(nomeG)){
                                         setResult(-1, i);
