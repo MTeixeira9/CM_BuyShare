@@ -21,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class PopUpCriarGrupo extends Activity {
 
     private static final String msg = "Tem de preencher ambos os campos!";
     private String userLogado;
+    private DatabaseReference mDataBaseU;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +49,9 @@ public class PopUpCriarGrupo extends Activity {
 
         userLogado = getIntent().getStringExtra("userTlm");
 
-
         final Button addGrupo = (Button) findViewById(R.id.criarGrupo);
         addGrupo.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 TextView nomeGrupo = (TextView) findViewById(R.id.nomeGrupo);
@@ -60,16 +62,15 @@ public class PopUpCriarGrupo extends Activity {
 
                 if (!nomeG.equals("")) {
                     //DatabaseReference mDataBaseG = FirebaseDatabase.getInstance().getReference("grupos");
-                    final DatabaseReference mDataBaseU = FirebaseDatabase.getInstance().getReference("users");
-                    mDataBaseU.addValueEventListener(new ValueEventListener() {
-
+                    mDataBaseU = FirebaseDatabase.getInstance().getReference("users");
+                    Query q = mDataBaseU.orderByChild("numeroTlm").equalTo(userLogado);
+                    q.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                             for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                                Toast.makeText(getApplicationContext(), "OLA", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "AQUI", Toast.LENGTH_SHORT).show();
                                 User u = singleSnapshot.getValue(User.class);
-                                Toast.makeText(getApplicationContext(), "Criei o user", Toast.LENGTH_LONG).show();
                                 boolean grupoJahExiste = false;
 
                                 for (Grupo g: u.getGrupos()){
