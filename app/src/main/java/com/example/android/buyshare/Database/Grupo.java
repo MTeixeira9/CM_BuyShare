@@ -9,7 +9,7 @@ import java.util.List;
 public class Grupo {
 
     private String nome;
-    private List<User> membrosGrupo;
+    private List<String> membrosGrupo;
 
     public Grupo(){
     }
@@ -23,7 +23,7 @@ public class Grupo {
         return nome;
     }
 
-    public List<User> getMembrosGrupo() {
+    public List<String> getMembrosGrupo() {
         return membrosGrupo;
     }
 }
