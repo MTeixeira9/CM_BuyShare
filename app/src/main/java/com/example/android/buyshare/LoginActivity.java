@@ -1,4 +1,5 @@
 package com.example.android.buyshare;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,9 +23,13 @@ import com.google.firebase.database.ValueEventListener;
 public class LoginActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
-    private String emptyFields = "Tem de preencher ambos os campos!";
-    private String loginSucess = "Sessão iniciada com sucesso!";
-    private String wrongPass = "A password inserida está errada!";
+    private static final String MSG_USER_N_EXIST_ERRO = "O user não se encontra registado";
+    private static final String MSG_EMPTY_NTLM = "Tem de preencher o número de telemóvel";
+    private static final String MSG_INV_NUM_ERRO = "O número deve conter 9 dígitos";
+    private static final String MSG_EMPTY_PASS = "Tem de inserir uma password";
+    private static final String MSG_LOGIN_SUCES = "Sessão iniciada com sucesso!";
+    private static final String MSG_WRONG_PASS = "A password inserida está errada!";
+    private boolean res, emptyNTlm, emptyPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         //BASE DE DADOS
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
 
-        TextView registar = (TextView) findViewById(R.id.tvRegistar);
-        Button entrar = (Button) findViewById(R.id.entrar);
+        TextView registar = findViewById(R.id.tvRegistar);
+        Button entrar = findViewById(R.id.entrar);
 
         registar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,16 +56,32 @@ public class LoginActivity extends AppCompatActivity {
         entrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText nTel =(EditText) findViewById(R.id.numTel);
-                EditText pass = (EditText) findViewById(R.id.passRegisto);
+                final EditText nTel = findViewById(R.id.numTel);
+                final EditText pass = findViewById(R.id.passRegisto);
 
                 final String numTelS = nTel.getText().toString();
                 final String passS = pass.getText().toString();
 
-                if (numTelS.equals("") && passS.equals(""))
-                    Toast.makeText(getApplicationContext(), emptyFields, Toast.LENGTH_LONG).show();
-                else {
+                emptyNTlm = false;
+                emptyPass = false;
 
+                if (numTelS.equals("")) {
+                    emptyNTlm = true;
+                    nTel.setError(MSG_EMPTY_NTLM);
+                }
+                else {
+                    if (numTelS.length() != 9) {
+                        nTel.setError(MSG_INV_NUM_ERRO);
+                        emptyNTlm = true;
+                    }
+                }
+                if (passS.equals("")){
+                    emptyPass = true;
+                    pass.setError(MSG_EMPTY_PASS);
+                }
+                if(!emptyNTlm && !emptyPass){
+
+                    res = false;
                     Query q = mDatabase.orderByChild("numeroTlm").equalTo(numTelS);
                     q.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -69,14 +90,20 @@ public class LoginActivity extends AppCompatActivity {
                                 String p = String.valueOf(singleSnapshot.child("password").getValue());
 
                                 if (p.equals(passS)) {
-                                    Toast.makeText(getApplicationContext(), loginSucess, Toast.LENGTH_LONG).show();
+                                    res = true;
+                                    Toast.makeText(getApplicationContext(), MSG_LOGIN_SUCES, Toast.LENGTH_LONG).show();
                                     Intent i = new Intent(getApplicationContext(), MinhasListas.class);
                                     i.putExtra("userTlm", numTelS);
                                     startActivity(i);
                                 } else {
-                                    Toast.makeText(getApplicationContext(), wrongPass, Toast.LENGTH_LONG).show();
+                                    res = true;
+                                    pass.setError(MSG_WRONG_PASS);
                                 }
                             }
+
+                            if (!res)
+                                nTel.setError(MSG_USER_N_EXIST_ERRO);
+
                         }
 
                         @Override
