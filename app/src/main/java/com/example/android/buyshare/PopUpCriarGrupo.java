@@ -57,16 +57,18 @@ public class PopUpCriarGrupo extends Activity {
 
                 if (!nomeG.equals("")) {
 
-                    DatabaseReference mDataBaseG = FirebaseDatabase.getInstance().getReference("grupos");
+                    //DatabaseReference mDataBaseG = FirebaseDatabase.getInstance().getReference("grupos");
                     final DatabaseReference mDataBaseU = FirebaseDatabase.getInstance().getReference("users");
                     mDataBaseU.addValueEventListener(new ValueEventListener() {
 
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            Grupo gAdd = new Grupo(nomeG);
+
                             for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                                 User u = singleSnapshot.getValue(User.class);
+                                T
                                 boolean grupoJahExiste = false;
+
                                 for (Grupo g: u.getGrupos()){
 
                                     //Se o grupo jah existe
@@ -76,6 +78,7 @@ public class PopUpCriarGrupo extends Activity {
                                     }
                                 }
                                 if(!grupoJahExiste){
+                                    Grupo gAdd = new Grupo(nomeG);
                                     mDataBaseU.child("grupos").setValue(gAdd);
                                     i.putExtra("nomeGrupo", nomeG);
                                     setResult(1, i);
