@@ -48,7 +48,6 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
 
 
-
         mListCategorias = (ListView) findViewById(R.id.listCategorias);
         mListas = (ListView) findViewById(R.id.listListasSemCat);
 

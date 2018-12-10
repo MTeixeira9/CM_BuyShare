@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.android.buyshare.Database.User;
 import com.google.firebase.database.DataSnapshot;
@@ -58,7 +59,7 @@ public class PopUpAddAmigo extends Activity {
                 if (!nTele.equals("")) {
                     if (nTele.length() == 9) {
                         mDatabase = FirebaseDatabase.getInstance().getReference("users");
-                        mListener = mDatabase.addValueEventListener(new ValueEventListener() {
+                        mDatabase.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
@@ -94,7 +95,9 @@ public class PopUpAddAmigo extends Activity {
                                 }
                                 //add novo amigo
                                 else {
+                                    Toast.makeText(getApplicationContext(), "ANTES", Toast.LENGTH_LONG).show();
                                     mDatabase.child(tlmUserLogado).child("amigos").child(aAdicionar.getNumeroTlm()).setValue(aAdicionar.getNome());
+                                    Toast.makeText(getApplicationContext(), "DEPOIS", Toast.LENGTH_LONG).show();
                                     i.putExtra("nTlm", aAdicionar.getNumeroTlm());
                                     i.putExtra("nomeA", aAdicionar.getNome());
                                     i.putExtra("userTlm", tlmUserLogado);

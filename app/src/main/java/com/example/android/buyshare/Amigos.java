@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,8 +30,7 @@ public class Amigos extends AppCompatActivity {
     private static final String MSG_SUCESSO = "Amigo adicionado com sucesso!";
 
     private ArrayAdapter<String> mAdapter;
-    private ListView mListAmigos;
-    String userLogado;
+    private String userLogado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class Amigos extends AppCompatActivity {
         getSupportActionBar().setTitle("Meus Amigos");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Button addAmigos = (Button) findViewById(R.id.addAmigos);
+        Button addAmigos = findViewById(R.id.addAmigos);
         userLogado = getIntent().getStringExtra("userTlm");
 
         addAmigos.setOnClickListener(new View.OnClickListener() {
@@ -48,43 +49,39 @@ public class Amigos extends AppCompatActivity {
 
                 //POPUP
                 Intent i = new Intent(Amigos.this, PopUpAddAmigo.class);
-
                 i.putExtra("userTlm", userLogado);
                 startActivityForResult(i, 1);
             }
         });
 
-        mListAmigos = (ListView) findViewById(R.id.listAmigos);
+        ListView mListAmigos = findViewById(R.id.listAmigos);
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         mListAmigos.setAdapter(mAdapter);
-
-        //Amigos da pessoa
-        //TODO
 
         //adicionar logo os amigos da base de dados
         final DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference("users");
 
         Query q = mDataBase.orderByChild("numeroTlm").equalTo(userLogado);
-
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for(DataSnapshot singleSnapShot: dataSnapshot.getChildren()){
+                for (DataSnapshot singleSnapShot : dataSnapshot.getChildren()) {
 
                     User u = singleSnapShot.getValue(User.class);
+                    Map<String, String> amigos = u.getAmigos();
 
-                        Map<String, String> amigos = u.getAmigos();
-                        for (Map.Entry<String,String> amigo: amigos.entrySet()){
+                    if(amigos != null) {
+                        for (Map.Entry<String, String> amigo : amigos.entrySet()) {
                             mAdapter.add(amigo.getValue() + " " + amigo.getKey());
                             mAdapter.notifyDataSetChanged();
                         }
+                    }
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.e("TAG", "onCancelled", databaseError.toException());
             }
         });
     }
@@ -94,14 +91,11 @@ public class Amigos extends AppCompatActivity {
         if (requestCode == 1) {
             if (resultCode == -1) {
                 Toast.makeText(getApplicationContext(), MSG_ERRO1, Toast.LENGTH_LONG).show();
-            }
-            else if (resultCode == -2) {
+            } else if (resultCode == -2) {
                 Toast.makeText(getApplicationContext(), MSG_ERRO2, Toast.LENGTH_LONG).show();
-            }
-            else if (resultCode == -3) {
+            } else if (resultCode == -3) {
                 Toast.makeText(getApplicationContext(), MSG_ERRO3, Toast.LENGTH_LONG).show();
-            }
-            else if (resultCode == 1) {
+            } else if (resultCode == 1) {
                 String nome = data.getStringExtra("nomeA");
                 String tlmv = data.getStringExtra("nTlm");
                 String novoAmigo = nome + " " + tlmv;
@@ -111,4 +105,15 @@ public class Amigos extends AppCompatActivity {
             }
         }
     }
+
+    /**@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                //NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }*/
 }

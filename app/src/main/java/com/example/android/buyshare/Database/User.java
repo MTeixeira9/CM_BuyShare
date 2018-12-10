@@ -28,8 +28,8 @@ public class User {
     private String numeroTlm;
     private String email;
     private Map<String,String> amigos;
-    private List<Grupo> grupos;
-    private List<Lista> listas;
+    private List<String> grupos;
+    private List<String> listas;
 
     public User(){
     }
@@ -64,11 +64,11 @@ public class User {
         return amigos;
     }
 
-    public List<Grupo> getGrupos() {
+    public List<String> getGrupos() {
         return grupos;
     }
 
-    public List<Lista> getListas() {
+    public List<String> getListas() {
         return listas;
     }
 
