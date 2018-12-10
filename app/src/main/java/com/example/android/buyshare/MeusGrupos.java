@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -44,11 +45,12 @@ public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemC
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1){
-            if (resultCode == RESULT_OK){
-                String nome = data.getStringExtra("nomeG");
-                String novoGrupo = nome;
-                mAdapter.add(novoGrupo);
+            if (resultCode == 1){
+                String nomeGrupo = data.getStringExtra("nomeGrupo");
+                mAdapter.add(nomeGrupo);
                 mAdapter.notifyDataSetChanged();
+            }else if(resultCode == -1){
+                Toast.makeText(getApplicationContext(), "DEU ERRO A ADD GRUPO", Toast.LENGTH_LONG).show();
             }
         }
     }

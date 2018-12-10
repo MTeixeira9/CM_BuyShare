@@ -62,6 +62,7 @@ public class User {
         return amigos;
     }
 
-
-
+    public List<Grupo> getGrupos() {
+        return grupos;
+    }
 }
