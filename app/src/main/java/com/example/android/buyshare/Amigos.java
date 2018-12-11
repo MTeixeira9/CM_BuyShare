@@ -106,9 +106,21 @@ public class Amigos extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onBackPressed() {
-        Intent i = new Intent();
+        Intent i = new Intent(Amigos.this, MinhasListas.class);
         i.putExtra("userTlm", userLogado);
-        setResult(10, i);
+        startActivity(i);
     }
 }
