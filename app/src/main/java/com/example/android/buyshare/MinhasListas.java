@@ -136,6 +136,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
             startActivity(grupos);
         }else if(id == R.id.amigos){
             Intent amigos = new Intent(MinhasListas.this, Amigos.class);
+            //amigos.set
             amigos.putExtra("userTlm", userTlm);
             startActivity(amigos);
         }else if(id == R.id.terminarS){
@@ -163,6 +164,15 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
         intent.putExtra("nameL", name);
         startActivity(intent);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 11) {
+            if(resultCode == 11) {
+                String myStr=data.getStringExtra("MyData");
+                //mTextView.setText(myStr);
+            }
+        }
     }
 
 }

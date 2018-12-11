@@ -10,13 +10,15 @@ public class Grupo {
 
     private String nome;
     private List<String> membrosGrupo;
+    private String admin;
 
     public Grupo(){
     }
 
-    public Grupo(String nome){
+    public Grupo(String nome, String admin){
         this.nome = nome;
         this.membrosGrupo = new ArrayList<>();
+        this.admin = admin;
     }
 
     public String getNome() {
@@ -25,5 +27,9 @@ public class Grupo {
 
     public List<String> getMembrosGrupo() {
         return membrosGrupo;
+    }
+
+    public String getAdmin() {
+        return admin;
     }
 }

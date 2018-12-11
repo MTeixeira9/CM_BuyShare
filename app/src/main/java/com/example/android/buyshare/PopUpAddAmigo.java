@@ -59,7 +59,7 @@ public class PopUpAddAmigo extends Activity {
                 if (!nTele.equals("")) {
                     if (nTele.length() == 9) {
                         mDatabase = FirebaseDatabase.getInstance().getReference("users");
-                        mDatabase.addValueEventListener(new ValueEventListener() {
+                        mListener = mDatabase.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
@@ -82,10 +82,12 @@ public class PopUpAddAmigo extends Activity {
                                 }
 
                                 //add um amigo que jah estah na lista dos amigos do logado
-                                else if (logado.getAmigos().get(nTele) != null) {
-                                    setResult(-1, i);
-                                    i.putExtra("userTlm", tlmUserLogado);
-                                    finish();
+                                if(logado.getAmigos()!= null) {
+                                    if (logado.getAmigos().get(nTele) != null) {
+                                        setResult(-1, i);
+                                        i.putExtra("userTlm", tlmUserLogado);
+                                        finish();
+                                    }
                                 }
                                 //nao pode ser amigo de si proprio
                                 else if (logado.getNome().equals(aAdicionar.getNome())) {
@@ -122,6 +124,12 @@ public class PopUpAddAmigo extends Activity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mDatabase.removeEventListener(mListener);
     }
 
 
