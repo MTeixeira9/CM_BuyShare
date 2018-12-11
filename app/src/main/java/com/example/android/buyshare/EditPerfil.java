@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -79,6 +80,7 @@ public class EditPerfil extends AppCompatActivity {
         setContentView(R.layout.activity_edit_perfil);
 
         getSupportActionBar().setTitle("Editar Dados");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         userTlm = getIntent().getStringExtra("userTlm");
 
@@ -297,5 +299,24 @@ public class EditPerfil extends AppCompatActivity {
         } else {
             Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(EditPerfil.this, MinhasListas.class);
+        i.putExtra("userTlm", userTlm);
+        startActivity(i);
     }
 }

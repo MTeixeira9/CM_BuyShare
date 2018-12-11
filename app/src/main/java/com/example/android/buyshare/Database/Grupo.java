@@ -19,6 +19,7 @@ public class Grupo {
         this.nome = nome;
         this.membrosGrupo = new ArrayList<>();
         this.admin = admin;
+        membrosGrupo.add(admin);
     }
 
     public String getNome() {

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -50,6 +51,7 @@ public class Perfil extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
 
         getSupportActionBar().setTitle("Meu Perfil");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button alteraDados = (Button) findViewById(R.id.alterarDados);
 
@@ -112,6 +114,25 @@ public class Perfil extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(Perfil.this, MinhasListas.class);
+        i.putExtra("userTlm", userTlm);
+        startActivity(i);
     }
 
 }
