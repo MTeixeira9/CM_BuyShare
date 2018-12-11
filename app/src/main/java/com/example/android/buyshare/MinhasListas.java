@@ -41,6 +41,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_minhas_listas);
 
         getSupportActionBar().setTitle("Minhas Listas");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button novaCat = (Button) findViewById(R.id.novaCategoria);
         Button novaLista = (Button) findViewById(R.id.novaLista);
@@ -132,7 +133,6 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
             startActivity(grupos);
         }else if(id == R.id.amigos){
             Intent amigos = new Intent(MinhasListas.this, Amigos.class);
-            //amigos.set
             amigos.putExtra("userTlm", userTlm);
             startActivity(amigos);
         }else if(id == R.id.terminarS){
@@ -157,7 +157,6 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         intent.setClass(this, MostraLista.class);
         String name = (String) parent.getItemAtPosition(position);
 
-
         intent.putExtra("nameL", name);
         intent.putExtra("userTlm", userTlm);
         startActivity(intent);
@@ -166,10 +165,8 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 11) {
             if(resultCode == 11) {
-                String myStr=data.getStringExtra("MyData");
-                //mTextView.setText(myStr);
+                userTlm = data.getStringExtra("userTlm");
             }
         }
     }
-
 }

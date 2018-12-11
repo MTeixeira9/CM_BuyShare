@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -132,5 +133,23 @@ public class PopUpAddAmigo extends Activity {
         mDatabase.removeEventListener(mListener);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(PopUpAddAmigo.this, Amigos.class);
+        i.putExtra("userTlm",tlmUserLogado);
+        startActivity(i);
+    }
 
 }
