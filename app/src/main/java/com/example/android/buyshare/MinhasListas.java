@@ -91,7 +91,6 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapShot : dataSnapshot.getChildren()){
 
-
                     Lista l = singleSnapShot.getValue(Lista.class);
 
                     List<String> listas = new ArrayList<>();
@@ -160,6 +159,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
         intent.putExtra("nameL", name);
         intent.putExtra("userTlm", userTlm);
+
         startActivity(intent);
     }
 

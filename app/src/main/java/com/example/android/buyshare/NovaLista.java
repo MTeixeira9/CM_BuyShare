@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,7 +37,7 @@ public class NovaLista extends AppCompatActivity {
     private EditText mItemEdit;
     private String userTlm;
     private DatabaseReference mDatabase;
-    private List<String> produtos;
+    private ArrayList<String> produtos;
 
     private static final String msgErrLista = "Tem de dar um nome à Lista!";
     private static final String msgErrAddProd = "Tem de inserir um produto!";
@@ -75,16 +76,28 @@ public class NovaLista extends AppCompatActivity {
                     mDatabase.child(userTlm).child(key).setValue(lista);
 
 
+                    Bundle b = new Bundle();
+                    b.putStringArrayList("listaProdutos", produtos);
+
                     Intent i = new Intent(NovaLista.this, MinhasListas.class);
                     i.putExtra("userTlm", userTlm);
                     i.putExtra("criadorLista",userTlm);
-                    i.putExtra("key", key);
+                    i.putExtras(b);
+
+                    Toast.makeText(getApplicationContext(), "TAMANHO LISTA" + produtos.size(), Toast.LENGTH_LONG).show();
+
+
+                    //i.putExtra("key", key);
                     startActivity(i);
                     finish();
                 }
                 else{
                     Toast.makeText(getApplicationContext(), msgErrLista, Toast.LENGTH_LONG).show();
                 }
+
+
+
+
 
 
             }
@@ -114,6 +127,12 @@ public class NovaLista extends AppCompatActivity {
                 else{
                     Toast.makeText(getApplicationContext(), msgErrAddProd, Toast.LENGTH_LONG).show();
                 }
+
+
+
+
+
+                // intent.putStringArrayListExtra("listaProdutos", produtos);
             }
         });
 

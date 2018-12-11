@@ -9,14 +9,14 @@ import java.util.List;
 public class Lista {
 
     private String nomeLista;
-    private List<String> produtos;
+    private ArrayList<String> produtos;
     private String criadorLista;
 
 
     public Lista(){
     }
 
-    public Lista(String criadorLista, String nomeLista, List<String> produtos  ){
+    public Lista(String criadorLista, String nomeLista, ArrayList<String> produtos  ){
         this.nomeLista = nomeLista;
         this.produtos = produtos;
         this.criadorLista = criadorLista;
@@ -26,9 +26,9 @@ public class Lista {
 
     public void setNomeLista(String nomeLista) { this.nomeLista = nomeLista; }
 
-    public List<String> getProdutos() { return produtos;}
+    public ArrayList<String> getProdutos() { return produtos;}
 
-    public void setProdutos(List<String> produtos) { this.produtos = produtos;}
+    public void setProdutos(ArrayList<String> produtos) { this.produtos = produtos;}
 
     public String getCriadorLista() {return criadorLista;}
 
