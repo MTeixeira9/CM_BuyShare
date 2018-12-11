@@ -68,7 +68,6 @@ public class PopUpCriarGrupo extends Activity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                             for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                                Toast.makeText(getApplicationContext(), "AQUI", Toast.LENGTH_LONG).show();
                                 User u = singleSnapshot.getValue(User.class);
                                 boolean grupoJahExiste = false;
 
@@ -83,15 +82,16 @@ public class PopUpCriarGrupo extends Activity {
                                     }
                                 }
                                 if (!grupoJahExiste) {
-                                    Grupo gAdd = new Grupo(nomeG, u.getNome());
+                                    Grupo gAdd = new Grupo(nomeG, u.getNumeroTlm());
                                     List<String> grupos = u.getGrupos();
 
                                     if(grupos == null){
                                         grupos = new ArrayList<>();
                                     }
-                                    grupos.add(nomeG);
+
                                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                                     String key = database.getReference("grupos").push().getKey();
+                                    grupos.add(nomeG);
                                     mDataBaseU.child(userLogado).child("grupos").setValue(grupos);
                                     mDataBaseG.child(key).setValue(gAdd);
                                     i.putExtra("nomeGrupo", nomeG);

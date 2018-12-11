@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.android.buyshare.Database.Grupo;
 import com.example.android.buyshare.Database.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +31,9 @@ public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemC
     private ArrayAdapter<String> mAdapter;
     private ListView mListGrupos;
     private String userLogado;
+    private ValueEventListener mListener;
+    private DatabaseReference mDataBaseG;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,22 +61,25 @@ public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemC
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         mListGrupos.setAdapter(mAdapter);
 
-        //adicionar logo os amigos da base de dados
-        final DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference("users");
-
-        Query q = mDataBase.orderByChild("numeroTlm").equalTo(userLogado);
-        q.addListenerForSingleValueEvent(new ValueEventListener() {
+        //adicionar logo os grupos em que a pessoa estah adicionada
+        mDataBaseG = FirebaseDatabase.getInstance().getReference("grupos");
+        mListener = mDataBaseG.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot singleSnapShot : dataSnapshot.getChildren()) {
+                if (mListGrupos.getAdapter().getCount() == 0) {
+                    for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
 
-                    User u = singleSnapShot.getValue(User.class);
-                    List<String> grupos = u.getGrupos();
 
-                    if(grupos != null) {
-                        for (String grupo : grupos) {
-                            mAdapter.add(grupo);
-                            mAdapter.notifyDataSetChanged();
+                        Grupo g = singleSnapshot.getValue(Grupo.class);
+                        List<String> membrosG = g.getMembrosGrupo();
+
+                        if (membrosG != null) {
+                            for (String membro : membrosG) {
+                                if (membro.equals(userLogado)) {
+                                    mAdapter.add(g.getNome());
+                                    mAdapter.notifyDataSetChanged();
+                                }
+                            }
                         }
                     }
                 }
@@ -80,20 +89,20 @@ public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemC
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("TAG", "onCancelled", databaseError.toException());
             }
+
+
         });
-
-
 
 
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1){
-            if (resultCode == 1){
+        if (requestCode == 1) {
+            if (resultCode == 1) {
                 String nomeGrupo = data.getStringExtra("nomeGrupo");
                 mAdapter.add(nomeGrupo);
                 mAdapter.notifyDataSetChanged();
-            }else if(resultCode == -1){
+            } else if (resultCode == -1) {
                 Toast.makeText(getApplicationContext(), "DEU ERRO A ADD GRUPO", Toast.LENGTH_LONG).show();
             }
         }
@@ -104,8 +113,15 @@ public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemC
         Intent intent = new Intent();
         intent.setClass(this, MostraGrupo.class);
         String grupo = (String) parent.getItemAtPosition(position);
+
         intent.putExtra("userLog", userLogado);
         intent.putExtra("nomeG", grupo);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mDataBaseG.removeEventListener(mListener);
     }
 }
