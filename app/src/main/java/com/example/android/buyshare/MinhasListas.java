@@ -79,12 +79,13 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
 
 
-       // key = getIntent().getStringExtra("key");
+       key = getIntent().getStringExtra("key");
 
-        Toast.makeText(getApplicationContext(), "USER TLM: " + userTlm, Toast.LENGTH_LONG).show();
-        Log.d(userTlm, "userTlm");
-        Query q = mDatabase.orderByChild(userTlm);
+        Toast.makeText(getApplicationContext(), "KEY: " + key, Toast.LENGTH_SHORT).show();
 
+       // Query q = mDatabase.child(userTlm).
+        Query q = mDatabase.child(userTlm);
+        Toast.makeText(getApplicationContext(), "PATH   " + q.getPath(), Toast.LENGTH_LONG).show();
 
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -110,8 +111,6 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
             }
         });
-
-
 
 
         mListas.setOnItemClickListener(this);

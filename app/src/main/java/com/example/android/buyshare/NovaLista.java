@@ -71,12 +71,12 @@ public class NovaLista extends AppCompatActivity {
 
 
 
-
+                String key = "";
 
                 if (!nomeLista.equals("")){
 
                     Lista lista = new Lista(userTlm, nomeLista, compras);
-                    String key = mDatabase.push().getKey();
+                    key = mDatabase.push().getKey();
 
                     mDatabase.child(userTlm).child(key).setValue(lista);
 
@@ -84,6 +84,7 @@ public class NovaLista extends AppCompatActivity {
                     Intent i = new Intent(NovaLista.this, MinhasListas.class);
                     i.putExtra("userTlm", userTlm);
                     i.putExtra("criadorLista",userTlm);
+                    i.putExtra("key", key);
                     startActivity(i);
                     finish();
                 }
