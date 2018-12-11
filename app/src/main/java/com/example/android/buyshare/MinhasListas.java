@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +29,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
     private ArrayAdapter<String> mAdapter;
     private ArrayAdapter<String> mAdapter2;
-    private String userTlm, listaEnviar;
+    private String userTlm, nomeLista, key;
     private ListView mListCategorias;
     private ListView mListas;
     private DatabaseReference mDatabase;
@@ -46,7 +47,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         //ir buscar quem estah autenticado
         userTlm = getIntent().getStringExtra("userTlm");
 
-
+        mDatabase = FirebaseDatabase.getInstance().getReference("lista");
 
         mListCategorias = (ListView) findViewById(R.id.listCategorias);
         mListas = (ListView) findViewById(R.id.listListasSemCat);
@@ -76,18 +77,28 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("lista");
-/*
-        Query q = mDatabase.orderByChild("numeroTlm").equalTo(userTlm);
+
+
+       // key = getIntent().getStringExtra("key");
+
+        Toast.makeText(getApplicationContext(), "USER TLM: " + userTlm, Toast.LENGTH_LONG).show();
+        Log.d(userTlm, "userTlm");
+        Query q = mDatabase.orderByChild(userTlm);
+
 
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapShot : dataSnapshot.getChildren()){
-/*
+
+
+                    Toast.makeText(getApplicationContext(), "Dentro for", Toast.LENGTH_LONG).show();
+
                     Lista l = singleSnapShot.getValue(Lista.class);
-                   // List<Lista> listas = new ArrayList<>();
-                    //listas.add(l);
+
+                    List<String> listas = new ArrayList<>();
+                    listas.add(l.getNomeLista());
+
 
                     mAdapter2.add(l.getNomeLista());
                     mAdapter2.notifyDataSetChanged();
@@ -100,7 +111,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-*/
+
 
 
         mListas.setOnItemClickListener(this);

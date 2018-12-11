@@ -62,23 +62,28 @@ public class NovaLista extends AppCompatActivity {
 
                 EditText nomeL = (EditText) findViewById(R.id.nomeL);
 
-                String nome = nomeL.getText().toString();
+                String nomeLista = nomeL.getText().toString();
 
                 List<String > compras = new ArrayList<>();
                 compras.add("Pao");
                 compras.add("Acucar");
 
 
-                Lista lista = new Lista(userTlm, nome, compras);
-                String key = mDatabase.push().getKey();
-
-                mDatabase.child(userTlm).child(key).setValue(lista);
-               // mDatabase.child(userTlm).setValue(lista);
 
 
-                if (!nome.equals("")){
+
+
+                if (!nomeLista.equals("")){
+
+                    Lista lista = new Lista(userTlm, nomeLista, compras);
+                    String key = mDatabase.push().getKey();
+
+                    mDatabase.child(userTlm).child(key).setValue(lista);
+
+
                     Intent i = new Intent(NovaLista.this, MinhasListas.class);
-                    i.putExtra("listaAEnviar", nome);
+                    i.putExtra("userTlm", userTlm);
+                    i.putExtra("criadorLista",userTlm);
                     startActivity(i);
                     finish();
                 }
