@@ -85,6 +85,10 @@ public class PopUpCriarGrupo extends Activity {
                                 if (!grupoJahExiste) {
                                     Grupo gAdd = new Grupo(nomeG, u.getNome());
                                     List<String> grupos = u.getGrupos();
+
+                                    if(grupos == null){
+                                        grupos = new ArrayList<>();
+                                    }
                                     grupos.add(nomeG);
                                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                                     String key = database.getReference("grupos").push().getKey();
@@ -93,6 +97,7 @@ public class PopUpCriarGrupo extends Activity {
                                     i.putExtra("nomeGrupo", nomeG);
                                     setResult(1, i);
                                     finish();
+
                                 }
 
                             }

@@ -9,15 +9,34 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 public class MostraLista extends AppCompatActivity {
+
+    private String userTlm, nomeLista;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostra_lista);
 
-        String nomeLista = getIntent().getStringExtra("nameL");
+        nomeLista = getIntent().getStringExtra("nameL");
+        userTlm = getIntent().getStringExtra("userTlm");
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+
+        Query q = mDatabase.orderByChild("numeroTlm").equalTo(userTlm);
+
+       // String nome = String.valueOf(q.g);
+
+
+        TextView listaCriadaPor = findViewById(R.id.pessoaCriaLista);
+        listaCriadaPor.setText("Lista criada por: " + userTlm);
 
         getSupportActionBar().setTitle(nomeLista);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
