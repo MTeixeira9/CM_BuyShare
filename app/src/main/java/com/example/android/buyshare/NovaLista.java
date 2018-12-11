@@ -36,6 +36,7 @@ public class NovaLista extends AppCompatActivity {
     private EditText mItemEdit;
     private String userTlm;
     private DatabaseReference mDatabase;
+    private List<String> produtos;
 
     private static final String msgErrLista = "Tem de dar um nome à Lista!";
     private static final String msgErrAddProd = "Tem de inserir um produto!";
@@ -52,7 +53,7 @@ public class NovaLista extends AppCompatActivity {
         userTlm = getIntent().getStringExtra("userTlm");
 
         mDatabase = FirebaseDatabase.getInstance().getReference("lista");
-
+        produtos = new ArrayList<>();
 
         Button guardarLista = (Button) findViewById(R.id.guardarLista);
         guardarLista.setOnClickListener(new View.OnClickListener() {
@@ -61,21 +62,14 @@ public class NovaLista extends AppCompatActivity {
 
 
                 EditText nomeL = (EditText) findViewById(R.id.nomeL);
-
                 String nomeLista = nomeL.getText().toString();
-
-                List<String > compras = new ArrayList<>();
-                compras.add("Pao");
-                compras.add("Acucar");
-
-
 
 
                 String key = "";
 
                 if (!nomeLista.equals("")){
 
-                    Lista lista = new Lista(userTlm, nomeLista, compras);
+                    Lista lista = new Lista(userTlm, nomeLista, produtos);
                     key = mDatabase.push().getKey();
 
                     mDatabase.child(userTlm).child(key).setValue(lista);
@@ -112,6 +106,7 @@ public class NovaLista extends AppCompatActivity {
             public void onClick(View v) {
                 String item = mItemEdit.getText().toString();
                 if (!item.equals("")) {
+                    produtos.add(item);
                     mAdapter.add(item);
                     mAdapter.notifyDataSetChanged();
                     mItemEdit.setText("");

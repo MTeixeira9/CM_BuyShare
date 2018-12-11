@@ -33,6 +33,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
     private ListView mListCategorias;
     private ListView mListas;
     private DatabaseReference mDatabase;
+    private ValueEventListener mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,19 +82,15 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
        key = getIntent().getStringExtra("key");
 
-        Toast.makeText(getApplicationContext(), "KEY: " + key, Toast.LENGTH_SHORT).show();
-
-       // Query q = mDatabase.child(userTlm).
         Query q = mDatabase.child(userTlm);
-        Toast.makeText(getApplicationContext(), "PATH   " + q.getPath(), Toast.LENGTH_LONG).show();
+
+       // mListener = mDatabase.
 
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapShot : dataSnapshot.getChildren()){
 
-
-                    Toast.makeText(getApplicationContext(), "Dentro for", Toast.LENGTH_LONG).show();
 
                     Lista l = singleSnapShot.getValue(Lista.class);
 
@@ -162,6 +159,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
 
         intent.putExtra("nameL", name);
+        intent.putExtra("userTlm", userTlm);
         startActivity(intent);
     }
 
