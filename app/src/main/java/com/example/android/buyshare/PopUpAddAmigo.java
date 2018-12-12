@@ -75,6 +75,9 @@ public class PopUpAddAmigo extends Activity {
                                     }
                                 }
 
+                                Toast.makeText(getApplicationContext(), logado.getNome() + " -- " + aAdicionar.getNome(),
+                                        Toast.LENGTH_LONG).show();
+
                                 //add um amigo que nao estah registado
                                 if (aAdicionar == null) {
                                     setResult(-3, i);
@@ -90,17 +93,17 @@ public class PopUpAddAmigo extends Activity {
                                         finish();
                                     }
                                 }
+
                                 //nao pode ser amigo de si proprio
-                                else if (logado.getNome().equals(aAdicionar.getNome())) {
+                                 if (logado.getNome().equals(aAdicionar.getNome())) {
                                     setResult(-2, i);
                                     i.putExtra("userTlm", tlmUserLogado);
                                     finish();
                                 }
+
                                 //add novo amigo
                                 else {
-                                    Toast.makeText(getApplicationContext(), "ANTES", Toast.LENGTH_LONG).show();
                                     mDatabase.child(tlmUserLogado).child("amigos").child(aAdicionar.getNumeroTlm()).setValue(aAdicionar.getNome());
-                                    Toast.makeText(getApplicationContext(), "DEPOIS", Toast.LENGTH_LONG).show();
                                     i.putExtra("nTlm", aAdicionar.getNumeroTlm());
                                     i.putExtra("nomeA", aAdicionar.getNome());
                                     i.putExtra("userTlm", tlmUserLogado);
