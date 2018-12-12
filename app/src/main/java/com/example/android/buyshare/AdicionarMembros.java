@@ -8,7 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.android.buyshare.Database.User;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +27,7 @@ public class AdicionarMembros extends AppCompatActivity {
 
     private ArrayAdapter<String> mAdapter;
     private String userLogado;
+    private LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +37,15 @@ public class AdicionarMembros extends AppCompatActivity {
         getSupportActionBar().setTitle("Adicionar Membros");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         userLogado = getIntent().getStringExtra("userTlm");
+        linearLayout = findViewById(R.id.linearL);
+
 
 
 
         ListView mListAmigos = findViewById(R.id.listAmigos);
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-        mListAmigos.setAdapter(mAdapter);
+        //mListAmigos.setAdapter(mAdapter);
+
 
         //adicionar logo os amigos da base de dados
         final DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference("users");
@@ -53,8 +60,11 @@ public class AdicionarMembros extends AppCompatActivity {
 
                     if(amigos != null) {
                         for (Map.Entry<String, String> amigo : amigos.entrySet()) {
-                            mAdapter.add(amigo.getValue() + " " + amigo.getKey());
-                            mAdapter.notifyDataSetChanged();
+                            CheckBox cb = new CheckBox(getApplicationContext());
+                            cb.setText(amigo.getValue());
+                            linearLayout.addView(cb);
+                            //mAdapter.add(amigo.getValue() + " " + amigo.getKey());
+                            //mAdapter.notifyDataSetChanged();
                         }
                     }
                 }

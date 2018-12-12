@@ -4,13 +4,17 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.android.buyshare.Database.Grupo;
 import com.example.android.buyshare.Database.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,13 +25,19 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
-public class MostraGrupo extends AppCompatActivity {
+public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ArrayAdapter<String> mAdapter;
     private String userLogado;
     private String nomeGrupo;
+    private ListView mListMembrosGrupo;
+    private ValueEventListener mListener;
+    private DatabaseReference mDataBaseG;
+    private String posGrupoString;
+    private int posGrupo;
 
 
     @Override
@@ -42,6 +52,9 @@ public class MostraGrupo extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button addMembros = (Button) findViewById(R.id.addMembro);
+        posGrupoString = getIntent().getStringExtra("posGrupo");
+        posGrupo = Integer.parseInt(posGrupoString);
+        Toast.makeText(getApplicationContext(), posGrupoString, Toast.LENGTH_LONG).show();
 
         addMembros.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,12 +66,88 @@ public class MostraGrupo extends AppCompatActivity {
         });
 
 
-/*
-        ListView mListAmigos = findViewById(R.id.listAmigos);
+
+        mListMembrosGrupo = (ListView) findViewById(R.id.listMembrosGrupo);
+        //mListMembrosGrupo.setOnItemClickListener(this);
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-        mListAmigos.setAdapter(mAdapter);
-*/
+        mListMembrosGrupo.setAdapter(mAdapter);
+
+        //adicionar logo os grupos em que a pessoa estah adicionada
+        mDataBaseG = FirebaseDatabase.getInstance().getReference("grupos");
+        mListener = mDataBaseG.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (mListMembrosGrupo.getAdapter().getCount() == 0) {
+                    int count = 0;
+                    for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                        Grupo g = singleSnapshot.getValue(Grupo.class);
+                        List<String> membrosG = g.getMembrosGrupo();
+                        for(String membro : membrosG){
+                            if(membro.equals(userLogado)){
+                                if(count == posGrupo){
+                                    for(String membroAdd : membrosG){
+                                        mAdapter.add(membroAdd);
+                                        mAdapter.notifyDataSetChanged();
+                                    }
+                                    count++;
+                                    break;
+                                }
+
+
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("TAG", "onCancelled", databaseError.toException());
+            }
+
+        });
+
 
     }
 
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent();
+        intent.setClass(this, AdicionarMembros.class);
+        String grupo = (String) parent.getItemAtPosition(position);
+
+        intent.putExtra("userLog", userLogado);
+        intent.putExtra("posGrupo", String.valueOf(position));
+        intent.putExtra("nomeG", grupo);
+        startActivity(intent);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(MostraGrupo.this, MeusGrupos.class);
+        i.putExtra("userTlm", userLogado);
+        startActivity(i);
+    }
+
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+
+        }
+    }
 }
