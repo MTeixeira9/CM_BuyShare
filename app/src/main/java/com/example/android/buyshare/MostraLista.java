@@ -31,10 +31,12 @@ import java.util.List;
 
 public class MostraLista extends AppCompatActivity {
 
-    private String userTlm, nomeLista, nomePessoa;
+    private String userTlm, nomeLista, nomePessoa, position;
     private DatabaseReference mDatabase;
     private TextView listaCriadaPor;
     private LinearLayout linearLayout;
+    private ValueEventListener mListener;
+    private ArrayList<String> listaProdutos;
 
 
     @Override
@@ -44,6 +46,9 @@ public class MostraLista extends AppCompatActivity {
 
         nomeLista = getIntent().getStringExtra("nameL");
         userTlm = getIntent().getStringExtra("userTlm");
+        position = getIntent().getStringExtra("position");
+
+        int pos = Integer.parseInt(position);
 
 
 
@@ -51,16 +56,60 @@ public class MostraLista extends AppCompatActivity {
         linearLayout = findViewById(R.id.linearLayoutID);
 
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("lista");
+        mDatabase = FirebaseDatabase.getInstance().getReference("listas");
+        mListener = mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    Lista l = singleSnapshot.getValue(Lista.class);
+                    String nomePessoa = l.getCriadorLista();
 
-        Query q = mDatabase.orderByChild("numeroTlm").equalTo(userTlm);
+
+                    //List<String> listas = new ArrayList<>();
+                    //listas.add(l.getNomeLista());
+
+                    listaProdutos = l.getProdutos();
+                    //Log.d(listaProdutos, "lisProdu");
+                    listaCriadaPor.setText("Lista criada por: " + nomePessoa);
+
+                        for (String a : listaProdutos) {
+                            CheckBox cb = new CheckBox(getApplicationContext());
+                            cb.setText(a);
+                            linearLayout.addView(cb);
+                        }
+
+                }
+
+
+
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+         //= l.getProdutos();
+
+
+
+
+        /*
 
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.d("[MOSTRA LISTA]Antes for", "antes for");
                 for (DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
+                    Log.d("MOSTRA LISTADentro for", "dentro for");
                     Lista l = singleSnapshot.getValue(Lista.class);
                     String nomePessoa = l.getCriadorLista();
+                    Toast.makeText(getApplicationContext(), "Nome Pessoa:" + nomePessoa, Toast.LENGTH_LONG).show();
                     ArrayList<String> listaProdutos = l.getProdutos();
                     listaCriadaPor.setText("Lista criada por: " + nomePessoa);
 
@@ -81,9 +130,7 @@ public class MostraLista extends AppCompatActivity {
             }
         });
 
-
-
-
+*/
 
 
 

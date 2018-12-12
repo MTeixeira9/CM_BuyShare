@@ -11,15 +11,18 @@ public class Lista {
     private String nomeLista;
     private ArrayList<String> produtos;
     private String criadorLista;
+    private ArrayList <String> membrosGrupo;
 
 
     public Lista(){
     }
 
-    public Lista(String criadorLista, String nomeLista, ArrayList<String> produtos  ){
+    public Lista(String criadorLista, String nomeLista, ArrayList<String> produtos ){
         this.nomeLista = nomeLista;
         this.produtos = produtos;
         this.criadorLista = criadorLista;
+        membrosGrupo = new ArrayList<>();
+        membrosGrupo.add(criadorLista);
     }
 
     public String getNomeLista() { return nomeLista;}
@@ -33,4 +36,6 @@ public class Lista {
     public String getCriadorLista() {return criadorLista;}
 
     public void setCriadorLista(String criadorLista) { this.criadorLista = criadorLista; }
+
+    public ArrayList<String> getMembrosGrupo() { return membrosGrupo; }
 }

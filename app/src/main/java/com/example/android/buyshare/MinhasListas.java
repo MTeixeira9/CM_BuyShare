@@ -11,10 +11,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.android.buyshare.Database.Lista;
+import com.example.android.buyshare.Database.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,7 +51,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         //ir buscar quem estah autenticado
         userTlm = getIntent().getStringExtra("userTlm");
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("lista");
+        mDatabase = FirebaseDatabase.getInstance().getReference("listas");
 
         mListCategorias = (ListView) findViewById(R.id.listCategorias);
         mListas = (ListView) findViewById(R.id.listListasSemCat);
@@ -80,19 +82,13 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         });
 
 
+      //mDatabase.
 
-       key = getIntent().getStringExtra("key");
-
-        Query q = mDatabase.child(userTlm);
-
-       // mListener = mDatabase.
-
-        q.addListenerForSingleValueEvent(new ValueEventListener() {
+        mListener = mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot singleSnapShot : dataSnapshot.getChildren()){
-
-                    Lista l = singleSnapShot.getValue(Lista.class);
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    Lista l = singleSnapshot.getValue(Lista.class);
 
                     List<String> listas = new ArrayList<>();
                     listas.add(l.getNomeLista());
@@ -158,6 +154,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
         intent.putExtra("nameL", name);
         intent.putExtra("userTlm", userTlm);
+        intent.putExtra("position", Integer.toString(position));
 
         startActivity(intent);
     }

@@ -39,6 +39,7 @@ public class NovaLista extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private ArrayList<String> produtos;
 
+
     private static final String msgErrLista = "Tem de dar um nome à Lista!";
     private static final String msgErrAddProd = "Tem de inserir um produto!";
 
@@ -53,7 +54,7 @@ public class NovaLista extends AppCompatActivity {
         //ir buscar quem estah autenticado
         userTlm = getIntent().getStringExtra("userTlm");
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("lista");
+        mDatabase = FirebaseDatabase.getInstance().getReference("listas");
         produtos = new ArrayList<>();
 
         Button guardarLista = (Button) findViewById(R.id.guardarLista);
@@ -73,7 +74,7 @@ public class NovaLista extends AppCompatActivity {
                     Lista lista = new Lista(userTlm, nomeLista, produtos);
                     key = mDatabase.push().getKey();
 
-                    mDatabase.child(userTlm).child(key).setValue(lista);
+                    mDatabase.child(key).setValue(lista);
 
 
                     Bundle b = new Bundle();
@@ -81,13 +82,9 @@ public class NovaLista extends AppCompatActivity {
 
                     Intent i = new Intent(NovaLista.this, MinhasListas.class);
                     i.putExtra("userTlm", userTlm);
-                    i.putExtra("criadorLista",userTlm);
                     i.putExtras(b);
 
-                    Toast.makeText(getApplicationContext(), "TAMANHO LISTA" + produtos.size(), Toast.LENGTH_LONG).show();
 
-
-                    //i.putExtra("key", key);
                     startActivity(i);
                     finish();
                 }
