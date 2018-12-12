@@ -45,15 +45,15 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostra_grupo);
 
-        nomeGrupo = getIntent().getStringExtra("nomeG");
-        userLogado = getIntent().getStringExtra("userLog");
-
         getSupportActionBar().setTitle(nomeGrupo);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Button addMembros = (Button) findViewById(R.id.addMembro);
+        nomeGrupo = getIntent().getStringExtra("nomeG");
+        userLogado = getIntent().getStringExtra("userTlm");
         posGrupoString = getIntent().getStringExtra("posGrupo");
         posGrupo = Integer.parseInt(posGrupoString);
+
+        Button addMembros = (Button) findViewById(R.id.addMembro);
         Toast.makeText(getApplicationContext(), posGrupoString, Toast.LENGTH_LONG).show();
 
         addMembros.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +61,8 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
             public void onClick(View v) {
                 Intent i = new Intent(MostraGrupo.this, AdicionarMembros.class);
                 i.putExtra("userTlm", userLogado);
+                i.putExtra("posGrupo", String.valueOf(posGrupoString));
+                i.putExtra("nomeG", nomeGrupo);
                 startActivityForResult(i, 1);
             }
         });
@@ -72,7 +74,7 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         mListMembrosGrupo.setAdapter(mAdapter);
 
-        //adicionar logo os grupos em que a pessoa estah adicionada
+        //
         mDataBaseG = FirebaseDatabase.getInstance().getReference("grupos");
         mListener = mDataBaseG.addValueEventListener(new ValueEventListener() {
             @Override
@@ -89,11 +91,11 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
                                         mAdapter.add(membroAdd);
                                         mAdapter.notifyDataSetChanged();
                                     }
-                                    count++;
-                                    break;
+
+
                                 }
 
-
+                                count++;
                             }
 
                         }
@@ -118,7 +120,7 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
         intent.setClass(this, AdicionarMembros.class);
         String grupo = (String) parent.getItemAtPosition(position);
 
-        intent.putExtra("userLog", userLogado);
+        intent.putExtra("userTlm", userLogado);
         intent.putExtra("posGrupo", String.valueOf(position));
         intent.putExtra("nomeG", grupo);
         startActivity(intent);

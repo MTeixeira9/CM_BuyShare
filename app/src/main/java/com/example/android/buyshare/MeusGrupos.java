@@ -113,7 +113,7 @@ public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemC
         intent.setClass(this, MostraGrupo.class);
         String grupo = (String) parent.getItemAtPosition(position);
 
-        intent.putExtra("userLog", userLogado);
+        intent.putExtra("userTlm", userLogado);
         intent.putExtra("posGrupo", String.valueOf(position));
         intent.putExtra("nomeG", grupo);
         startActivity(intent);
