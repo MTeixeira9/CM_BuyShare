@@ -35,7 +35,6 @@ public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemC
     private ValueEventListener mListener;
     private DatabaseReference mDataBaseG;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +68,6 @@ public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemC
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (mListGrupos.getAdapter().getCount() == 0) {
                     for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-
 
                         Grupo g = singleSnapshot.getValue(Grupo.class);
                         List<String> membrosG = g.getMembrosGrupo();
@@ -116,6 +114,7 @@ public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemC
         String grupo = (String) parent.getItemAtPosition(position);
 
         intent.putExtra("userLog", userLogado);
+        intent.putExtra("posGrupo", String.valueOf(position));
         intent.putExtra("nomeG", grupo);
         startActivity(intent);
     }

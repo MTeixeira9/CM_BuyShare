@@ -80,6 +80,8 @@
             android:parentActivityName=".Perfil" />
         <activity android:name=".MostraGrupo"
             android:parentActivityName=".MeusGrupos"></activity>
+        <activity android:name=".AdicionarMembros"
+            android:parentActivityName=".MostraGrupo"></activity>
     </application>
 
 </manifest>
