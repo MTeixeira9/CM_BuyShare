@@ -18,6 +18,9 @@
         android:title="Estimar Custo"
         app:showAsAction="never"/>
 
+    <item android:id="@+id/editarLista"
+        android:title="Estimar Custo"
+        app:showAsAction="never"/>
 
 
 </menu>

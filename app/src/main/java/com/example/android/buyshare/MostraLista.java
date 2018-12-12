@@ -32,6 +32,7 @@ public class MostraLista extends AppCompatActivity {
     private LinearLayout linearLayout;
     private ValueEventListener mListener;
     private ArrayList<String> listaProdutos;
+    private int pos;
 
 
     @Override
@@ -43,7 +44,7 @@ public class MostraLista extends AppCompatActivity {
         userTlm = getIntent().getStringExtra("userTlm");
         position = getIntent().getStringExtra("position");
 
-        final int pos = Integer.parseInt(position);
+        pos = Integer.parseInt(position);
 
 
         listaCriadaPor = findViewById(R.id.pessoaCriaLista);
@@ -88,12 +89,8 @@ public class MostraLista extends AppCompatActivity {
 
                         listaProdutos = l.getProdutos();
 
-                        Toast.makeText(getApplicationContext(), "Pos " + pos, Toast.LENGTH_LONG).show();
-
                         if (listaProdutos != null) {
-                            Toast.makeText(getApplicationContext(), "Antes do if count==pos", Toast.LENGTH_LONG).show();
                             if (count == pos) {
-                                Toast.makeText(getApplicationContext(), "Dentro do if count==pos", Toast.LENGTH_LONG).show();
                                 for (String a : listaProdutos) {
                                     CheckBox cb = new CheckBox(getApplicationContext());
                                     cb.setText(a);
@@ -208,7 +205,14 @@ public class MostraLista extends AppCompatActivity {
         } else if (id == R.id.finalizar) {
             Intent intent = new Intent(MostraLista.this, AdicionarCustoL.class);
             startActivity(intent);
-        }
+
+        } else if (id == R.id.editarLista) {
+            int count = 0;
+            if(count == pos) {
+               // Intent intent = new Intent(MostraLista.this, );
+               // startActivity(intent);
+            }
+    }
 
         return super.onOptionsItemSelected(item);
     }

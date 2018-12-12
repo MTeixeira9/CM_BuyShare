@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:text="Listas Partilhadas"
         android:textColor="@android:color/black"
         android:textSize="24sp"
@@ -41,7 +41,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="8dp"
         android:text="Listas privadas"
         android:textColor="@android:color/black"
         android:textSize="24sp"
@@ -51,7 +50,7 @@
     <ListView
         android:id="@+id/listListasSemCat"
         android:layout_width="368dp"
-        android:layout_height="141dp"
+        android:layout_height="170dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="8dp"
@@ -59,42 +58,24 @@
         android:background="@drawable/border_style"
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView32" />
 
     <!--android:background="@drawable/borda_lista_view"-->
-    <Button
-        android:id="@+id/novaCategoria"
-        android:layout_width="168dp"
-        android:layout_height="59dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/button_style"
-        android:text="Nova Categoria"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listListasSemCat" />
 
     <Button
         android:id="@+id/novaLista"
-        android:layout_width="147dp"
-        android:layout_height="59dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="158dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="112dp"
+        android:layout_marginRight="112dp"
+        android:layout_marginBottom="28dp"
         android:background="@drawable/button_style"
         android:text="Nova Lista"
+        android:textColor="@color/white"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.448"
-        app:layout_constraintStart_toEndOf="@+id/novaCategoria"
-        app:layout_constraintTop_toBottomOf="@+id/listListasSemCat" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

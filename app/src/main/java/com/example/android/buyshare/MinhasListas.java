@@ -32,7 +32,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
     private ArrayAdapter<String> mAdapter;
     private ArrayAdapter<String> mAdapter2;
     private String userTlm, nomeLista, key;
-    private ListView mListCategorias;
+    private ListView mListasPartilhadas;
     private ListView mListas;
     private DatabaseReference mDatabase;
     private ValueEventListener mListener;
@@ -44,7 +44,6 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
         getSupportActionBar().setTitle("Minhas Listas");
 
-        Button novaCat = (Button) findViewById(R.id.novaCategoria);
         Button novaLista = (Button) findViewById(R.id.novaLista);
 
         //ir buscar quem estah autenticado
@@ -52,24 +51,16 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
 
-        mListCategorias = (ListView) findViewById(R.id.listCategorias);
+        mListasPartilhadas = (ListView) findViewById(R.id.listCategorias);
         mListas = (ListView) findViewById(R.id.listListasSemCat);
 
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         mAdapter2 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
 
-        mListCategorias.setAdapter(mAdapter);
+        mListasPartilhadas.setAdapter(mAdapter);
         mListas.setAdapter(mAdapter2);
 
 
-
-        novaCat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MinhasListas.this, PopUpCategoria.class);
-                startActivityForResult(i, 1);
-            }
-        });
 
         novaLista.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +72,6 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         });
 
 
-      //mDatabase.
 
         mListener = mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -100,6 +90,8 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
                             mAdapter2.add(l.getNomeLista());
                             mAdapter2.notifyDataSetChanged();
                         }
+                        // ELSE:
+                        //Adicionar as listas partilhas
                     }
                 }
             }
