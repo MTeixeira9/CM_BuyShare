@@ -54,7 +54,6 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
         posGrupo = Integer.parseInt(posGrupoString);
 
         Button addMembros = (Button) findViewById(R.id.addMembro);
-        Toast.makeText(getApplicationContext(), posGrupoString, Toast.LENGTH_LONG).show();
 
         addMembros.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,13 +90,9 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
                                         mAdapter.add(membroAdd);
                                         mAdapter.notifyDataSetChanged();
                                     }
-
-
                                 }
-
                                 count++;
                             }
-
                         }
                     }
                 }

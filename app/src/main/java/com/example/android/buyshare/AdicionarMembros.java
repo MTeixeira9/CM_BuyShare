@@ -58,9 +58,6 @@ public class AdicionarMembros extends AppCompatActivity {
 
         adicionar = (Button) findViewById(R.id.addAmigo);
 
-        Toast.makeText(getApplicationContext(), "OLAAAAAAAAA " + nomeGrupo+ " "+posGrupoString , Toast.LENGTH_LONG ).show();
-
-
         ListView mListAmigos = findViewById(R.id.listAmigos);
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         //mListAmigos.setAdapter(mAdapter);
@@ -96,16 +93,16 @@ public class AdicionarMembros extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(AdicionarMembros.this, MostraGrupo.class);
-                        i.putExtra("userTlm", userLogado);
-                        i.putExtra("nomeG", nomeGrupo);
-                        i.putExtra("posGrupo", posGrupoString);
+
                         paraAdicionar = new ArrayList<>();
                         for(int a = 0;a<=amigos.size();a++){
                             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                 @Override
                                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    Toast.makeText(getApplicationContext(), "AQUIIII", Toast.LENGTH_LONG).show();
                                     if (isChecked) {
                                         String[] add = cb.getText().toString().split("\\|");
+                                        Toast.makeText(getApplicationContext(), add[1], Toast.LENGTH_LONG).show();
                                         paraAdicionar.add(add[1]);
                                     }
                                 }
@@ -119,11 +116,14 @@ public class AdicionarMembros extends AppCompatActivity {
                                 int count = 0;
                                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                                     Grupo g = singleSnapshot.getValue(Grupo.class);
-                                    List<String> membrosG = g.getMembrosGrupo();
-
-                                    for(String numAdd : paraAdicionar){
-                                        membrosG.add(numAdd);
+                                    if(g.getAdmin().equals(userLogado) && g.getNome().equals(nomeGrupo)){
+                                        List<String> membrosG = g.getMembrosGrupo();
+                                        for(String numAdd : paraAdicionar){
+                                            membrosG.add(numAdd);
+                                        }
+                                        //mDataBaseG.child(mDataBase.push().getKey()).child("membrosGrupo").setValue(membrosG);
                                     }
+
                                 }
                             }
 
@@ -133,6 +133,9 @@ public class AdicionarMembros extends AppCompatActivity {
                             }
 
                         });
+                        i.putExtra("userTlm", userLogado);
+                        i.putExtra("nomeG", nomeGrupo);
+                        i.putExtra("posGrupo", posGrupoString);
                         startActivity(i);
                     }
                 });
@@ -149,7 +152,6 @@ public class AdicionarMembros extends AppCompatActivity {
 
 
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
