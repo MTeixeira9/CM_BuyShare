@@ -43,7 +43,6 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_minhas_listas);
 
         getSupportActionBar().setTitle("Minhas Listas");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button novaCat = (Button) findViewById(R.id.novaCategoria);
         Button novaLista = (Button) findViewById(R.id.novaLista);
@@ -171,5 +170,11 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
                 userTlm = data.getStringExtra("userTlm");
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(MinhasListas.this, LoginActivity.class); 
+        startActivity(i);
     }
 }
