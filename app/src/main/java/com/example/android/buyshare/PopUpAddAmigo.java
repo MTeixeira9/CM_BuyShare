@@ -77,36 +77,30 @@ public class PopUpAddAmigo extends Activity {
                                     }
                                 }
 
-                                nullAdd = false;
-                                proprio = false;
-                                alreadyFriend = false;
-
+                                //jah esta na lista de amigos do logado
+                                if (logado.getAmigos() != null) {
+                                    if (logado.getAmigos().get(nTele) != null) {
+                                        nTelemovel.setError(MSG_ERRO1);
+                                        return;
+                                    }
+                                }
                                 //add um amigo que nao estah registado
                                 if (aAdicionar == null) {
                                     nTelemovel.setError(MSG_ERRO3);
-                                    nullAdd = true;
-                                }
-                                if (!nullAdd) {
+                                    return;
+                                } else {
+                                    //add a si proprio
                                     if (logado.getNome().equals(aAdicionar.getNome())) {
                                         nTelemovel.setError(MSG_ERRO2);
-                                        proprio = true;
+                                        return;
                                     }
-                                    if (!proprio) {
-                                        if (logado.getAmigos() != null) {
-                                            if (logado.getAmigos().get(nTele) != null) {
-                                                nTelemovel.setError(MSG_ERRO1);
-                                                alreadyFriend = true;
-                                            }
-                                        } else {
-                                            if (!alreadyFriend) {
-                                                mDatabase.child(tlmUserLogado).child("amigos").child(aAdicionar.getNumeroTlm()).setValue(aAdicionar.getNome());
-                                                i.putExtra("nTlm", aAdicionar.getNumeroTlm());
-                                                i.putExtra("nomeA", aAdicionar.getNome());
-                                                i.putExtra("userTlm", tlmUserLogado);
-                                                setResult(1, i);
-                                                finish();
-                                            }
-                                        }
+                                     else {
+                                        mDatabase.child(tlmUserLogado).child("amigos").child(aAdicionar.getNumeroTlm()).setValue(aAdicionar.getNome());
+                                        i.putExtra("nTlm", aAdicionar.getNumeroTlm());
+                                        i.putExtra("nomeA", aAdicionar.getNome());
+                                        i.putExtra("userTlm", tlmUserLogado);
+                                        setResult(1, i);
+                                        finish();
                                     }
                                 }
                             }
@@ -124,6 +118,7 @@ public class PopUpAddAmigo extends Activity {
                 } else {
                     nTelemovel.setError(MSG_ERRO);
                 }
+                return;
             }
         });
     }
