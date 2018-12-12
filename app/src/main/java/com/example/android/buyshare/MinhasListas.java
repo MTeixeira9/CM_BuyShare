@@ -166,7 +166,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(MinhasListas.this, LoginActivity.class); 
+        Intent i = new Intent(MinhasListas.this, LoginActivity.class);
         startActivity(i);
     }
 }
