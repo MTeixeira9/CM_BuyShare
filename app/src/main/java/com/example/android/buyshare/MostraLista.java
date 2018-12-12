@@ -11,8 +11,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.buyshare.Database.Lista;
+import com.example.android.buyshare.Database.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +27,7 @@ import java.util.ArrayList;
 public class MostraLista extends AppCompatActivity {
 
     private String userTlm, nomeLista, nomePessoa, position;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase, mDatabase2;
     private TextView listaCriadaPor;
     private LinearLayout linearLayout;
     private ValueEventListener mListener;
@@ -41,8 +43,7 @@ public class MostraLista extends AppCompatActivity {
         userTlm = getIntent().getStringExtra("userTlm");
         position = getIntent().getStringExtra("position");
 
-        int pos = Integer.parseInt(position);
-
+        final int pos = Integer.parseInt(position);
 
 
         listaCriadaPor = findViewById(R.id.pessoaCriaLista);
@@ -50,33 +51,64 @@ public class MostraLista extends AppCompatActivity {
 
 
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
+        mDatabase2 = FirebaseDatabase.getInstance().getReference("users");
+
+
         mListener = mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int count = 0;
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                     Lista l = singleSnapshot.getValue(Lista.class);
-                    String nomePessoa = l.getCriadorLista();
-
-
-                    //List<String> listas = new ArrayList<>();
-                    //listas.add(l.getNomeLista());
-
-                    listaProdutos = l.getProdutos();
-                    //Log.d(listaProdutos, "lisProdu");
-                    listaCriadaPor.setText("Lista criada por: " + nomePessoa);
-
-                        for (String a : listaProdutos) {
-                            CheckBox cb = new CheckBox(getApplicationContext());
-                            cb.setText(a);
-                            linearLayout.addView(cb);
+                    Query q = mDatabase2.orderByChild("numeroTlm").equalTo(userTlm);
+                    q.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
+                                String nome = String.valueOf(singleSnapshot.child("nome").getValue());
+                                listaCriadaPor.setText("Lista criada por: " + nome);
+                            }
                         }
 
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+                    String nomePessoa = l.getCriadorLista();
+                    if (nomePessoa.equals(userTlm))
+
+                    {
+
+
+                        //List<String> listas = new ArrayList<>();
+                        //listas.add(l.getNomeLista());
+
+                        listaProdutos = l.getProdutos();
+
+                        Toast.makeText(getApplicationContext(), "Pos " + pos, Toast.LENGTH_LONG).show();
+
+                        if (listaProdutos != null) {
+                            Toast.makeText(getApplicationContext(), "Antes do if count==pos", Toast.LENGTH_LONG).show();
+                            if (count == pos) {
+                                Toast.makeText(getApplicationContext(), "Dentro do if count==pos", Toast.LENGTH_LONG).show();
+                                for (String a : listaProdutos) {
+                                    CheckBox cb = new CheckBox(getApplicationContext());
+                                    cb.setText(a);
+                                    linearLayout.addView(cb);
+                                }
+                                break;
+
+
+                            }
+
+
+                        }
+                        count++;
+                    }
                 }
-
-
-
-
-
 
 
             }
@@ -87,7 +119,7 @@ public class MostraLista extends AppCompatActivity {
             }
         });
 
-         //= l.getProdutos();
+        //= l.getProdutos();
 
 
 
@@ -126,15 +158,17 @@ public class MostraLista extends AppCompatActivity {
 */
 
 
-
         //listaCriadaPor.setText("Lista criada por: " + nomePessoa);
 
         getSupportActionBar().setTitle(nomeLista);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button guardar = (Button) findViewById(R.id.addAmigo);
 
-        guardar.setOnClickListener(new View.OnClickListener() {
+        guardar.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MostraLista.this, MinhasListas.class);
@@ -145,7 +179,7 @@ public class MostraLista extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mostralista, menu);
         return true;
     }
@@ -154,20 +188,24 @@ public class MostraLista extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        if(id == R.id.addMembros){
+        if(id == android.R.id.home) {
+                onBackPressed();
+                return  true;
+        }
+         else if (id == R.id.addMembros) {
             Intent addMembros = new Intent(MostraLista.this, AdicionarMembrosMostraLista.class);
             startActivity(addMembros);
 
-        }else if(id == R.id.verMembros){
+        } else if (id == R.id.verMembros) {
             Intent amigos = new Intent(MostraLista.this, VerMembros.class);
             startActivity(amigos);
 
-        }else if(id == R.id.estimarCusto){
+        } else if (id == R.id.estimarCusto) {
 
             Intent amigos = new Intent(MostraLista.this, EstimarCustoLista.class);
             startActivity(amigos);
 
-        }else if(id == R.id.finalizar) {
+        } else if (id == R.id.finalizar) {
             Intent intent = new Intent(MostraLista.this, AdicionarCustoL.class);
             startActivity(intent);
         }
@@ -175,9 +213,10 @@ public class MostraLista extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*
-    public void onCheckList (ArrayList<String> listaProdutos){
-        CheckBox checkBox = findViewById(R.id.)
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(MostraLista.this, MinhasListas.class);
+        i.putExtra("userTlm", userTlm);
+        startActivity(i);
     }
-    */
 }

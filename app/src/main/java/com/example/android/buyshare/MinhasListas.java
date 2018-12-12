@@ -87,15 +87,21 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         mListener = mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                    Lista l = singleSnapshot.getValue(Lista.class);
+                if (mListas.getAdapter().getCount() == 0) {
+                    for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
 
-                    List<String> listas = new ArrayList<>();
-                    listas.add(l.getNomeLista());
+                        Lista l = singleSnapshot.getValue(Lista.class);
+                        ArrayList<String > meusGrupos = l.getMembrosGrupo();
+
+                        if(meusGrupos.contains(userTlm)) {
+                            List<String> listas = new ArrayList<>();
+                            listas.add(l.getNomeLista());
 
 
-                    mAdapter2.add(l.getNomeLista());
-                    mAdapter2.notifyDataSetChanged();
+                            mAdapter2.add(l.getNomeLista());
+                            mAdapter2.notifyDataSetChanged();
+                        }
+                    }
                 }
             }
 
