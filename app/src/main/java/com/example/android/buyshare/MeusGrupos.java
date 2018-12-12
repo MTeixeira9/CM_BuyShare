@@ -35,7 +35,6 @@ public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemC
     private ValueEventListener mListener;
     private DatabaseReference mDataBaseG;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
