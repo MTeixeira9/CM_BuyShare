@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.android.buyshare.Database.User;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +20,9 @@ import com.google.firebase.database.ValueEventListener;
 public class PopUpAddAmigo extends Activity {
 
     private static final String MSG_ERRO = "Tem de preencher este campo!";
+    private static final String MSG_ERRO1 = "O utilizador já se encontra na sua lista de amigos!";
+    private static final String MSG_ERRO2 = "Não pode ser amigo de si próprio!";
+    private static final String MSG_ERRO3 = "O utilizador que quer adicionar não está registado!";
     private static final String MSG_INV_NUM_ERRO = "O número deve conter 9 dígitos";
 
     private User aAdicionar;
@@ -30,6 +31,7 @@ public class PopUpAddAmigo extends Activity {
     private Intent i;
     private DatabaseReference mDatabase;
     private ValueEventListener mListener;
+    private boolean nullAdd, proprio, alreadyFriend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,7 @@ public class PopUpAddAmigo extends Activity {
         addAmigo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText nTelemovel = findViewById(R.id.nTelemovel);
+                final EditText nTelemovel = findViewById(R.id.nTelemovel);
 
                 i = new Intent();
                 final String nTele = nTelemovel.getText().toString();
@@ -75,40 +77,37 @@ public class PopUpAddAmigo extends Activity {
                                     }
                                 }
 
-                                Toast.makeText(getApplicationContext(), logado.getNome() + " -- " + aAdicionar.getNome(),
-                                        Toast.LENGTH_LONG).show();
+                                nullAdd = false;
+                                proprio = false;
+                                alreadyFriend = false;
 
                                 //add um amigo que nao estah registado
                                 if (aAdicionar == null) {
-                                    setResult(-3, i);
-                                    i.putExtra("userTlm", tlmUserLogado);
-                                    finish();
+                                    nTelemovel.setError(MSG_ERRO3);
+                                    nullAdd = true;
                                 }
-
-                                //add um amigo que jah estah na lista dos amigos do logado
-                                if(logado.getAmigos()!= null) {
-                                    if (logado.getAmigos().get(nTele) != null) {
-                                        setResult(-1, i);
-                                        i.putExtra("userTlm", tlmUserLogado);
-                                        finish();
+                                if (!nullAdd) {
+                                    if (logado.getNome().equals(aAdicionar.getNome())) {
+                                        nTelemovel.setError(MSG_ERRO2);
+                                        proprio = true;
                                     }
-                                }
-
-                                //nao pode ser amigo de si proprio
-                                 if (logado.getNome().equals(aAdicionar.getNome())) {
-                                    setResult(-2, i);
-                                    i.putExtra("userTlm", tlmUserLogado);
-                                    finish();
-                                }
-
-                                //add novo amigo
-                                else {
-                                    mDatabase.child(tlmUserLogado).child("amigos").child(aAdicionar.getNumeroTlm()).setValue(aAdicionar.getNome());
-                                    i.putExtra("nTlm", aAdicionar.getNumeroTlm());
-                                    i.putExtra("nomeA", aAdicionar.getNome());
-                                    i.putExtra("userTlm", tlmUserLogado);
-                                    setResult(1, i);
-                                    finish();
+                                    if (!proprio) {
+                                        if (logado.getAmigos() != null) {
+                                            if (logado.getAmigos().get(nTele) != null) {
+                                                nTelemovel.setError(MSG_ERRO1);
+                                                alreadyFriend = true;
+                                            }
+                                        } else {
+                                            if (!alreadyFriend) {
+                                                mDatabase.child(tlmUserLogado).child("amigos").child(aAdicionar.getNumeroTlm()).setValue(aAdicionar.getNome());
+                                                i.putExtra("nTlm", aAdicionar.getNumeroTlm());
+                                                i.putExtra("nomeA", aAdicionar.getNome());
+                                                i.putExtra("userTlm", tlmUserLogado);
+                                                setResult(1, i);
+                                                finish();
+                                            }
+                                        }
+                                    }
                                 }
                             }
 
@@ -119,8 +118,7 @@ public class PopUpAddAmigo extends Activity {
 
 
                         });
-                    }
-                    else{
+                    } else {
                         nTelemovel.setError(MSG_INV_NUM_ERRO);
                     }
                 } else {
@@ -133,26 +131,9 @@ public class PopUpAddAmigo extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mDatabase.removeEventListener(mListener);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // app icon in action bar clicked; go home
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        Intent i = new Intent(PopUpAddAmigo.this, Amigos.class);
-        i.putExtra("userTlm",tlmUserLogado);
-        startActivity(i);
+        if (mListener != null)
+            mDatabase.removeEventListener(mListener);
     }
 
 }
