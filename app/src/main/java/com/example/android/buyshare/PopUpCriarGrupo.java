@@ -82,21 +82,25 @@ public class PopUpCriarGrupo extends Activity {
                                     }
                                 }
                                 if (!grupoJahExiste) {
-                                    Grupo gAdd = new Grupo(nomeG, u.getNumeroTlm());
+                                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                    String key = database.getReference("grupos").push().getKey();
+                                    Grupo gAdd = new Grupo(nomeG, u.getNumeroTlm(), key);
                                     List<String> grupos = u.getGrupos();
 
                                     if(grupos == null){
                                         grupos = new ArrayList<>();
                                     }
 
-                                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                    String key = database.getReference("grupos").push().getKey();
                                     grupos.add(nomeG);
-                                    mDataBaseU.child(userLogado).child("grupos").setValue(grupos);
-                                    mDataBaseG.child(key).setValue(gAdd);
-                                    i.putExtra("nomeGrupo", nomeG);
-                                    setResult(1, i);
-                                    finish();
+
+
+                                        mDataBaseU.child(userLogado).child("grupos").setValue(grupos);
+                                        mDataBaseG.child(key).setValue(gAdd);
+                                        i.putExtra("nomeGrupo", nomeG);
+                                        setResult(1, i);
+                                        finish();
+
+
 
                                 }
 

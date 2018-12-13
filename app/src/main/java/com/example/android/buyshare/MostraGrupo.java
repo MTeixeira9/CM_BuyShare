@@ -45,14 +45,14 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostra_grupo);
 
-        getSupportActionBar().setTitle(nomeGrupo);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         nomeGrupo = getIntent().getStringExtra("nomeG");
         userLogado = getIntent().getStringExtra("userTlm");
         posGrupoString = getIntent().getStringExtra("posGrupo");
         posGrupo = Integer.parseInt(posGrupoString);
-
+        getSupportActionBar().setTitle(nomeGrupo);
         Button addMembros = (Button) findViewById(R.id.addMembro);
 
         addMembros.setOnClickListener(new View.OnClickListener() {
@@ -65,8 +65,6 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
                 startActivityForResult(i, 1);
             }
         });
-
-
 
         mListMembrosGrupo = (ListView) findViewById(R.id.listMembrosGrupo);
         //mListMembrosGrupo.setOnItemClickListener(this);
@@ -144,7 +142,16 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
+            if(resultCode == 1){
+                userLogado = data.getStringExtra("userTlm");
+                nomeGrupo = data.getStringExtra("nomeG");
+                posGrupoString = data.getStringExtra("posGrupo");
+                mAdapter.add(nomeGrupo);
+                mAdapter.notifyDataSetChanged();
 
+            } else if(resultCode == -1){
+
+            }
         }
     }
 }

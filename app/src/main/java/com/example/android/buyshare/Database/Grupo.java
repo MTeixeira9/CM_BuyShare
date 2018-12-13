@@ -11,15 +11,17 @@ public class Grupo {
     private String nome;
     private List<String> membrosGrupo;
     private String admin;
+    private String idG;
 
     public Grupo(){
     }
 
-    public Grupo(String nome, String admin){
+    public Grupo(String nome, String admin, String idG){
         this.nome = nome;
         this.membrosGrupo = new ArrayList<>();
         this.admin = admin;
         membrosGrupo.add(admin);
+        this.idG = idG;
     }
 
     public String getNome() {
@@ -32,5 +34,9 @@ public class Grupo {
 
     public String getAdmin() {
         return admin;
+    }
+
+    public String getIdG() {
+        return idG;
     }
 }
