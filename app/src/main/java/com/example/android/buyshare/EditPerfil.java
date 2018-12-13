@@ -315,7 +315,7 @@ public class EditPerfil extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(EditPerfil.this, MinhasListas.class);
+        Intent i = new Intent(EditPerfil.this, Perfil.class);
         i.putExtra("userTlm", userTlm);
         startActivity(i);
     }
