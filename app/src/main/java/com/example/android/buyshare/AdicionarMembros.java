@@ -56,6 +56,8 @@ public class AdicionarMembros extends AppCompatActivity {
         nomeGrupo = getIntent().getStringExtra("nomeG");
         posGrupoString = getIntent().getStringExtra("posGrupo");
 
+        getSupportActionBar().setTitle(nomeGrupo);
+
         adicionar = (Button) findViewById(R.id.addAmigo);
 
         ListView mListAmigos = findViewById(R.id.listAmigos);
@@ -74,9 +76,9 @@ public class AdicionarMembros extends AppCompatActivity {
 
                 for (DataSnapshot singleSnapShot : dataSnapshot.getChildren()) {
                     User u = singleSnapShot.getValue(User.class);
-                    amigos = (Map<String, String>)  u.getAmigos();
+                    amigos = (Map<String, String>) u.getAmigos();
 
-                    if(amigos != null) {
+                    if (amigos != null) {
                         for (Map.Entry<String, String> amigo : amigos.entrySet()) {
                             cb = new CheckBox(getApplicationContext());
                             cb.setText(amigo.getValue() + "|" + amigo.getKey());
@@ -90,23 +92,29 @@ public class AdicionarMembros extends AppCompatActivity {
                 //botao
 
                 adicionar.setOnClickListener(new View.OnClickListener() {
+
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(AdicionarMembros.this, MostraGrupo.class);
 
                         paraAdicionar = new ArrayList<>();
-                        for(int a = 0;a<=amigos.size();a++){
-                            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                @Override
-                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                    Toast.makeText(getApplicationContext(), "AQUIIII", Toast.LENGTH_LONG).show();
-                                    if (isChecked) {
-                                        String[] add = cb.getText().toString().split("\\|");
-                                        Toast.makeText(getApplicationContext(), add[1], Toast.LENGTH_LONG).show();
-                                        paraAdicionar.add(add[1]);
-                                    }
+                        for (int a = 0; a <= linearLayout.getChildCount(); a++) {
+
+                            View view = linearLayout.getChildAt(a);
+                            if (view instanceof CheckBox) {
+                                CheckBox c = (CheckBox) view;
+                                //cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                //  @Override
+                                //public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                                if (c.isChecked()) {
+                                    Toast.makeText(getApplicationContext(), "DEPOISSS", Toast.LENGTH_LONG).show();
+                                    String[] add = c.getText().toString().split("\\|");
+                                    Toast.makeText(getApplicationContext(), add[1], Toast.LENGTH_LONG).show();
+                                    paraAdicionar.add(add[1]);
                                 }
-                            });
+
+                            }
                         }
 
                         mDataBaseG = FirebaseDatabase.getInstance().getReference("grupos");
@@ -116,12 +124,15 @@ public class AdicionarMembros extends AppCompatActivity {
                                 int count = 0;
                                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                                     Grupo g = singleSnapshot.getValue(Grupo.class);
-                                    if(g.getAdmin().equals(userLogado) && g.getNome().equals(nomeGrupo)){
+
+                                    if (g.getAdmin().equals(userLogado) && g.getNome().equals(nomeGrupo)) {
                                         List<String> membrosG = g.getMembrosGrupo();
-                                        for(String numAdd : paraAdicionar){
-                                            membrosG.add(numAdd);
+                                        for (String numAdd : paraAdicionar) {
+                                            if(!g.getMembrosGrupo().contains(numAdd)) {
+                                                membrosG.add(numAdd);
+                                            }
                                         }
-                                        //mDataBaseG.child(mDataBase.push().getKey()).child("membrosGrupo").setValue(membrosG);
+                                        mDataBaseG.child(g.getIdG()).child("membrosGrupo").setValue(membrosG);
                                     }
 
                                 }
@@ -136,10 +147,10 @@ public class AdicionarMembros extends AppCompatActivity {
                         i.putExtra("userTlm", userLogado);
                         i.putExtra("nomeG", nomeGrupo);
                         i.putExtra("posGrupo", posGrupoString);
+                        setResult(1, i);
                         startActivity(i);
                     }
                 });
-
 
 
             }
@@ -173,5 +184,11 @@ public class AdicionarMembros extends AppCompatActivity {
         i.putExtra("posGrupo", posGrupoString);
 
         startActivity(i);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mDataBaseG.removeEventListener(mListener);
     }
 }
