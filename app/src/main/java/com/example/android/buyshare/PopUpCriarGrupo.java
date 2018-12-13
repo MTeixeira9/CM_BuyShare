@@ -92,8 +92,6 @@ public class PopUpCriarGrupo extends Activity {
                                     }
 
                                     grupos.add(nomeG);
-
-
                                         //mDataBaseU.child(userLogado).child("grupos").setValue(grupos);
                                         mDataBaseG.child(key).setValue(gAdd);
                                         i.putExtra("nomeGrupo", nomeG);
