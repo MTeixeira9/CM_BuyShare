@@ -36,8 +36,10 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
     private ListView mListMembrosGrupo;
     private ValueEventListener mListener;
     private DatabaseReference mDataBaseG;
+    private DatabaseReference mDataBaseU;
     private String posGrupoString;
     private int posGrupo;
+    private String nomeAdd;
 
 
     @Override
@@ -73,6 +75,7 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
 
         //
         mDataBaseG = FirebaseDatabase.getInstance().getReference("grupos");
+        mDataBaseU = FirebaseDatabase.getInstance().getReference("users");
         mListener = mDataBaseG.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -84,9 +87,30 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
                         for(String membro : membrosG){
                             if(membro.equals(userLogado)){
                                 if(count == posGrupo){
-                                    for(String membroAdd : membrosG){
-                                        mAdapter.add(membroAdd);
-                                        mAdapter.notifyDataSetChanged();
+                                    for(final String numAdd : membrosG){
+
+                                        Query q = mDataBaseU.orderByChild("numeroTlm").equalTo(numAdd);
+                                        q.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                for (DataSnapshot singleSnapShot : dataSnapshot.getChildren()) {
+                                                    User u = singleSnapShot.getValue(User.class);
+
+                                                    nomeAdd = u.getNome();
+                                                }
+                                                mAdapter.add(nomeAdd + " " + numAdd );
+                                                mAdapter.notifyDataSetChanged();
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                Log.e("TAG", "onCancelled", databaseError.toException());
+                                            }
+                                        });
+
+
+
+
                                     }
                                 }
                                 count++;
