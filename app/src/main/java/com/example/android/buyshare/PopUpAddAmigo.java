@@ -93,6 +93,14 @@ public class PopUpAddAmigo extends Activity {
                                         i.putExtra("userTlm", tlmUserLogado);
                                         finish();
                                     }
+                                    else {
+                                        mDatabase.child(tlmUserLogado).child("amigos").child(aAdicionar.getNumeroTlm()).setValue(aAdicionar.getNome());
+                                        i.putExtra("nTlm", aAdicionar.getNumeroTlm());
+                                        i.putExtra("nomeA", aAdicionar.getNome());
+                                        i.putExtra("userTlm", tlmUserLogado);
+                                        setResult(1, i);
+                                        finish();
+                                    }
                                 }
                                  else {
                                     mDatabase.child(tlmUserLogado).child("amigos").child(aAdicionar.getNumeroTlm()).setValue(aAdicionar.getNome());
