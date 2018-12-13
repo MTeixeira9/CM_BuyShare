@@ -26,9 +26,44 @@ public class Arquivo extends AppCompatActivity {
         //ir buscar quem estah autenticado
         userTlm = getIntent().getStringExtra("userTlm");
 
-        listaArq = (ListView) findViewById(R.id.listasArquivadas);
+        listaArq = findViewById(R.id.listasArquivadas);
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         listaArq.setAdapter(mAdapter);
+
+        /*
+
+        ...
+setListAdapter(lists);
+registerForContextMenu(getListView());
+Then you provide code ot create the context menu (you can create it from an XML resource too, but I don't have an example of that handy):
+
+@Override
+public void onCreateContextMenu(ContextMenu menu, View v,
+        ContextMenuInfo menuInfo) {
+    super.onCreateContextMenu(menu, v, menuInfo);
+    menu.setHeaderTitle("Item Operations");
+    menu.add(0, v.getId(), 0, "Edit Item");
+    menu.add(0, v.getId(), 0, "Delete Item");
+}
+Then you provide the code to handle the options in the menu:
+
+@Override
+public boolean onContextItemSelected(MenuItem item) {
+    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+            .getMenuInfo();
+    if (item.getTitle() == "Edit Item") {
+        mRowId = info.id;
+        DialogFragment_Item idFragment = new DialogFragment_Item();
+        idFragment.show(getFragmentManager(), "dialog");
+    } else if (item.getTitle() == "Delete Item") {
+        mDbHelper.deleteItem(info.id);
+        return true;
+    }
+    return super.onContextItemSelected(item);
+}
+
+         */
+
 
         //Listas iniciais
         mAdapter.add("Jantar de Aniversário");

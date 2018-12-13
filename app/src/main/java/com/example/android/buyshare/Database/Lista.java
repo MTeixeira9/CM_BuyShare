@@ -12,7 +12,7 @@ public class Lista {
     private ArrayList<String> produtos;
     private String criadorLista;
     private ArrayList <String> membrosGrupo;
-
+    private boolean arquivada;
 
     public Lista(){
     }
@@ -23,19 +23,18 @@ public class Lista {
         this.criadorLista = criadorLista;
         membrosGrupo = new ArrayList<>();
         membrosGrupo.add(criadorLista);
+        arquivada = false;
     }
 
     public String getNomeLista() { return nomeLista;}
 
-    public void setNomeLista(String nomeLista) { this.nomeLista = nomeLista; }
-
     public ArrayList<String> getProdutos() { return produtos;}
-
-    public void setProdutos(ArrayList<String> produtos) { this.produtos = produtos;}
 
     public String getCriadorLista() {return criadorLista;}
 
-    public void setCriadorLista(String criadorLista) { this.criadorLista = criadorLista; }
-
     public ArrayList<String> getMembrosGrupo() { return membrosGrupo; }
+
+    public boolean isArquivada() {
+        return arquivada;
+    }
 }
