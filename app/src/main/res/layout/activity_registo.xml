@@ -7,7 +7,7 @@
     tools:context=".RegistoActivity">
 
 
-    <!--ImageView
+    <ImageView
         android:id="@+id/imageView13"
         android:layout_width="52dp"
         android:layout_height="39dp"
@@ -20,7 +20,7 @@
         app:layout_constraintHorizontal_bias="0.222"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView6"
-        app:srcCompat="@drawable/gallery" /-->
+        app:srcCompat="@drawable/gallery" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -171,16 +171,16 @@
         android:id="@+id/registar"
         android:layout_width="130dp"
         android:layout_height="45dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="56dp"
         android:background="@drawable/button_style"
         android:text="Registar"
         android:textColor="@color/white"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tlmRegisto" />
+        app:layout_constraintTop_toBottomOf="@+id/escolherFoto" />
 
-    <!--Button
+    <Button
         android:id="@+id/escolherFoto"
         android:layout_width="180dp"
         android:layout_height="40dp"
@@ -192,9 +192,9 @@
         android:textColor="@android:color/darker_gray"
         android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/uploadFoto"
-        app:layout_constraintTop_toBottomOf="@+id/tlmRegisto" /-->
+        app:layout_constraintTop_toBottomOf="@+id/tlmRegisto" />
 
-    <!--Button
+    <Button
         android:id="@+id/uploadFoto"
         android:layout_width="88dp"
         android:layout_height="30dp"
@@ -206,6 +206,6 @@
         android:textColor="@color/white"
         android:textSize="8sp"
         app:layout_constraintBottom_toTopOf="@+id/registar"
-        app:layout_constraintEnd_toEndOf="parent" /-->
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
