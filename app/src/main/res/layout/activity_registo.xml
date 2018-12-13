@@ -180,6 +180,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/escolherFoto" />
 
+
     <Button
         android:id="@+id/escolherFoto"
         android:layout_width="180dp"

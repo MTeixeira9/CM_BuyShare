@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -58,7 +57,7 @@ public class AdicionarMembros extends AppCompatActivity {
 
         getSupportActionBar().setTitle(nomeGrupo);
 
-        adicionar = (Button) findViewById(R.id.addAmigo);
+        adicionar = (Button) findViewById(R.id.edit_button);
 
         ListView mListAmigos = findViewById(R.id.listAmigos);
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
