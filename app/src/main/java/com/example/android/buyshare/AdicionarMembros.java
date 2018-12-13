@@ -80,7 +80,7 @@ public class AdicionarMembros extends AppCompatActivity {
                     if (amigos != null) {
                         for (Map.Entry<String, String> amigo : amigos.entrySet()) {
                             cb = new CheckBox(getApplicationContext());
-                            cb.setText(amigo.getValue() + "|" + amigo.getKey());
+                            cb.setText(amigo.getValue() + "  " + amigo.getKey());
                             linearLayout.addView(cb);
                             //mAdapter.add(amigo.getValue() + " " + amigo.getKey());
                             //mAdapter.notifyDataSetChanged();
@@ -108,7 +108,7 @@ public class AdicionarMembros extends AppCompatActivity {
 
                                 if (c.isChecked()) {
                                     Toast.makeText(getApplicationContext(), "DEPOISSS", Toast.LENGTH_LONG).show();
-                                    String[] add = c.getText().toString().split("\\|");
+                                    String[] add = c.getText().toString().split("\\  ");
                                     Toast.makeText(getApplicationContext(), add[1], Toast.LENGTH_LONG).show();
                                     paraAdicionar.add(add[1]);
                                 }

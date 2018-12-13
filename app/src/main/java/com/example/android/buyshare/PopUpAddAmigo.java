@@ -20,6 +20,9 @@ import com.google.firebase.database.ValueEventListener;
 public class PopUpAddAmigo extends Activity {
 
     private static final String MSG_ERRO = "Tem de preencher este campo!";
+    private static final String MSG_ERRO1 = "O utilizador já se encontra na sua lista de amigos!";
+    private static final String MSG_ERRO2 = "Não pode ser amigo de si próprio!";
+    private static final String MSG_ERRO3 = "O utilizador que quer adicionar não está registado!";
     private static final String MSG_INV_NUM_ERRO = "O número deve conter 9 dígitos";
 
     private User aAdicionar;
@@ -28,11 +31,11 @@ public class PopUpAddAmigo extends Activity {
     private Intent i;
     private DatabaseReference mDatabase;
     private ValueEventListener mListener;
+    public boolean emptyAdd, proprio, alreadyFriend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.acitivity_popupaddamigo);
 
         DisplayMetrics dm = new DisplayMetrics();
@@ -73,26 +76,39 @@ public class PopUpAddAmigo extends Activity {
                                     }
                                 }
 
+                                emptyAdd = false;
+                                proprio = false;
+                                alreadyFriend = false;
+
                                 //add um amigo que nao estah registado
                                 if (aAdicionar == null) {
-                                    setResult(-3, i);
-                                    i.putExtra("userTlm", tlmUserLogado);
-                                    finish();
+                                    nTelemovel.setError(MSG_ERRO3);
+                                    emptyAdd = true;
                                 }
                                 //add a si proprio
-                                if (logado.getNome().equals(aAdicionar.getNome())) {
-                                    setResult(-2, i);
-                                    i.putExtra("userTlm", tlmUserLogado);
-                                    finish();
-                                }
-
-                                //add um amigo que jah estah na lista dos amigos do logado
-                                if (logado.getAmigos() != null) {
-                                    if (logado.getAmigos().get(nTele) != null) {
-                                        setResult(-1, i);
-                                        i.putExtra("userTlm", tlmUserLogado);
-                                        finish();
+                                if (!emptyAdd) {
+                                    if (logado.getNome().equals(aAdicionar.getNome())) {
+                                        nTelemovel.setError(MSG_ERRO2);
+                                        proprio = true;
                                     }
+                                }
+                                //user tem amigos
+                                if (!emptyAdd && !proprio) {
+                                    if (logado.getAmigos() != null) {
+                                        //add um amigo que jah estah na lista dos amigos do logado
+                                        if (logado.getAmigos().get(nTele) != null) {
+                                            nTelemovel.setError(MSG_ERRO1);
+                                            alreadyFriend = true;
+                                        } else {
+                                            mDatabase.child(tlmUserLogado).child("amigos").child(aAdicionar.getNumeroTlm()).setValue(aAdicionar.getNome());
+                                            i.putExtra("nTlm", aAdicionar.getNumeroTlm());
+                                            i.putExtra("nomeA", aAdicionar.getNome());
+                                            i.putExtra("userTlm", tlmUserLogado);
+                                            setResult(1, i);
+                                            finish();
+                                        }
+                                    }
+                                    //user nao tem amigos
                                     else {
                                         mDatabase.child(tlmUserLogado).child("amigos").child(aAdicionar.getNumeroTlm()).setValue(aAdicionar.getNome());
                                         i.putExtra("nTlm", aAdicionar.getNumeroTlm());
@@ -101,14 +117,6 @@ public class PopUpAddAmigo extends Activity {
                                         setResult(1, i);
                                         finish();
                                     }
-                                }
-                                 else {
-                                    mDatabase.child(tlmUserLogado).child("amigos").child(aAdicionar.getNumeroTlm()).setValue(aAdicionar.getNome());
-                                    i.putExtra("nTlm", aAdicionar.getNumeroTlm());
-                                    i.putExtra("nomeA", aAdicionar.getNome());
-                                    i.putExtra("userTlm", tlmUserLogado);
-                                    setResult(1, i);
-                                    finish();
                                 }
                             }
 
@@ -123,9 +131,7 @@ public class PopUpAddAmigo extends Activity {
                     } else {
                         nTelemovel.setError(MSG_INV_NUM_ERRO);
                     }
-                } else
-
-                {
+                } else{
                     nTelemovel.setError(MSG_ERRO);
                 }
             }
