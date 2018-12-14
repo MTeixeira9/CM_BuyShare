@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -96,7 +97,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.e("TAG", "onCancelled", databaseError.toException());
             }
         });
 
@@ -104,17 +105,19 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    public void onCreateContextMenu (ContextMenu menu, View v,
-                                     ContextMenu.ContextMenuInfo menuInfo){
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         menu.add(0, v.getId(), 0, "Arquivar");
         menu.add(0, v.getId(), 0, "Eliminar");
     }
 
     @Override
-    public boolean onContextItemSelected (MenuItem item){
+    public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
                 .getMenuInfo();
+        mDatabase = FirebaseDatabase.getInstance().getReference("listas");
+        //TODO info.targetView.getn
         if (item.getTitle().equals("Arquivar")) {
             //TODO
         } else if (item.getTitle().equals("Eliminar")) {
