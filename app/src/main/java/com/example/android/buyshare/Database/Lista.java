@@ -8,6 +8,7 @@ import java.util.List;
 @IgnoreExtraProperties
 public class Lista {
 
+    private String idL;
     private String nomeLista;
     private ArrayList<String> produtos;
     private String criadorLista;
@@ -17,13 +18,18 @@ public class Lista {
     public Lista(){
     }
 
-    public Lista(String criadorLista, String nomeLista, ArrayList<String> produtos ){
+    public Lista(String idL, String criadorLista, String nomeLista, ArrayList<String> produtos ){
+        this.idL = idL;
         this.nomeLista = nomeLista;
         this.produtos = produtos;
         this.criadorLista = criadorLista;
         membrosGrupo = new ArrayList<>();
         membrosGrupo.add(criadorLista);
         arquivada = false;
+    }
+
+    public String getIdL() {
+        return idL;
     }
 
     public String getNomeLista() { return nomeLista;}

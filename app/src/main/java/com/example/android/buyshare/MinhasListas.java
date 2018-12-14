@@ -4,24 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.android.buyshare.Database.Lista;
-import com.example.android.buyshare.Database.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -33,7 +30,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
     private ArrayAdapter<String> mAdapter2;
     private String userTlm, nomeLista, key;
     private ListView mListasPartilhadas;
-    private ListView mListas;
+    private ListView mListasPrivadas;
     private DatabaseReference mDatabase;
     private ValueEventListener mListener;
 
@@ -44,23 +41,26 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
         getSupportActionBar().setTitle("Minhas Listas");
 
-        Button novaLista = (Button) findViewById(R.id.novaLista);
+        Button novaLista = findViewById(R.id.novaLista);
 
         //ir buscar quem estah autenticado
         userTlm = getIntent().getStringExtra("userTlm");
 
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
 
-        mListasPartilhadas = (ListView) findViewById(R.id.listCategorias);
-        mListas = (ListView) findViewById(R.id.listListasSemCat);
+        mListasPartilhadas = findViewById(R.id.listaPartilhadas);
+        mListasPrivadas = findViewById(R.id.listasPrivadas);
 
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         mAdapter2 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
 
         mListasPartilhadas.setAdapter(mAdapter);
-        mListas.setAdapter(mAdapter2);
+        mListasPrivadas.setAdapter(mAdapter2);
 
-
+        /**
+         * opcoes listas
+         * */
+        registerForContextMenu(mListasPrivadas);
 
         novaLista.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,18 +71,16 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-
-
         mListener = mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (mListas.getAdapter().getCount() == 0) {
+                if (mListasPrivadas.getAdapter().getCount() == 0) {
                     for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
 
                         Lista l = singleSnapshot.getValue(Lista.class);
-                        ArrayList<String > meusGrupos = l.getMembrosGrupo();
+                        ArrayList<String> meusGrupos = l.getMembrosGrupo();
 
-                        if(meusGrupos.contains(userTlm)) {
+                        if (meusGrupos.contains(userTlm)) {
                             List<String> listas = new ArrayList<>();
                             listas.add(l.getNomeLista());
 
@@ -102,15 +100,31 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-
-        mListas.setOnItemClickListener(this);
-
-
+        mListasPrivadas.setOnItemClickListener(this);
     }
 
+    @Override
+    public void onCreateContextMenu (ContextMenu menu, View v,
+                                     ContextMenu.ContextMenuInfo menuInfo){
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, v.getId(), 0, "Arquivar");
+        menu.add(0, v.getId(), 0, "Eliminar");
+    }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onContextItemSelected (MenuItem item){
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
+                .getMenuInfo();
+        if (item.getTitle().equals("Arquivar")) {
+            //TODO
+        } else if (item.getTitle().equals("Eliminar")) {
+            //TODO
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.listas, menu);
         return true;
     }
@@ -119,26 +133,26 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        if(id == R.id.meusGrupos){
+        if (id == R.id.meusGrupos) {
             Intent grupos = new Intent(MinhasListas.this, MeusGrupos.class);
             grupos.putExtra("userTlm", userTlm);
             startActivity(grupos);
-        }else if(id == R.id.amigos){
+        } else if (id == R.id.amigos) {
             Intent amigos = new Intent(MinhasListas.this, Amigos.class);
             amigos.putExtra("userTlm", userTlm);
             startActivity(amigos);
-        }else if(id == R.id.terminarS){
+        } else if (id == R.id.terminarS) {
             Intent terminarS = new Intent(MinhasListas.this, LoginActivity.class);
             startActivity(terminarS);
             Toast.makeText(getApplicationContext(), "Sessão terminada com sucesso.", Toast.LENGTH_SHORT).show();
-        }else if(id == R.id.meuPerfil) {
+        } else if (id == R.id.meuPerfil) {
             Intent meuPerfil = new Intent(MinhasListas.this, Perfil.class);
             meuPerfil.putExtra("userTlm", userTlm);
             startActivity(meuPerfil);
-        }else if(id == R.id.arquivo) {
+        } else if (id == R.id.arquivo) {
             Intent arquivo = new Intent(MinhasListas.this, Arquivo.class);
             startActivity(arquivo);
-    }
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -158,7 +172,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 11) {
-            if(resultCode == 11) {
+            if (resultCode == 11) {
                 userTlm = data.getStringExtra("userTlm");
             }
         }
