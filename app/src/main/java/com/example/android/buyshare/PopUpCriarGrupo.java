@@ -25,17 +25,16 @@ import java.util.List;
 
 public class PopUpCriarGrupo extends Activity {
 
-    private static final String msg = "Tem de preencher ambos os campos!";
+    private static final String MSG_ERRO = "Tem de preencher ambos os campos!";
+    private static final String MSG_GRUPO_JAH_EXISTE = "Já registou um grupo com este nome!";
     private String userLogado;
     private DatabaseReference mDataBaseU;
     private Intent i;
-    private  ValueEventListener mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_criar_grupo);
-
+        setContentView(R.layout.activity_pop_up_criar_grupo);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -45,7 +44,6 @@ public class PopUpCriarGrupo extends Activity {
 
         getWindow().setLayout((int) (width * .75), (int) (height * .25));
 
-
         userLogado = getIntent().getStringExtra("userTlm");
 
         Button addGrupo = findViewById(R.id.criarGrupo);
@@ -53,8 +51,7 @@ public class PopUpCriarGrupo extends Activity {
 
             @Override
             public void onClick(View v) {
-                EditText nomeGrupo = findViewById(R.id.nomeGrupo);
-
+                final EditText nomeGrupo = findViewById(R.id.nomeGrupo);
                 i = new Intent();
                 final String nomeG = nomeGrupo.getText().toString();
 
@@ -66,13 +63,11 @@ public class PopUpCriarGrupo extends Activity {
                     q.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                             for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                                 User u = singleSnapshot.getValue(User.class);
                                 boolean grupoJahExiste = false;
 
                                 if (u.getGrupos() != null) {
-
                                     for (String g : u.getGrupos()) {
                                         //Se o grupo jah existe
                                         if (g.equals(nomeG)) {
@@ -87,23 +82,21 @@ public class PopUpCriarGrupo extends Activity {
                                     Grupo gAdd = new Grupo(nomeG, u.getNumeroTlm(), key);
                                     List<String> grupos = u.getGrupos();
 
-                                    if(grupos == null){
+                                    if (grupos == null) {
                                         grupos = new ArrayList<>();
                                     }
 
                                     grupos.add(nomeG);
-                                        //mDataBaseU.child(userLogado).child("grupos").setValue(grupos);
-                                        mDataBaseG.child(key).setValue(gAdd);
-                                        i.putExtra("nomeGrupo", nomeG);
-                                        setResult(1, i);
-                                        finish();
-
-
-
+                                    //mDataBaseU.child(userLogado).child("grupos").setValue(grupos);
+                                    mDataBaseG.child(key).setValue(gAdd);
+                                    i.putExtra("nomeGrupo", nomeG);
+                                    setResult(1, i);
+                                    finish();
                                 }
-
+                                else{
+                                    nomeGrupo.setError(MSG_GRUPO_JAH_EXISTE);
+                                }
                             }
-
                         }
 
                         @Override
@@ -113,7 +106,7 @@ public class PopUpCriarGrupo extends Activity {
                     });
 
                 } else {
-                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                    nomeGrupo.setError(MSG_ERRO);
                 }
 
             }
