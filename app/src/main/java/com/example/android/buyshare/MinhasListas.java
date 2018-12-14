@@ -79,9 +79,9 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
                     for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
 
                         Lista l = singleSnapshot.getValue(Lista.class);
-                        ArrayList<String> meusGrupos = l.getMembrosGrupo();
+                        ArrayList<String> membrosLista = l.getMembrosGrupo();
 
-                        if (meusGrupos.contains(userTlm)) {
+                        if (membrosLista.contains(userTlm)) {
                             List<String> listas = new ArrayList<>();
                             listas.add(l.getNomeLista());
 
