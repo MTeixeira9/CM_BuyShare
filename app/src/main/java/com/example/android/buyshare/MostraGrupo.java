@@ -69,7 +69,7 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
         });
 
         mListMembrosGrupo = (ListView) findViewById(R.id.listMembrosGrupo);
-        //mListMembrosGrupo.setOnItemClickListener(this);
+        mListMembrosGrupo.setOnItemClickListener(this);
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         mListMembrosGrupo.setAdapter(mAdapter);
 
@@ -107,10 +107,6 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
                                                 Log.e("TAG", "onCancelled", databaseError.toException());
                                             }
                                         });
-
-
-
-
                                     }
                                 }
                                 count++;
@@ -126,7 +122,6 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
             }
 
         });
-
 
     }
 

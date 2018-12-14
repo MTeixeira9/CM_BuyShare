@@ -57,9 +57,6 @@
             android:name=".AdicionarMembrosMostraLista"
             android:parentActivityName=".MostraLista" />
         <activity
-            android:name=".AdicionarMembrosNovaLista"
-            android:parentActivityName=".NovaLista" />
-        <activity
             android:name=".PopUpAddAmigo"
             android:theme="@style/AppTheme.popUp" />
         <activity

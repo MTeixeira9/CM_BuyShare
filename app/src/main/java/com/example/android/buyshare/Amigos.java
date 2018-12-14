@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -53,6 +54,10 @@ public class Amigos extends AppCompatActivity {
 
         ListView mListAmigos = findViewById(R.id.listAmigos);
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        /**
+         * opcoes amigos
+         * */
+        registerForContextMenu(mListAmigos);
         mListAmigos.setAdapter(mAdapter);
 
         //adicionar logo os amigos da base de dados
@@ -82,6 +87,12 @@ public class Amigos extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onCreateContextMenu (ContextMenu menu, View v,
+                                     ContextMenu.ContextMenuInfo menuInfo){
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, v.getId(), 0, "Eliminar");
+    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
