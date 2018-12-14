@@ -26,7 +26,7 @@ public class Arquivo extends AppCompatActivity {
         //ir buscar quem estah autenticado
         userTlm = getIntent().getStringExtra("userTlm");
 
-        listaArq = (ListView) findViewById(R.id.listasArquivadas);
+        listaArq = findViewById(R.id.listasArquivadas);
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         listaArq.setAdapter(mAdapter);
 

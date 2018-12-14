@@ -101,6 +101,8 @@ public class PopUpAddAmigo extends Activity {
                                             alreadyFriend = true;
                                         } else {
                                             mDatabase.child(tlmUserLogado).child("amigos").child(aAdicionar.getNumeroTlm()).setValue(aAdicionar.getNome());
+                                            mDatabase.child(aAdicionar.getNumeroTlm()).child("amigos").child(tlmUserLogado).setValue(logado.getNome());
+
                                             i.putExtra("nTlm", aAdicionar.getNumeroTlm());
                                             i.putExtra("nomeA", aAdicionar.getNome());
                                             i.putExtra("userTlm", tlmUserLogado);
@@ -111,6 +113,7 @@ public class PopUpAddAmigo extends Activity {
                                     //user nao tem amigos
                                     else {
                                         mDatabase.child(tlmUserLogado).child("amigos").child(aAdicionar.getNumeroTlm()).setValue(aAdicionar.getNome());
+                                        mDatabase.child(aAdicionar.getNumeroTlm()).child("amigos").child(tlmUserLogado).setValue(logado.getNome());
                                         i.putExtra("nTlm", aAdicionar.getNumeroTlm());
                                         i.putExtra("nomeA", aAdicionar.getNome());
                                         i.putExtra("userTlm", tlmUserLogado);
@@ -131,7 +134,7 @@ public class PopUpAddAmigo extends Activity {
                     } else {
                         nTelemovel.setError(MSG_INV_NUM_ERRO);
                     }
-                } else{
+                } else {
                     nTelemovel.setError(MSG_ERRO);
                 }
             }

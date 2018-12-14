@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:id="@+id/listCategorias"
+        android:id="@+id/listaPartilhadas"
         android:layout_width="360dp"
         android:layout_height="163dp"
         android:layout_marginStart="8dp"
@@ -45,10 +45,10 @@
         android:textColor="@android:color/black"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listCategorias" />
+        app:layout_constraintTop_toBottomOf="@+id/listaPartilhadas" />
 
     <ListView
-        android:id="@+id/listListasSemCat"
+        android:id="@+id/listasPrivadas"
         android:layout_width="360dp"
         android:layout_height="163dp"
         android:layout_marginStart="8dp"
@@ -78,6 +78,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listListasSemCat" />
+        app:layout_constraintTop_toBottomOf="@+id/listasPrivadas" />
 
 </android.support.constraint.ConstraintLayout>

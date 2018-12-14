@@ -71,11 +71,10 @@ public class NovaLista extends AppCompatActivity {
 
                 if (!nomeLista.equals("")){
 
-                    Lista lista = new Lista(userTlm, nomeLista, produtos);
                     key = mDatabase.push().getKey();
+                    Lista lista = new Lista(key, userTlm, nomeLista, produtos);
 
                     mDatabase.child(key).setValue(lista);
-
 
                     Bundle b = new Bundle();
                     b.putStringArrayList("listaProdutos", produtos);
