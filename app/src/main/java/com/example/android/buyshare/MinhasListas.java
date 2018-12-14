@@ -119,6 +119,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
         //TODO info.targetView.getn
         if (item.getTitle().equals("Arquivar")) {
+            //Object o = info.targetView;
             //TODO
         } else if (item.getTitle().equals("Eliminar")) {
             //TODO
