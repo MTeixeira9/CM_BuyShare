@@ -19,7 +19,8 @@
         app:showAsAction="never"/>
 
     <item android:id="@+id/editarLista"
-        android:title="Estimar Custo"
+        android:title="EditarLista
+"
         app:showAsAction="never"/>
 
 

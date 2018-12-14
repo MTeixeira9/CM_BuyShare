@@ -11,10 +11,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.buyshare.Database.Lista;
-import com.example.android.buyshare.Database.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -161,9 +159,9 @@ public class MostraLista extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Button guardar = (Button) findViewById(R.id.addAmigo);
+        Button edit_button = (Button) findViewById(R.id.edit_button);
 
-        guardar.setOnClickListener(new View.OnClickListener()
+        edit_button.setOnClickListener(new View.OnClickListener()
 
         {
             @Override
@@ -191,6 +189,7 @@ public class MostraLista extends AppCompatActivity {
         }
          else if (id == R.id.addMembros) {
             Intent addMembros = new Intent(MostraLista.this, AdicionarMembrosMostraLista.class);
+            addMembros.putExtra("userTlm", userTlm);
             startActivity(addMembros);
 
         } else if (id == R.id.verMembros) {
