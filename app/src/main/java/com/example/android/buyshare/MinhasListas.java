@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.buyshare.Database.Lista;
@@ -36,7 +37,8 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
     private ListView mListasPrivadas;
     private DatabaseReference mDatabase;
     private ValueEventListener mListener, mListenerArq;
-    private int countArq;
+    private ArrayList<Lista> lPrivadas, lPartilhadas;
+    private  ListView selectedListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +63,14 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         mListasPartilhadas.setAdapter(mAdapter);
         mListasPrivadas.setAdapter(mAdapter2);
 
+        lPartilhadas = new ArrayList<>();
+        lPrivadas = new ArrayList<>();
+
         /**
          * opcoes listas
          * */
         registerForContextMenu(mListasPrivadas);
+        registerForContextMenu(mListasPartilhadas);
 
         novaLista.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,11 +92,14 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
                         //listas privadas (e nao arquivadas)
                         if (l.getCriadorLista().equals(userTlm) && l.getMembrosGrupo().size() == 1
                                 && !l.isArquivada()) {
+                            lPartilhadas.add(l);
+                            lPrivadas.add(l);
+
                             mAdapter2.add(l.getNomeLista());
                             mAdapter2.notifyDataSetChanged();
                         }
                         //listas partilhadas (e nao arquivadas)
-                        else if(l.getMembrosGrupo().contains(userTlm) && l.getMembrosGrupo().size() > 1){
+                        else if (l.getMembrosGrupo().contains(userTlm) && l.getMembrosGrupo().size() > 1) {
                             mAdapter.add(l.getNomeLista());
                             mAdapter.notifyDataSetChanged();
                         }
@@ -113,49 +122,59 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         super.onCreateContextMenu(menu, v, menuInfo);
         menu.add(0, v.getId(), 0, "Arquivar");
         menu.add(0, v.getId(), 0, "Eliminar");
+
+        selectedListView = (ListView)v;
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
-                .getMenuInfo();
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
         final int p = info.position;
+        int idListView = selectedListView.getId();
+        Lista lSelected = null;
 
-        if (item.getTitle().equals("Arquivar")) {
-            //ARQUIVAR
-            countArq = 0;
-            mListenerArq = mDatabase.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                        Lista l = singleSnapshot.getValue(Lista.class);
-                        String nome = String.valueOf(l.getCriadorLista());
+        switch (idListView) {
+            case R.id.listasPrivadas:
 
-                        //A LISTA EH DA PESSOA
-                        if (userTlm.equals(nome)){
-                            if (countArq == p){
-                                mDatabase.child(l.getIdL()).child("arquivada").setValue(true);
-                                mAdapter2.remove(l.getNomeLista());
-                                mAdapter2.notifyDataSetChanged();
-                                break;
-                            }
-                            else{
-                                countArq++;
-                            }
+                //IR BUSCAR A LISTA SELECTECIONADA
+                int countArq = 0;
+                for (Lista l : lPrivadas) {
+                    //A LISTA EH DA PESSOA
+                    if (userTlm.equals(l.getCriadorLista())) {
+                        if (countArq == p) {
+                            lSelected = l;
+                            break;
+                        } else {
+                            countArq++;
                         }
                     }
                 }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e("TAG", "onCancelled", databaseError.toException());
+                if (item.getTitle().equals("Arquivar")) {
+                    mDatabase.child(lSelected.getIdL()).child("arquivada").setValue(true);
+                    mAdapter2.remove(lSelected.getNomeLista());
+                    mAdapter2.notifyDataSetChanged();
+
+                } else if (item.getTitle().equals("Eliminar")) {
+                    mDatabase.child(lSelected.getIdL()).removeValue();
+                    mAdapter2.remove(lSelected.getNomeLista());
+                    mAdapter2.notifyDataSetChanged();
                 }
-            });
-        } else if (item.getTitle().equals("Eliminar")) {
-            //TODO
+
+                break;
+
+            case R.id.listaPartilhadas:
+
+                break;
+
+            default:
+                Toast.makeText(getApplicationContext(), "Algo correu mal", Toast.LENGTH_LONG).show();
+                break;
         }
+
         return super.onContextItemSelected(item);
+
     }
 
     @Override
