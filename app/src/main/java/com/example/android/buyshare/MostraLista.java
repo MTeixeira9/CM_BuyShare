@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.buyshare.Database.Lista;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +23,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MostraLista extends AppCompatActivity {
 
@@ -30,7 +33,8 @@ public class MostraLista extends AppCompatActivity {
     private TextView listaCriadaPor;
     private LinearLayout linearLayout;
     private ValueEventListener mListener;
-    private ArrayList<String> listaProdutos;
+    //private ArrayList<String> listaProdutos;
+    private HashMap<String, Double> produtoCusto;
     private int pos;
     private String idL;
 
@@ -51,6 +55,8 @@ public class MostraLista extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
         mDatabase2 = FirebaseDatabase.getInstance().getReference("users");
 
+        produtoCusto = new HashMap<>();
+
         idL = "";
 
         mListener = mDatabase.addValueEventListener(new ValueEventListener() {
@@ -61,6 +67,7 @@ public class MostraLista extends AppCompatActivity {
                     Lista l = singleSnapshot.getValue(Lista.class);
 
                     idL = l.getIdL();
+
 
                     Query q = mDatabase2.orderByChild("numeroTlm").equalTo(userTlm);
                     q.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -82,14 +89,18 @@ public class MostraLista extends AppCompatActivity {
 
                     if (nomePessoa.equals(userTlm)) {
 
-                        listaProdutos = l.getProdutos();
 
-                        if (listaProdutos != null) {
+
+                        produtoCusto = l.getProdutoCusto();
+
+
+
+                        if (produtoCusto != null) {
                             if (count == pos) {
-                                for (String a : listaProdutos) {
+                                for (Map.Entry<String, Double> a : produtoCusto.entrySet()) {
                                     CheckBox cb = new CheckBox(getApplicationContext());
                                     cb.setTextSize(18);
-                                    cb.setText(a);
+                                    cb.setText(a.getKey());
                                     linearLayout.addView(cb);
                                 }
                                 break;
