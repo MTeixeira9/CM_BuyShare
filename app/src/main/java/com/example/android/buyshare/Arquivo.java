@@ -1,19 +1,33 @@
 package com.example.android.buyshare;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.android.buyshare.Database.Lista;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Arquivo extends AppCompatActivity {
 
     private ArrayAdapter<String> mAdapter;
     private ListView listaArq;
     private String userTlm;
+    private DatabaseReference mDatabase;
+    private ValueEventListener mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,16 +39,35 @@ public class Arquivo extends AppCompatActivity {
 
         //ir buscar quem estah autenticado
         userTlm = getIntent().getStringExtra("userTlm");
+        mDatabase = FirebaseDatabase.getInstance().getReference("listas");
 
         listaArq = findViewById(R.id.listasArquivadas);
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         listaArq.setAdapter(mAdapter);
 
-        //Listas iniciais
-        mAdapter.add("Jantar de Aniversário");
-        mAdapter.add("Jantar da Faculdade");
-        mAdapter.add("Supermercado");
-        mAdapter.notifyDataSetChanged();
+        mListener = mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+
+                    Lista l = singleSnapshot.getValue(Lista.class);
+                    ArrayList<String> membrosLista = l.getMembrosGrupo();
+
+                    if (membrosLista.contains(userTlm) && l.isArquivada()) {
+                        //List<String> listas = new ArrayList<>();
+                        //listas.add(l.getNomeLista());
+
+                        mAdapter.add(l.getNomeLista());
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("TAG", "onCancelled", databaseError.toException());
+            }
+        });
 
     }
 
