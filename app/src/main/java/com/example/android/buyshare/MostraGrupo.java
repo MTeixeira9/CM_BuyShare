@@ -1,18 +1,16 @@
 package com.example.android.buyshare;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckedTextView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.android.buyshare.Database.Grupo;
 import com.example.android.buyshare.Database.User;
@@ -23,10 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -40,7 +35,6 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
     private String posGrupoString;
     private int posGrupo;
     private String nomeAdd;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,6 +152,11 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
         startActivity(i);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mDataBaseG.removeEventListener(mListener);
+    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {

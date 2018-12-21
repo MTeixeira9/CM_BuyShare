@@ -1,9 +1,10 @@
 package com.example.android.buyshare;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,7 +12,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.buyshare.Database.Lista;
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +34,6 @@ public class MostraLista extends AppCompatActivity {
     private int pos;
     private String idL;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,16 +45,13 @@ public class MostraLista extends AppCompatActivity {
 
         pos = Integer.parseInt(position);
 
-
         listaCriadaPor = findViewById(R.id.pessoaCriaLista);
         linearLayout = findViewById(R.id.linearLayoutID);
-
 
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
         mDatabase2 = FirebaseDatabase.getInstance().getReference("users");
 
         idL = "";
-
 
         mListener = mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -70,7 +66,7 @@ public class MostraLista extends AppCompatActivity {
                     q.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
+                            for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                                 String nome = String.valueOf(singleSnapshot.child("nome").getValue());
                                 listaCriadaPor.setText("Lista criada por: " + nome);
                             }
@@ -78,21 +74,13 @@ public class MostraLista extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                            Log.e("TAG", "onCancelled", databaseError.toException());
                         }
                     });
 
-                   // Toast.makeText(getApplicationContext(), "Nome Pessoa: " + nomePessoa, Toast.LENGTH_LONG).show();
-
                     String nomePessoa = l.getCriadorLista();
 
-
                     if (nomePessoa.equals(userTlm)) {
-                       // Toast.makeText(getApplicationContext(), "Entou if", Toast.LENGTH_LONG).show();
-
-
-                        //List<String> listas = new ArrayList<>();
-                        //listas.add(l.getNomeLista());
 
                         listaProdutos = l.getProdutos();
 
@@ -105,72 +93,23 @@ public class MostraLista extends AppCompatActivity {
                                     linearLayout.addView(cb);
                                 }
                                 break;
-
-
                             }
-
-
                         }
                         count++;
                     }
-
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        //= l.getProdutos();
-
-
-
-
-        /*
-
-        q.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d("[MOSTRA LISTA]Antes for", "antes for");
-                for (DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
-                    Log.d("MOSTRA LISTADentro for", "dentro for");
-                    Lista l = singleSnapshot.getValue(Lista.class);
-                    String nomePessoa = l.getCriadorLista();
-                    Toast.makeText(getApplicationContext(), "Nome Pessoa:" + nomePessoa, Toast.LENGTH_LONG).show();
-                    ArrayList<String> listaProdutos = l.getProdutos();
-                    listaCriadaPor.setText("Lista criada por: " + nomePessoa);
-
-                    for (String a : listaProdutos){
-                        CheckBox cb = new CheckBox(getApplicationContext());
-                        cb.setText(a);
-                        linearLayout.addView(cb);
-                    }
-
-
-                   //ArrayList<String> listaProdutos = u.get
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.e("TAG", "onCancelled", databaseError.toException());
             }
         });
-
-*/
-
-
-        //listaCriadaPor.setText("Lista criada por: " + nomePessoa);
 
         getSupportActionBar().setTitle(nomeLista);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Button edit_button = (Button) findViewById(R.id.edit_button);
+        Button edit_button = findViewById(R.id.edit_button);
 
         edit_button.setOnClickListener(new View.OnClickListener()
 
@@ -181,8 +120,6 @@ public class MostraLista extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        //Toast.makeText(getApplicationContext(), "ID lista: " + idL, Toast.LENGTH_LONG).show();
 
     }
 
@@ -196,11 +133,10 @@ public class MostraLista extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        if(id == android.R.id.home) {
-                onBackPressed();
-                return  true;
-        }
-         else if (id == R.id.addMembros) {
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        } else if (id == R.id.addMembros) {
             Intent addMembros = new Intent(MostraLista.this, AdicionarMembrosMostraLista.class);
             addMembros.putExtra("userTlm", userTlm);
             startActivity(addMembros);
@@ -223,11 +159,11 @@ public class MostraLista extends AppCompatActivity {
 
         } else if (id == R.id.editarLista) {
             int count = 0;
-            if(count == pos) {
-               // Intent intent = new Intent(MostraLista.this, );
-               // startActivity(intent);
+            if (count == pos) {
+                // Intent intent = new Intent(MostraLista.this, );
+                // startActivity(intent);
             }
-    }
+        }
 
         return super.onOptionsItemSelected(item);
     }
