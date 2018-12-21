@@ -85,8 +85,6 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
                         ArrayList<String> membrosLista = l.getMembrosGrupo();
 
                         if (membrosLista.contains(userTlm) && !l.isArquivada()) {
-                            List<String> listas = new ArrayList<>();
-                            listas.add(l.getNomeLista());
 
                             mAdapter2.add(l.getNomeLista());
                             mAdapter2.notifyDataSetChanged();
@@ -141,7 +139,6 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
                                 countArq++;
                             }
                         }
-
                     }
                 }
 
