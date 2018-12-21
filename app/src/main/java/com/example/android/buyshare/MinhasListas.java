@@ -26,6 +26,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MinhasListas extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -51,6 +52,8 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
         //ir buscar quem estah autenticado
         userTlm = getIntent().getStringExtra("userTlm");
+
+       // produtoCusto = (HashMap<String, Double>)getIntent().getSerializableExtra("produtoCusto");
 
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
 

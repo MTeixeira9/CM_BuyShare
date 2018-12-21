@@ -27,6 +27,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class NovaLista extends AppCompatActivity {
     private EditText mItemEdit;
     private String userTlm;
     private DatabaseReference mDatabase;
-    private ArrayList<String> produtos;
+    private HashMap<String,Double> produtoCusto;
 
 
     private static final String msgErrLista = "Tem de dar um nome à Lista!";
@@ -55,7 +56,7 @@ public class NovaLista extends AppCompatActivity {
         userTlm = getIntent().getStringExtra("userTlm");
 
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
-        produtos = new ArrayList<>();
+        produtoCusto = new HashMap<>();
 
         Button guardarLista = (Button) findViewById(R.id.guardarLista);
         guardarLista.setOnClickListener(new View.OnClickListener() {
@@ -72,16 +73,17 @@ public class NovaLista extends AppCompatActivity {
                 if (!nomeLista.equals("")){
 
                     key = mDatabase.push().getKey();
-                    Lista lista = new Lista(key, userTlm, nomeLista, produtos);
+                    Lista lista = new Lista(key, userTlm, nomeLista, produtoCusto);
 
                     mDatabase.child(key).setValue(lista);
 
-                    Bundle b = new Bundle();
-                    b.putStringArrayList("listaProdutos", produtos);
+                    //Bundle b = new Bundle();
+                   // b.putStringArrayList("listaProdutos", produto);
 
                     Intent i = new Intent(NovaLista.this, MinhasListas.class);
                     i.putExtra("userTlm", userTlm);
-                    i.putExtras(b);
+                    //i.putExtra("produtoCusto", produtoCusto);
+                    //i.putExtras(b);
 
 
                     startActivity(i);
@@ -115,7 +117,8 @@ public class NovaLista extends AppCompatActivity {
             public void onClick(View v) {
                 String item = mItemEdit.getText().toString();
                 if (!item.equals("")) {
-                    produtos.add(item);
+                    produtoCusto.put(item, 0.0);
+                    //produtos.add(item);
                     mAdapter.add(item);
                     mAdapter.notifyDataSetChanged();
                     mItemEdit.setText("");
@@ -128,7 +131,7 @@ public class NovaLista extends AppCompatActivity {
 
 
 
-                // intent.putStringArrayListExtra("listaProdutos", produtos);
+                //intent.putStringArrayListExtra("listaProdutos", produtos);
             }
         });
 
