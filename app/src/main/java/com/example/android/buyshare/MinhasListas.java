@@ -37,9 +37,9 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
     private ListView mListasPartilhadas;
     private ListView mListasPrivadas;
     private DatabaseReference mDatabase;
-    private ValueEventListener mListener, mListenerArq;
+    private ValueEventListener mListener;
     private ArrayList<Lista> lPrivadas, lPartilhadas;
-    private  ListView selectedListView;
+    private ListView selectedListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -240,7 +240,6 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
     protected void onDestroy() {
         super.onDestroy();
         mDatabase.removeEventListener(mListener);
-        mDatabase.removeEventListener(mListenerArq);
     }
 
     @Override
