@@ -144,19 +144,7 @@ public class NovaLista extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        if(id == R.id.addMembros){
-            Intent addMembros = new Intent(NovaLista.this, AdicionarMembrosNovaLista.class);
-            startActivity(addMembros);
 
-        }else if(id == R.id.verMembros){
-            Intent amigos = new Intent(NovaLista.this, VerMembros.class);
-            startActivity(amigos);
-
-        }else if(id == R.id.finLista){
-            Intent finLista = new Intent(NovaLista.this, AdicionarCustoL.class);
-            startActivity(finLista);
-
-        }
         return super.onOptionsItemSelected(item);
     }
 

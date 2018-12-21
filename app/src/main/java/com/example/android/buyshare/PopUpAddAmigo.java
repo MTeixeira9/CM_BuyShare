@@ -36,7 +36,7 @@ public class PopUpAddAmigo extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.acitivity_popupaddamigo);
+        setContentView(R.layout.acitivity_pop_up_add_amigo);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);

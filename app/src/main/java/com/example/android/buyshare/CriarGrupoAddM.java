@@ -8,7 +8,7 @@ public class CriarGrupoAddM extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_criar_grupo);
+        setContentView(R.layout.activity_pop_up_criar_grupo);
 
         getSupportActionBar().setTitle("Criar Grupo");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

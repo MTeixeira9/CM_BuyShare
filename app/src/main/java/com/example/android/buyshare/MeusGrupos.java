@@ -43,10 +43,9 @@ public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemC
         getSupportActionBar().setTitle("Meus Grupos");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Button novoGrupo = (Button) findViewById(R.id.novoGrupo);
-
         userLogado = getIntent().getStringExtra("userTlm");
 
+        Button novoGrupo = findViewById(R.id.novoGrupo);
         novoGrupo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +55,7 @@ public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemC
             }
         });
 
-        mListGrupos = (ListView) findViewById(R.id.listGrupos);
+        mListGrupos = findViewById(R.id.listGrupos);
         mListGrupos.setOnItemClickListener(this);
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         mListGrupos.setAdapter(mAdapter);
@@ -68,7 +67,6 @@ public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemC
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (mListGrupos.getAdapter().getCount() == 0) {
                     for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-
                         Grupo g = singleSnapshot.getValue(Grupo.class);
                         List<String> membrosG = g.getMembrosGrupo();
 
@@ -88,11 +86,7 @@ public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemC
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("TAG", "onCancelled", databaseError.toException());
             }
-
-
         });
-
-
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -111,8 +105,8 @@ public class MeusGrupos extends AppCompatActivity implements AdapterView.OnItemC
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent();
         intent.setClass(this, MostraGrupo.class);
-        String grupo = (String) parent.getItemAtPosition(position);
 
+        String grupo = (String) parent.getItemAtPosition(position);
         intent.putExtra("userTlm", userLogado);
         intent.putExtra("posGrupo", String.valueOf(position));
         intent.putExtra("nomeG", grupo);
