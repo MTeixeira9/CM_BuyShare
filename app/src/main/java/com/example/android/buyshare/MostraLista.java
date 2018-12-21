@@ -150,19 +150,25 @@ public class MostraLista extends AppCompatActivity {
         } else if (id == R.id.addMembros) {
             Intent addMembros = new Intent(MostraLista.this, AdicionarMembrosMostraLista.class);
             addMembros.putExtra("userTlm", userTlm);
+            addMembros.putExtra("nameL", nomeLista);
+            addMembros.putExtra("position", position);
             startActivity(addMembros);
 
         } else if (id == R.id.verMembros) {
-            Intent amigos = new Intent(MostraLista.this, VerMembros.class);
-            startActivity(amigos);
+            Intent membros = new Intent(MostraLista.this, VerMembros.class);
+            membros.putExtra("userTlm", userTlm);
+            membros.putExtra("nameL", nomeLista);
+            membros.putExtra("position", position);
+            startActivity(membros);
 
         } else if (id == R.id.estimarCusto) {
 
-            Intent amigos = new Intent(MostraLista.this, EstimarCustoLista.class);
-            amigos.putExtra("userTlm", userTlm);
-            amigos.putExtra("key", idL);
-            amigos.putExtra("position", position);
-            startActivity(amigos);
+            Intent estCusto = new Intent(MostraLista.this, EstimarCustoLista.class);
+            estCusto.putExtra("userTlm", userTlm);
+            estCusto.putExtra("nameL", nomeLista);
+            estCusto.putExtra("key", idL);
+            estCusto.putExtra("position", position);
+            startActivity(estCusto);
 
         } else if (id == R.id.finalizar) {
             Intent intent = new Intent(MostraLista.this, AdicionarCustoL.class);
