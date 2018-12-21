@@ -19,7 +19,7 @@
         app:showAsAction="never"/>
 
     <item android:id="@+id/editarLista"
-        android:title="EditarLista
+        android:title="Editar Lista
 "
         app:showAsAction="never"/>
 

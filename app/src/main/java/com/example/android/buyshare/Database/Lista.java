@@ -14,7 +14,7 @@ public class Lista {
     private ArrayList<Double> arrayCusto;
     private String criadorLista;
     private ArrayList <String> membrosGrupo;
-    private boolean arquivada;
+    private boolean arquivada, partilhada;
 
     public Lista(){
     }
@@ -27,7 +27,7 @@ public class Lista {
         membrosGrupo = new ArrayList<>();
         membrosGrupo.add(criadorLista);
         arquivada = false;
-
+        partilhada = false;
         arrayCusto = new ArrayList<>();
     }
 
@@ -45,6 +45,10 @@ public class Lista {
 
     public boolean isArquivada() {
         return arquivada;
+    }
+
+    public boolean isPartilhada() {
+        return partilhada;
     }
 
     public ArrayList<Double> getCustoFinal() { return arrayCusto; }
