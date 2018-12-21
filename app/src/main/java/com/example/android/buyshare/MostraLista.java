@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.buyshare.Database.Lista;
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +32,7 @@ public class MostraLista extends AppCompatActivity {
     private ValueEventListener mListener;
     private ArrayList<String> listaProdutos;
     private int pos;
+    private String idL;
 
 
     @Override
@@ -52,6 +54,8 @@ public class MostraLista extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
         mDatabase2 = FirebaseDatabase.getInstance().getReference("users");
 
+        idL = "";
+
 
         mListener = mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -59,6 +63,9 @@ public class MostraLista extends AppCompatActivity {
                 int count = 0;
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                     Lista l = singleSnapshot.getValue(Lista.class);
+
+                    idL = l.getIdL();
+
                     Query q = mDatabase2.orderByChild("numeroTlm").equalTo(userTlm);
                     q.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -75,11 +82,13 @@ public class MostraLista extends AppCompatActivity {
                         }
                     });
 
+                   // Toast.makeText(getApplicationContext(), "Nome Pessoa: " + nomePessoa, Toast.LENGTH_LONG).show();
 
                     String nomePessoa = l.getCriadorLista();
-                    if (nomePessoa.equals(userTlm))
 
-                    {
+
+                    if (nomePessoa.equals(userTlm)) {
+                       // Toast.makeText(getApplicationContext(), "Entou if", Toast.LENGTH_LONG).show();
 
 
                         //List<String> listas = new ArrayList<>();
@@ -91,6 +100,7 @@ public class MostraLista extends AppCompatActivity {
                             if (count == pos) {
                                 for (String a : listaProdutos) {
                                     CheckBox cb = new CheckBox(getApplicationContext());
+                                    cb.setTextSize(18);
                                     cb.setText(a);
                                     linearLayout.addView(cb);
                                 }
@@ -103,6 +113,7 @@ public class MostraLista extends AppCompatActivity {
                         }
                         count++;
                     }
+
                 }
 
 
@@ -171,6 +182,8 @@ public class MostraLista extends AppCompatActivity {
             }
         });
 
+        //Toast.makeText(getApplicationContext(), "ID lista: " + idL, Toast.LENGTH_LONG).show();
+
     }
 
     @Override
@@ -199,6 +212,9 @@ public class MostraLista extends AppCompatActivity {
         } else if (id == R.id.estimarCusto) {
 
             Intent amigos = new Intent(MostraLista.this, EstimarCustoLista.class);
+            amigos.putExtra("userTlm", userTlm);
+            amigos.putExtra("key", idL);
+            amigos.putExtra("position", position);
             startActivity(amigos);
 
         } else if (id == R.id.finalizar) {

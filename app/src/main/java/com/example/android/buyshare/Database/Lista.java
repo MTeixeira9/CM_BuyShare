@@ -11,6 +11,7 @@ public class Lista {
     private String idL;
     private String nomeLista;
     private ArrayList<String> produtos;
+    private ArrayList<Double> arrayCusto;
     private String criadorLista;
     private ArrayList <String> membrosGrupo;
     private boolean arquivada;
@@ -26,6 +27,8 @@ public class Lista {
         membrosGrupo = new ArrayList<>();
         membrosGrupo.add(criadorLista);
         arquivada = false;
+
+        arrayCusto = new ArrayList<>();
     }
 
     public String getIdL() {
@@ -43,4 +46,6 @@ public class Lista {
     public boolean isArquivada() {
         return arquivada;
     }
+
+    public ArrayList<Double> getCustoFinal() { return arrayCusto; }
 }
