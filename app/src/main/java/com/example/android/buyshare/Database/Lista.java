@@ -15,6 +15,7 @@ public class Lista {
     private String criadorLista;
     private ArrayList <String> membrosGrupo;
     private boolean arquivada, partilhada;
+    private ArrayList <String> quemEliminou;
 
     public Lista(){
     }
@@ -29,6 +30,7 @@ public class Lista {
         arquivada = false;
         partilhada = false;
         arrayCusto = new ArrayList<>();
+        quemEliminou = new ArrayList<>();
     }
 
     public String getIdL() {
@@ -47,9 +49,9 @@ public class Lista {
         return arquivada;
     }
 
-    public boolean isPartilhada() {
-        return partilhada;
-    }
+    public boolean isPartilhada() { return partilhada; }
+
+    public ArrayList<String> getQuemEliminou() { return quemEliminou; }
 
     public ArrayList<Double> getCustoFinal() { return arrayCusto; }
 }

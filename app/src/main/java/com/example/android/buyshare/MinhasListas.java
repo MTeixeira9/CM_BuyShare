@@ -90,16 +90,16 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
                         Lista l = singleSnapshot.getValue(Lista.class);
 
                         //listas privadas (e nao arquivadas)
-                        if (l.getCriadorLista().equals(userTlm) && l.getMembrosGrupo().size() == 1
-                                && !l.isArquivada()) {
-                            lPartilhadas.add(l);
+                        if (l.getCriadorLista().equals(userTlm) && !l.isPartilhada() && !l.isArquivada()) {
                             lPrivadas.add(l);
 
                             mAdapter2.add(l.getNomeLista());
                             mAdapter2.notifyDataSetChanged();
                         }
                         //listas partilhadas (e nao arquivadas)
-                        else if (l.getMembrosGrupo().contains(userTlm) && l.getMembrosGrupo().size() > 1) {
+                        else if (l.getMembrosGrupo().contains(userTlm) && l.isPartilhada()) {
+                            lPartilhadas.add(l);
+
                             mAdapter.add(l.getNomeLista());
                             mAdapter.notifyDataSetChanged();
                         }
