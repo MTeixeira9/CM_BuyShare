@@ -82,12 +82,17 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
                     for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
 
                         Lista l = singleSnapshot.getValue(Lista.class);
-                        ArrayList<String> membrosLista = l.getMembrosGrupo();
 
-                        if (membrosLista.contains(userTlm) && !l.isArquivada()) {
-
+                        //listas privadas (e nao arquivadas)
+                        if (l.getCriadorLista().equals(userTlm) && l.getMembrosGrupo().size() == 1
+                                && !l.isArquivada()) {
                             mAdapter2.add(l.getNomeLista());
                             mAdapter2.notifyDataSetChanged();
+                        }
+                        //listas partilhadas (e nao arquivadas)
+                        else if(l.getMembrosGrupo().contains(userTlm) && l.getMembrosGrupo().size() > 1){
+                            mAdapter.add(l.getNomeLista());
+                            mAdapter.notifyDataSetChanged();
                         }
                     }
                 }
@@ -181,6 +186,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
             startActivity(meuPerfil);
         } else if (id == R.id.arquivo) {
             Intent arquivo = new Intent(MinhasListas.this, Arquivo.class);
+            arquivo.putExtra("userTlm", userTlm);
             startActivity(arquivo);
         }
 
