@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.android.buyshare.Database.Grupo;
 import com.example.android.buyshare.Database.User;
@@ -51,7 +50,7 @@ public class PopUpCriarGrupo extends Activity {
 
             @Override
             public void onClick(View v) {
-                final EditText nomeGrupo = findViewById(R.id.nomeGrupo);
+                final EditText nomeGrupo = findViewById(R.id.nomeLista);
                 i = new Intent();
                 final String nomeG = nomeGrupo.getText().toString();
 

@@ -28,12 +28,11 @@ import java.util.Map;
 
 public class MostraLista extends AppCompatActivity {
 
-    private String userTlm, nomeLista, nomePessoa, position;
+    private String userTlm, nomeLista, position;
     private DatabaseReference mDatabase, mDatabase2;
     private TextView listaCriadaPor;
     private LinearLayout linearLayout;
     private ValueEventListener mListener;
-    //private ArrayList<String> listaProdutos;
     private HashMap<String, Double> produtoCusto;
     private int pos;
     private String idL;
@@ -57,8 +56,7 @@ public class MostraLista extends AppCompatActivity {
 
         produtoCusto = new HashMap<>();
 
-        idL = getIntent().getStringExtra("idL");
-        //idL = "";
+        idL = "";
 
         mListener = mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -66,9 +64,6 @@ public class MostraLista extends AppCompatActivity {
                 int count = 0;
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                     Lista l = singleSnapshot.getValue(Lista.class);
-
-                    idL = l.getIdL();
-
 
                     Query q = mDatabase2.orderByChild("numeroTlm").equalTo(userTlm);
                     q.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -89,15 +84,11 @@ public class MostraLista extends AppCompatActivity {
                     String nomePessoa = l.getCriadorLista();
 
                     if (nomePessoa.equals(userTlm)) {
-
-
-
                         produtoCusto = l.getProdutoCusto();
-
-
 
                         if (produtoCusto != null) {
                             if (count == pos) {
+                                idL = l.getIdL();
                                 for (Map.Entry<String, Double> a : produtoCusto.entrySet()) {
                                     CheckBox cb = new CheckBox(getApplicationContext());
                                     cb.setTextSize(18);
@@ -129,13 +120,18 @@ public class MostraLista extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MostraLista.this, EditarLista.class);
-                intent.putExtra("key",idL);
+                intent.putExtra("key", idL);
                 intent.putExtra("nameL", nomeLista);
                 intent.putExtra("position", position);
                 startActivity(intent);
             }
         });
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mDatabase.removeEventListener(mListener);
     }
 
     @Override
@@ -163,6 +159,7 @@ public class MostraLista extends AppCompatActivity {
             membros.putExtra("userTlm", userTlm);
             membros.putExtra("nameL", nomeLista);
             membros.putExtra("position", position);
+            membros.putExtra("idL", idL);
             startActivity(membros);
 
         } else if (id == R.id.estimarCusto) {

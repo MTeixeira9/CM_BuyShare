@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class VerMembros extends AppCompatActivity {
 
@@ -18,8 +19,13 @@ public class VerMembros extends AppCompatActivity {
         position = getIntent().getStringExtra("position");
         nameL = getIntent().getStringExtra("nameL");
 
-        getSupportActionBar().setTitle("Membros de [nome lista]");
+        getSupportActionBar().setTitle(nameL);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView tv = findViewById(R.id.nomeLista);
+        tv.setText("Membros da lista " + nameL);
+
+
     }
 
     @Override
