@@ -14,8 +14,8 @@ public class Lista {
     private HashMap<String, Double > produtoCusto;
     private String criadorLista;
     private ArrayList <String> membrosGrupo;
-    private boolean arquivada, partilhada;
-    private ArrayList <String> quemEliminou;
+    private boolean partilhada;
+    private ArrayList <String> quemEliminou, quemArquivou;
 
     public Lista(){
     }
@@ -26,9 +26,11 @@ public class Lista {
         this.criadorLista = criadorLista;
         membrosGrupo = new ArrayList<>();
         membrosGrupo.add(criadorLista);
-        arquivada = false;
         partilhada = false;
         quemEliminou = new ArrayList<>();
+        quemEliminou.add("");
+        quemArquivou = new ArrayList<>();
+        quemArquivou.add("");
         this.produtoCusto = produtoCusto;
     }
 
@@ -42,13 +44,11 @@ public class Lista {
 
     public ArrayList<String> getMembrosGrupo() { return membrosGrupo; }
 
-    public boolean isArquivada() {
-        return arquivada;
-    }
-
     public boolean isPartilhada() { return partilhada; }
 
     public ArrayList<String> getQuemEliminou() { return quemEliminou; }
+
+    public ArrayList<String> getQuemArquivou() { return quemArquivou; }
 
     public HashMap<String, Double> getProdutoCusto() {return produtoCusto; }
 }

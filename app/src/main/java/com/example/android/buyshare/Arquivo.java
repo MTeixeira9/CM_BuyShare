@@ -53,9 +53,7 @@ public class Arquivo extends AppCompatActivity {
                     Lista l = singleSnapshot.getValue(Lista.class);
                     ArrayList<String> membrosLista = l.getMembrosGrupo();
 
-                    if (membrosLista.contains(userTlm) && l.isArquivada()) {
-                        //List<String> listas = new ArrayList<>();
-                        //listas.add(l.getNomeLista());
+                    if (membrosLista.contains(userTlm) && l.getQuemArquivou().contains(userTlm)) {
 
                         mAdapter.add(l.getNomeLista());
                         mAdapter.notifyDataSetChanged();

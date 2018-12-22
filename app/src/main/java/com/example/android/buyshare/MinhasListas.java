@@ -53,7 +53,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         //ir buscar quem estah autenticado
         userTlm = getIntent().getStringExtra("userTlm");
 
-       // produtoCusto = (HashMap<String, Double>)getIntent().getSerializableExtra("produtoCusto");
+        // produtoCusto = (HashMap<String, Double>)getIntent().getSerializableExtra("produtoCusto");
 
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
 
@@ -93,14 +93,15 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
                         Lista l = singleSnapshot.getValue(Lista.class);
 
                         //listas privadas (e nao arquivadas)
-                        if (l.getCriadorLista().equals(userTlm) && !l.isPartilhada() && !l.isArquivada()) {
+                        if (l.getCriadorLista().equals(userTlm) && !l.isPartilhada() && !l.getQuemArquivou().contains(userTlm)) {
                             lPrivadas.add(l);
 
                             mAdapter2.add(l.getNomeLista());
                             mAdapter2.notifyDataSetChanged();
                         }
-                        //listas partilhadas (e nao arquivadas)
-                        else if (l.getMembrosGrupo().contains(userTlm) && l.isPartilhada()) {
+                        //listas partilhadas (e nao arquivadas nem eliminadas por mim)
+                        else if (l.getMembrosGrupo().contains(userTlm) && l.isPartilhada()
+                                && !l.getQuemArquivou().contains(userTlm) && !l.getQuemEliminou().contains(userTlm)) {
                             lPartilhadas.add(l);
 
                             mAdapter.add(l.getNomeLista());
@@ -126,7 +127,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         menu.add(0, v.getId(), 0, "Arquivar");
         menu.add(0, v.getId(), 0, "Eliminar");
 
-        selectedListView = (ListView)v;
+        selectedListView = (ListView) v;
     }
 
     @Override
@@ -140,22 +141,13 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         switch (idListView) {
             case R.id.listasPrivadas:
 
-                //IR BUSCAR A LISTA SELECTECIONADA
-                int countArq = 0;
-                for (Lista l : lPrivadas) {
-                    //A LISTA EH DA PESSOA
-                    if (userTlm.equals(l.getCriadorLista())) {
-                        if (countArq == p) {
-                            lSelected = l;
-                            break;
-                        } else {
-                            countArq++;
-                        }
-                    }
-                }
+                //IR BUSCAR A LISTA SELECIONADA
+                lSelected = lPrivadas.get(p);
 
                 if (item.getTitle().equals("Arquivar")) {
-                    mDatabase.child(lSelected.getIdL()).child("arquivada").setValue(true);
+                    List<String> quemArq = lSelected.getQuemArquivou();
+                    quemArq.add(userTlm);
+                    mDatabase.child(lSelected.getIdL()).child("quemArquivou").setValue(quemArq);
                     mAdapter2.remove(lSelected.getNomeLista());
                     mAdapter2.notifyDataSetChanged();
 
@@ -168,6 +160,31 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
                 break;
 
             case R.id.listaPartilhadas:
+
+                //IR BUSCAR A LISTA SELECIONADA
+                lSelected = lPartilhadas.get(p);
+
+                if (item.getTitle().equals("Arquivar")) {
+                    List<String> quemArq = lSelected.getQuemArquivou();
+                    quemArq.add(userTlm);
+                    mDatabase.child(lSelected.getIdL()).child("quemArquivou").setValue(quemArq);
+                    mAdapter.remove(lSelected.getNomeLista());
+                    mAdapter.notifyDataSetChanged();
+
+                } else if (item.getTitle().equals("Eliminar")) {
+                    if (lSelected.getCriadorLista().equals(userTlm)) {
+                        mDatabase.child(lSelected.getIdL()).removeValue();
+                        mAdapter.remove(lSelected.getNomeLista());
+                        mAdapter.notifyDataSetChanged();
+                    }
+                    else{
+                        List<String> quemEli = lSelected.getQuemEliminou();
+                        quemEli.add(userTlm);
+                        mDatabase.child(lSelected.getIdL()).child("quemEliminou").setValue(quemEli);
+                        mAdapter.remove(lSelected.getNomeLista());
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }
 
                 break;
 
