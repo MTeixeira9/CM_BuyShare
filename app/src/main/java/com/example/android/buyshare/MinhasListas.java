@@ -241,6 +241,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         intent.putExtra("nameL", name);
         intent.putExtra("userTlm", userTlm);
         intent.putExtra("position", Integer.toString(position));
+        intent.putExtra("nomeClasse","0");
 
         startActivity(intent);
     }

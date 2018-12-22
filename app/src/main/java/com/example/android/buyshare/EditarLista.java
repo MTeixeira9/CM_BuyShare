@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,7 +25,7 @@ import java.util.HashMap;
 
 public class EditarLista extends AppCompatActivity {
 
-    private String userTlm, key, nomeLista, position;
+    private String userTlm, key, nomeLista, position, nomeLista2;
     private DatabaseReference mDatabase;
     private ListView listView;
     private ValueEventListener mListener;
@@ -42,11 +43,12 @@ public class EditarLista extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_lista);
 
-        //getSupportActionBar().setTitle("Nova Lista");
+        getSupportActionBar().setTitle("Lista Editada");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        userTlm = getIntent().getStringExtra("userTlm");
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
+
+        userTlm = getIntent().getStringExtra("userTlm");
         key = getIntent().getStringExtra("key");
         nomeLista = getIntent().getStringExtra("nameL");
         position = getIntent().getStringExtra("position");
@@ -94,18 +96,20 @@ public class EditarLista extends AppCompatActivity {
             public void onClick(View v) {
 
                 EditText nomeL = (EditText) findViewById(R.id.nomeLEditLista);
-                String nomeLista = nomeL.getText().toString();
+                nomeLista2 = nomeL.getText().toString();
 
                 if (!nomeLista.equals("")) {
 
-                    mDatabase.child(key).child("nomeLista").setValue(nomeLista);
+                    mDatabase.child(key).child("nomeLista").setValue(nomeLista2);
                     mDatabase.child(key).child("produtoCusto").setValue(produtoCusto);
 
                     Intent i = new Intent(EditarLista.this, MostraLista.class);
                     i.putExtra("userTlm", userTlm);
                     i.putExtra("position", position);
-                    i.putExtra("nameL", nomeLista);
-                    i.putExtra("idL", key);
+                    i.putExtra("nameEditLista", nomeLista2);
+                    i.putExtra("nomeClasse","1");
+
+                    //i.putExtra("idL", key);
 
                     startActivity(i);
 
@@ -125,19 +129,37 @@ public class EditarLista extends AppCompatActivity {
                 String item = mItemEdit.getText().toString();
                 if (!item.equals("")) {
                     produtoCusto.put(item, 0.0);
-                    //produtos.add(item);
                     mAdapter.add(item);
                     mAdapter.notifyDataSetChanged();
                     mItemEdit.setText("");
                 } else {
                     Toast.makeText(getApplicationContext(), msgErrAddProd, Toast.LENGTH_LONG).show();
                 }
-
-
-                //intent.putStringArrayListExtra("listaProdutos", produtos);
             }
         });
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item){
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed () {
+        Intent i = new Intent(EditarLista.this, MostraLista.class);
+        i.putExtra("userTlm", userTlm);
+        i.putExtra("position", position);
+        i.putExtra("nameL", nomeLista2);
+        i.putExtra("nomeClasse","1");
+        startActivity(i);
     }
 }

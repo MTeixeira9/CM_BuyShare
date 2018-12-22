@@ -36,14 +36,28 @@ public class MostraLista extends AppCompatActivity {
     private HashMap<String, Double> produtoCusto;
     private int pos;
     private String idL;
+    private String nomeClasse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostra_lista);
 
-        nomeLista = getIntent().getStringExtra("nameL");
+        nomeClasse = getIntent().getStringExtra("nomeClasse");
+        //nomeLista = getIntent().getStringExtra("nameL");
+
+
+        if (nomeClasse.equals("0")) {
+            nomeLista = getIntent().getStringExtra("nameL");
+
+        } else {
+            nomeLista = getIntent().getStringExtra("nameEditLista");
+
+        }
+
+
         userTlm = getIntent().getStringExtra("userTlm");
+
         position = getIntent().getStringExtra("position");
 
         pos = Integer.parseInt(position);
@@ -82,9 +96,14 @@ public class MostraLista extends AppCompatActivity {
                     });
 
                     String nomePessoa = l.getCriadorLista();
+                    listaCriadaPor.setText("Lista criada por: " + nomePessoa);
 
-                    if (nomePessoa.equals(userTlm)) {
+                    Lista l2 = singleSnapshot.getValue(Lista.class);
+
+                    if (nomePessoa.equals(userTlm) && nomeClasse.equals("0")) {
+
                         produtoCusto = l.getProdutoCusto();
+
 
                         if (produtoCusto != null) {
                             if (count == pos) {
@@ -99,6 +118,24 @@ public class MostraLista extends AppCompatActivity {
                             }
                         }
                         count++;
+
+                    }else if(nomeClasse.equals("1")){
+                        produtoCusto = l2.getProdutoCusto();
+
+                        if (produtoCusto != null) {
+                            if (count == pos) {
+                                idL = l.getIdL();
+                                for (Map.Entry<String, Double> a : produtoCusto.entrySet()) {
+                                    CheckBox cb = new CheckBox(getApplicationContext());
+                                    cb.setTextSize(18);
+                                    cb.setText(a.getKey());
+                                    linearLayout.addView(cb);
+                                }
+                                break;
+                            }
+                        }
+                        count++;
+
                     }
                 }
             }
@@ -122,6 +159,7 @@ public class MostraLista extends AppCompatActivity {
                 Intent intent = new Intent(MostraLista.this, EditarLista.class);
                 intent.putExtra("key", idL);
                 intent.putExtra("nameL", nomeLista);
+                intent.putExtra("userTlm", userTlm);
                 intent.putExtra("position", position);
                 startActivity(intent);
             }
@@ -174,13 +212,6 @@ public class MostraLista extends AppCompatActivity {
         } else if (id == R.id.finalizar) {
             Intent intent = new Intent(MostraLista.this, AdicionarCustoL.class);
             startActivity(intent);
-
-        } else if (id == R.id.editarLista) {
-            int count = 0;
-            if (count == pos) {
-                // Intent intent = new Intent(MostraLista.this, );
-                // startActivity(intent);
-            }
         }
 
         return super.onOptionsItemSelected(item);
