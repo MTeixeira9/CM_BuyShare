@@ -42,7 +42,7 @@ public class EditarLista extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_lista);
 
-        getSupportActionBar().setTitle("Nova Lista");
+        //getSupportActionBar().setTitle("Nova Lista");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         userTlm = getIntent().getStringExtra("userTlm");
@@ -62,27 +62,24 @@ public class EditarLista extends AppCompatActivity {
         final TextView nomeTV = findViewById(R.id.nomeLEditLista);
 
 
-
         mListener = mDatabase.child(key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Lista l = dataSnapshot.getValue(Lista.class);
+                if (listView.getAdapter().getCount() == 0) {
+                    Lista l = dataSnapshot.getValue(Lista.class);
 
-                produtoCusto = l.getProdutoCusto();
+                    produtoCusto = l.getProdutoCusto();
 
-                String tv = l.getNomeLista();
+                    String tv = l.getNomeLista();
 
-                nomeTV.setText(tv);
-
-
-
+                    nomeTV.setText(tv);
 
 
-                for(String prod : produtoCusto.keySet()){
-                    mAdapter.add(prod);
-                    mAdapter.notifyDataSetChanged();
+                    for (String prod : produtoCusto.keySet()) {
+                        mAdapter.add(prod);
+                        mAdapter.notifyDataSetChanged();
+                    }
                 }
-
             }
 
             @Override
@@ -102,11 +99,12 @@ public class EditarLista extends AppCompatActivity {
                 if (!nomeLista.equals("")) {
 
                     mDatabase.child(key).child("nomeLista").setValue(nomeLista);
+                    mDatabase.child(key).child("produtoCusto").setValue(produtoCusto);
 
                     Intent i = new Intent(EditarLista.this, MostraLista.class);
                     i.putExtra("userTlm", userTlm);
-                    i.putExtra("position",position);
-                    i.putExtra("nameL",nomeLista);
+                    i.putExtra("position", position);
+                    i.putExtra("nameL", nomeLista);
                     i.putExtra("idL", key);
 
                     startActivity(i);
@@ -131,13 +129,9 @@ public class EditarLista extends AppCompatActivity {
                     mAdapter.add(item);
                     mAdapter.notifyDataSetChanged();
                     mItemEdit.setText("");
-                }
-                else{
+                } else {
                     Toast.makeText(getApplicationContext(), msgErrAddProd, Toast.LENGTH_LONG).show();
                 }
-
-
-
 
 
                 //intent.putStringArrayListExtra("listaProdutos", produtos);
