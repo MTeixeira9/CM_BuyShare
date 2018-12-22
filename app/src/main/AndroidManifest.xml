@@ -5,8 +5,8 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/cart_copia"
-        android:roundIcon="@mipmap/cart_copia"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/cart_copia"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".LoginActivity">
@@ -28,7 +28,7 @@
             android:parentActivityName=".MinhasListas" />
         <activity
             android:name=".PopUpCriarGrupo"
-            android:theme="@style/AppTheme.popUp"/>
+            android:theme="@style/AppTheme.popUp" />
         <activity
             android:name=".NovaLista"
             android:parentActivityName=".MinhasListas" />
@@ -68,17 +68,22 @@
         <activity
             android:name=".Arquivo"
             android:parentActivityName=".MinhasListas" />
-        <activity android:name=".PopUpEstimarCusto"
+        <activity
+            android:name=".PopUpEstimarCusto"
             android:theme="@style/AppTheme.popUp" />
-        <activity android:name=".EstimarCustoLista"
+        <activity
+            android:name=".EstimarCustoLista"
             android:parentActivityName=".MostraLista" />
         <activity
             android:name=".EditPerfil"
             android:parentActivityName=".Perfil" />
-        <activity android:name=".MostraGrupo"
-            android:parentActivityName=".MeusGrupos"></activity>
-        <activity android:name=".AdicionarMembros"
-            android:parentActivityName=".MostraGrupo"></activity>
+        <activity
+            android:name=".MostraGrupo"
+            android:parentActivityName=".MeusGrupos" />
+        <activity
+            android:name=".AdicionarMembros"
+            android:parentActivityName=".MostraGrupo" />
+        <activity android:name=".EditarLista"></activity>
     </application>
 
 </manifest>

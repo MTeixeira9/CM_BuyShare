@@ -57,7 +57,8 @@ public class MostraLista extends AppCompatActivity {
 
         produtoCusto = new HashMap<>();
 
-        idL = "";
+        idL = getIntent().getStringExtra("idL");
+        //idL = "";
 
         mListener = mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -127,7 +128,10 @@ public class MostraLista extends AppCompatActivity {
         {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MostraLista.this, MinhasListas.class);
+                Intent intent = new Intent(MostraLista.this, EditarLista.class);
+                intent.putExtra("key",idL);
+                intent.putExtra("nameL", nomeLista);
+                intent.putExtra("position", position);
                 startActivity(intent);
             }
         });

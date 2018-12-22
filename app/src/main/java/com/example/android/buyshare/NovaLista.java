@@ -1,35 +1,23 @@
 package com.example.android.buyshare;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.buyshare.Database.Lista;
-import com.example.android.buyshare.Database.User;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class NovaLista extends AppCompatActivity {
 
@@ -58,13 +46,13 @@ public class NovaLista extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
         produtoCusto = new HashMap<>();
 
-        Button guardarLista = (Button) findViewById(R.id.guardarLista);
+        Button guardarLista = (Button) findViewById(R.id.guardarListaEditLista);
         guardarLista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                EditText nomeL = (EditText) findViewById(R.id.nomeL);
+                EditText nomeL = (EditText) findViewById(R.id.nomeLEditLista);
                 String nomeLista = nomeL.getText().toString();
 
 
