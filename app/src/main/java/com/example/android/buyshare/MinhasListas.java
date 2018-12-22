@@ -100,7 +100,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
                             mAdapter2.notifyDataSetChanged();
                         }
                         //listas partilhadas (e nao arquivadas nem eliminadas por mim)
-                        else if (l.getMembrosGrupo().contains(userTlm) && l.isPartilhada()
+                        else if (l.getMembrosLista().contains(userTlm) && l.isPartilhada()
                                 && !l.getQuemArquivou().contains(userTlm) && !l.getQuemEliminou().contains(userTlm)) {
                             lPartilhadas.add(l);
 

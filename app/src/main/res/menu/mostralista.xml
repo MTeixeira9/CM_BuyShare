@@ -17,11 +17,4 @@
     <item android:id="@+id/estimarCusto"
         android:title="Estimar Custo"
         app:showAsAction="never"/>
-
-    <item android:id="@+id/editarLista"
-        android:title="Editar Lista
-"
-        app:showAsAction="never"/>
-
-
 </menu>

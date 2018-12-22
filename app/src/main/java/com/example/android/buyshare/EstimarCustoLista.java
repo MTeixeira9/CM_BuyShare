@@ -92,33 +92,34 @@ public class EstimarCustoLista extends AppCompatActivity {
                 idEditText = new ArrayList<>();
                 int i = 0;
 
-                if (produtoCusto != null) {
-                    for (Map.Entry<String, Double> a : produtoCusto.entrySet()) {
-                        TableRow tr = new TableRow(getApplicationContext());
-                        TextView c1 = new TextView(getApplicationContext());
-                        c1.setTextSize(18);
-                        EditText c2 = new EditText(getApplicationContext());
-                        c2.setId(i);
+                if(count == 0) {
+                    if (produtoCusto != null) {
+                        for (Map.Entry<String, Double> a : produtoCusto.entrySet()) {
+                            TableRow tr = new TableRow(getApplicationContext());
+                            TextView c1 = new TextView(getApplicationContext());
+                            c1.setTextSize(18);
+                            EditText c2 = new EditText(getApplicationContext());
+                            c2.setId(i);
 
-                        idEditText.add(c2);
+                            idEditText.add(c2);
 
-                        //c1.setText(prod.get(i));
-                        c1.setText(a.getKey());
-                        c1.setTextSize(18);
-                        c2.setText(String.valueOf(a.getValue()));
-
-
-                        tr.addView(c1);
-                        tr.addView(c2);
+                            //c1.setText(prod.get(i));
+                            c1.setText(a.getKey());
+                            c1.setTextSize(18);
+                            c2.setText(String.valueOf(a.getValue()));
 
 
-                        tableL.addView(tr);
+                            tr.addView(c1);
+                            tr.addView(c2);
 
-                        i++;
 
+                            tableL.addView(tr);
+
+                            i++;
+
+                        }
                     }
                 }
-
             }
 
             @Override

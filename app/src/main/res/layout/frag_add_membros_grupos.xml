@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,49 +9,32 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="216dp"
+        android:layout_above="@+id/button"
+        android:layout_marginBottom="43dp">
 
         <LinearLayout
+            android:id="@+id/linearLayoutGrupo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <CheckBox
-                android:id="@+id/checkBox7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="Grupo 1 " />
-
-            <CheckBox
-                android:id="@+id/checkBox8"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="Grupo 2 " />
-
-            <CheckBox
-                android:id="@+id/checkBox9"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="Grupo 3 " />
-
-            <CheckBox
-                android:id="@+id/checkBox10"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="Grupo 4 " />
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_style"
-                android:textSize="24sp"
-                android:text="Adicionar" />
         </LinearLayout>
     </ScrollView>
 
-</FrameLayout>
+    <Button
+        android:id="@+id/button"
+        android:layout_width="267dp"
+        android:layout_height="59dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginBottom="191dp"
+        android:background="@drawable/button_style"
+        android:text="Adicionar"
+        android:textColor="@color/white"
+        android:textSize="24sp" />
+
+</RelativeLayout>

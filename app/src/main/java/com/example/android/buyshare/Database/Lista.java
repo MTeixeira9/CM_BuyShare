@@ -13,7 +13,7 @@ public class Lista {
     private String nomeLista;
     private HashMap<String, Double > produtoCusto;
     private String criadorLista;
-    private ArrayList <String> membrosGrupo;
+    private ArrayList <String> membrosLista;
     private boolean partilhada;
     private ArrayList <String> quemEliminou, quemArquivou;
 
@@ -24,8 +24,8 @@ public class Lista {
         this.idL = idL;
         this.nomeLista = nomeLista;
         this.criadorLista = criadorLista;
-        membrosGrupo = new ArrayList<>();
-        membrosGrupo.add(criadorLista);
+        membrosLista = new ArrayList<>();
+        membrosLista.add(criadorLista);
         partilhada = false;
         quemEliminou = new ArrayList<>();
         quemEliminou.add("");
@@ -42,7 +42,7 @@ public class Lista {
 
     public String getCriadorLista() {return criadorLista;}
 
-    public ArrayList<String> getMembrosGrupo() { return membrosGrupo; }
+    public ArrayList<String> getMembrosLista() { return membrosLista; }
 
     public boolean isPartilhada() { return partilhada; }
 

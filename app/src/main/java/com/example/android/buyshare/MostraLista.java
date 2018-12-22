@@ -51,7 +51,7 @@ public class MostraLista extends AppCompatActivity {
             nomeLista = getIntent().getStringExtra("nameL");
 
         } else {
-            nomeLista = getIntent().getStringExtra("nameEditLista");
+            nomeLista = getIntent().getStringExtra("nameL");
 
         }
 

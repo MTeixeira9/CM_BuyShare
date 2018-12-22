@@ -51,7 +51,7 @@ public class Arquivo extends AppCompatActivity {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
 
                     Lista l = singleSnapshot.getValue(Lista.class);
-                    ArrayList<String> membrosLista = l.getMembrosGrupo();
+                    ArrayList<String> membrosLista = l.getMembrosLista();
 
                     if (membrosLista.contains(userTlm) && l.getQuemArquivou().contains(userTlm)) {
 
