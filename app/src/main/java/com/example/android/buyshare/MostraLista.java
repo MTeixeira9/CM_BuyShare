@@ -166,12 +166,12 @@ public class MostraLista extends AppCompatActivity {
             }
         });
     }
-
+/*
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mDatabase.removeEventListener(mListener);
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -192,6 +192,7 @@ public class MostraLista extends AppCompatActivity {
             addMembros.putExtra("nameL", nomeLista);
             addMembros.putExtra("position", position);
             addMembros.putExtra("idL", idL);
+
             startActivity(addMembros);
 
         } else if (id == R.id.verMembros) {
@@ -200,6 +201,7 @@ public class MostraLista extends AppCompatActivity {
             membros.putExtra("nameL", nomeLista);
             membros.putExtra("position", position);
             membros.putExtra("idL", idL);
+
             startActivity(membros);
 
         } else if (id == R.id.estimarCusto) {

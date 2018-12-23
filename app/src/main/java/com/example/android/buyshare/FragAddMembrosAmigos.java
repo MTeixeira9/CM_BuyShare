@@ -3,6 +3,7 @@ package com.example.android.buyshare;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,9 +56,12 @@ public class FragAddMembrosAmigos extends Fragment {
         position = getActivity().getIntent().getStringExtra("position");
         idL = getActivity().getIntent().getStringExtra("idL");
 
+        Toast.makeText(getContext(), "Valor " + idL, Toast.LENGTH_LONG).show();
+
         amigos = new HashMap<>();
         linearLayout = v.findViewById(R.id.linearLayoutAddMembros);
         adicionar = v.findViewById(R.id.buttonAddAmigosFrag);
+
 
         membrosLista = new ArrayList<>();
 
@@ -104,15 +108,20 @@ public class FragAddMembrosAmigos extends Fragment {
                             }
                         }
 
+                        Toast.makeText(getContext(), "IDL: " + idL, Toast.LENGTH_LONG).show();
+
                         mDatabaseL = FirebaseDatabase.getInstance().getReference("listas");
                         mListenerL = mDatabaseL.child(idL).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                //int count = 0;
+
                                 Lista l = dataSnapshot.getValue(Lista.class);
+
+                                Toast.makeText(getContext(), "Nome L " + l.getNomeLista(), Toast.LENGTH_LONG).show();
 
 
                                 membrosLista = l.getMembrosLista();
+
 
                                 for (String a : paraAdicionar) {
                                     if (!membrosLista.contains(a)) {
@@ -127,7 +136,8 @@ public class FragAddMembrosAmigos extends Fragment {
                                 }
 
                                 mDatabaseL.child(idL).child("membrosLista").setValue(membrosLista);
-                                
+
+
                             }
 
                             @Override
@@ -156,10 +166,11 @@ public class FragAddMembrosAmigos extends Fragment {
 
     }
 
+    /*
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         mDatabase.removeEventListener(mListener);
         mDatabaseL.removeEventListener(mListenerL);
-    }
+    }*/
 }
