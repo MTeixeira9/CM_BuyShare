@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.android.buyshare.Database.Grupo;
 import com.example.android.buyshare.Database.User;
@@ -21,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -29,18 +31,19 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
     private String userLogado;
     private String nomeGrupo;
     private ListView mListMembrosGrupo;
-    private ValueEventListener mListener;
+    private ValueEventListener mListenerG;
+    private ValueEventListener mListenerU;
     private DatabaseReference mDataBaseG;
     private DatabaseReference mDataBaseU;
     private String posGrupoString;
     private int posGrupo;
-    private String nomeAdd;
+    private String numAdd, nomeAdd;
+    private List<String> membros;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostra_grupo);
-
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -67,10 +70,15 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         mListMembrosGrupo.setAdapter(mAdapter);
 
+        numAdd = "";
+        nomeAdd = "";
+
+
+        membros = new ArrayList<>();
         //
         mDataBaseG = FirebaseDatabase.getInstance().getReference("grupos");
         mDataBaseU = FirebaseDatabase.getInstance().getReference("users");
-        mListener = mDataBaseG.addValueEventListener(new ValueEventListener() {
+        mListenerG = mDataBaseG.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (mListMembrosGrupo.getAdapter().getCount() == 0) {
@@ -78,35 +86,32 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
                     for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                         Grupo g = singleSnapshot.getValue(Grupo.class);
                         List<String> membrosG = g.getMembrosGrupo();
-                        for(String membro : membrosG){
-                            if(membro.equals(userLogado)){
-                                if(count == posGrupo){
-                                    for(final String numAdd : membrosG){
-
-                                        Query q = mDataBaseU.orderByChild("numeroTlm").equalTo(numAdd);
-                                        q.addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                for (DataSnapshot singleSnapShot : dataSnapshot.getChildren()) {
-                                                    User u = singleSnapShot.getValue(User.class);
-
-                                                    nomeAdd = u.getNome();
-                                                }
-                                                mAdapter.add(nomeAdd + " " + numAdd );
-                                                mAdapter.notifyDataSetChanged();
-                                            }
-
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                                Log.e("TAG", "onCancelled", databaseError.toException());
-                                            }
-                                        });
-                                    }
-                                }
-                                count++;
+                        if (membrosG.contains(userLogado)) {
+                            if (count == posGrupo) {
+                                membros = membrosG;
                             }
+                            count++;
                         }
                     }
+
+                    mListenerU = mDataBaseU.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                                User u = singleSnapshot.getValue(User.class);
+
+                                if (membros.contains(u.getNumeroTlm())) {
+                                    mAdapter.add(u.getNome() + " " + u.getNumeroTlm());
+                                    mAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Log.e("TAG", "onCancelled", databaseError.toException());
+                        }
+                    });
                 }
             }
 
@@ -155,19 +160,20 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mDataBaseG.removeEventListener(mListener);
+        mDataBaseG.removeEventListener(mListenerG);
+        mDataBaseU.removeEventListener(mListenerU);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
-            if(resultCode == 1){
+            if (resultCode == 1) {
                 userLogado = data.getStringExtra("userTlm");
                 nomeGrupo = data.getStringExtra("nomeG");
                 posGrupoString = data.getStringExtra("posGrupo");
                 mAdapter.add(nomeGrupo);
                 mAdapter.notifyDataSetChanged();
 
-            } else if(resultCode == -1){
+            } else if (resultCode == -1) {
 
             }
         }

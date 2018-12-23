@@ -81,6 +81,7 @@ public class AdicionarMembros extends AppCompatActivity {
                         for (Map.Entry<String, String> amigo : amigos.entrySet()) {
                             cb = new CheckBox(getApplicationContext());
                             cb.setText(amigo.getValue() + "  " + amigo.getKey());
+                            cb.setTextSize(18);
                             linearLayout.addView(cb);
                             //mAdapter.add(amigo.getValue() + " " + amigo.getKey());
                             //mAdapter.notifyDataSetChanged();
@@ -102,13 +103,9 @@ public class AdicionarMembros extends AppCompatActivity {
                             View view = linearLayout.getChildAt(a);
                             if (view instanceof CheckBox) {
                                 CheckBox c = (CheckBox) view;
-                                //cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                //  @Override
-                                //public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                                 if (c.isChecked()) {
-                                    Toast.makeText(getApplicationContext(), "DEPOISSS", Toast.LENGTH_LONG).show();
-                                    String[] add = c.getText().toString().split("\\  ");
+                                    String[] add = c.getText().toString().split("\\s+");
                                     Toast.makeText(getApplicationContext(), add[1], Toast.LENGTH_LONG).show();
                                     paraAdicionar.add(add[1]);
                                 }

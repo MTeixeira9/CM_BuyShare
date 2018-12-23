@@ -107,7 +107,7 @@ public class EditarLista extends AppCompatActivity {
                     i.putExtra("userTlm", userTlm);
                     i.putExtra("position", position);
                     i.putExtra("nameL", nomeLista2);
-                    i.putExtra("nomeClasse","1");
+                   // i.putExtra("nomeClasse","1");
 
                     //i.putExtra("idL", key);
 
@@ -159,7 +159,7 @@ public class EditarLista extends AppCompatActivity {
         i.putExtra("userTlm", userTlm);
         i.putExtra("position", position);
         i.putExtra("nameL", nomeLista2);
-        i.putExtra("nomeClasse","1");
+        //i.putExtra("nomeClasse","1");
         startActivity(i);
     }
 }

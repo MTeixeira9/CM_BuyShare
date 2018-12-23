@@ -24,7 +24,7 @@
 </ScrollView>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonAddAmigosFrag"
         android:layout_width="267dp"
         android:layout_height="59dp"
         android:layout_alignParentBottom="true"

@@ -43,10 +43,10 @@ public class MostraLista extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostra_lista);
 
-        nomeClasse = getIntent().getStringExtra("nomeClasse");
-        //nomeLista = getIntent().getStringExtra("nameL");
+        //nomeClasse = getIntent().getStringExtra("nomeClasse");
+        nomeLista = getIntent().getStringExtra("nameL");
 
-
+/*
         if (nomeClasse.equals("0")) {
             nomeLista = getIntent().getStringExtra("nameL");
 
@@ -54,7 +54,7 @@ public class MostraLista extends AppCompatActivity {
             nomeLista = getIntent().getStringExtra("nameL");
 
         }
-
+*/
 
         userTlm = getIntent().getStringExtra("userTlm");
 
@@ -100,10 +100,9 @@ public class MostraLista extends AppCompatActivity {
 
                     Lista l2 = singleSnapshot.getValue(Lista.class);
 
-                    if (nomePessoa.equals(userTlm) && nomeClasse.equals("0")) {
+                    if (nomePessoa.equals(userTlm)) {
 
                         produtoCusto = l.getProdutoCusto();
-
 
                         if (produtoCusto != null) {
                             if (count == pos) {
@@ -118,7 +117,7 @@ public class MostraLista extends AppCompatActivity {
                             }
                         }
                         count++;
-
+/*
                     }else if(nomeClasse.equals("1")){
                         produtoCusto = l2.getProdutoCusto();
 
@@ -135,6 +134,8 @@ public class MostraLista extends AppCompatActivity {
                             }
                         }
                         count++;
+
+                        */
 
                     }
                 }
@@ -190,6 +191,7 @@ public class MostraLista extends AppCompatActivity {
             addMembros.putExtra("userTlm", userTlm);
             addMembros.putExtra("nameL", nomeLista);
             addMembros.putExtra("position", position);
+            addMembros.putExtra("idL", idL);
             startActivity(addMembros);
 
         } else if (id == R.id.verMembros) {

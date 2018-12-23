@@ -172,18 +172,11 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
                     mAdapter.notifyDataSetChanged();
 
                 } else if (item.getTitle().equals("Eliminar")) {
-                    if (lSelected.getCriadorLista().equals(userTlm)) {
-                        mDatabase.child(lSelected.getIdL()).removeValue();
-                        mAdapter.remove(lSelected.getNomeLista());
-                        mAdapter.notifyDataSetChanged();
-                    }
-                    else{
-                        List<String> quemEli = lSelected.getQuemEliminou();
-                        quemEli.add(userTlm);
-                        mDatabase.child(lSelected.getIdL()).child("quemEliminou").setValue(quemEli);
-                        mAdapter.remove(lSelected.getNomeLista());
-                        mAdapter.notifyDataSetChanged();
-                    }
+                    List<String> quemEli = lSelected.getQuemEliminou();
+                    quemEli.add(userTlm);
+                    mDatabase.child(lSelected.getIdL()).child("quemEliminou").setValue(quemEli);
+                    mAdapter.remove(lSelected.getNomeLista());
+                    mAdapter.notifyDataSetChanged();
                 }
 
                 break;
@@ -241,7 +234,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         intent.putExtra("nameL", name);
         intent.putExtra("userTlm", userTlm);
         intent.putExtra("position", Integer.toString(position));
-        intent.putExtra("nomeClasse","0");
+        //intent.putExtra("nomeClasse","0");
 
         startActivity(intent);
     }
