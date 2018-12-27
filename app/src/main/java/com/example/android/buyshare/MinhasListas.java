@@ -118,6 +118,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         });
 
         mListasPrivadas.setOnItemClickListener(this);
+        mListasPartilhadas.setOnItemClickListener(this);
     }
 
     @Override

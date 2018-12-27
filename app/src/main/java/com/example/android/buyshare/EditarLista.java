@@ -158,8 +158,13 @@ public class EditarLista extends AppCompatActivity {
         Intent i = new Intent(EditarLista.this, MostraLista.class);
         i.putExtra("userTlm", userTlm);
         i.putExtra("position", position);
-        i.putExtra("nameL", nomeLista2);
-        //i.putExtra("nomeClasse","1");
+
+        if(nomeLista2 == null){
+            i.putExtra("nameL", nomeLista);
+        }else{
+            i.putExtra("nameL", nomeLista2);
+
+        }
         startActivity(i);
     }
 }

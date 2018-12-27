@@ -37,6 +37,7 @@ public class MostraLista extends AppCompatActivity {
     private int pos;
     private String idL;
     private String nomeClasse;
+    private ArrayList<String> membros ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,21 +72,27 @@ public class MostraLista extends AppCompatActivity {
         produtoCusto = new HashMap<>();
 
         idL = "";
+        membros = new ArrayList<>();
 
         mListener = mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int count = 0;
+
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                     Lista l = singleSnapshot.getValue(Lista.class);
 
-                    Query q = mDatabase2.orderByChild("numeroTlm").equalTo(userTlm);
+                    String numTelemovel = l.getCriadorLista();
+                    membros = l.getMembrosLista();
+
+                    Query q = mDatabase2.orderByChild("numeroTlm").equalTo(numTelemovel);
                     q.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                                 String nome = String.valueOf(singleSnapshot.child("nome").getValue());
                                 listaCriadaPor.setText("Lista criada por: " + nome);
+
                             }
                         }
 
@@ -95,12 +102,12 @@ public class MostraLista extends AppCompatActivity {
                         }
                     });
 
-                    String nomePessoa = l.getCriadorLista();
-                    listaCriadaPor.setText("Lista criada por: " + nomePessoa);
 
-                    Lista l2 = singleSnapshot.getValue(Lista.class);
+                    //listaCriadaPor.setText("Lista criada por: " + nomePessoa);
 
-                    if (nomePessoa.equals(userTlm)) {
+
+
+                    if (numTelemovel.equals(userTlm) || membros.contains(userTlm)) {
 
                         produtoCusto = l.getProdutoCusto();
 

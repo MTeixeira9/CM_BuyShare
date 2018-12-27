@@ -1,5 +1,6 @@
 package com.example.android.buyshare;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -56,7 +57,6 @@ public class FragAddMembrosAmigos extends Fragment {
         position = getActivity().getIntent().getStringExtra("position");
         idL = getActivity().getIntent().getStringExtra("idL");
 
-        Toast.makeText(getContext(), "Valor " + idL, Toast.LENGTH_LONG).show();
 
         amigos = new HashMap<>();
         linearLayout = v.findViewById(R.id.linearLayoutAddMembros);
@@ -101,14 +101,12 @@ public class FragAddMembrosAmigos extends Fragment {
 
                                 if (c.isChecked()) {
                                     String[] add = c.getText().toString().split("\\s+");
-                                    Toast.makeText(getContext(), add[1], Toast.LENGTH_LONG).show();
                                     paraAdicionar.add(add[1]);
                                 }
 
                             }
                         }
 
-                        Toast.makeText(getContext(), "IDL: " + idL, Toast.LENGTH_LONG).show();
 
                         mDatabaseL = FirebaseDatabase.getInstance().getReference("listas");
                         mListenerL = mDatabaseL.child(idL).addValueEventListener(new ValueEventListener() {
@@ -117,7 +115,6 @@ public class FragAddMembrosAmigos extends Fragment {
 
                                 Lista l = dataSnapshot.getValue(Lista.class);
 
-                                Toast.makeText(getContext(), "Nome L " + l.getNomeLista(), Toast.LENGTH_LONG).show();
 
 
                                 membrosLista = l.getMembrosLista();
@@ -132,6 +129,7 @@ public class FragAddMembrosAmigos extends Fragment {
                                         }
                                     }
 
+                                    Toast.makeText(getContext(), "Adicionado com sucesso", Toast.LENGTH_LONG).show();
 
                                 }
 
@@ -146,6 +144,8 @@ public class FragAddMembrosAmigos extends Fragment {
                             }
                         });
 
+                        Intent intent = new Intent(getActivity(), VerMembros.class );
+                        startActivity(intent);
 
                     }
 
