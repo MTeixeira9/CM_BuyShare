@@ -1,18 +1,38 @@
 package com.example.android.buyshare;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.android.buyshare.Database.Lista;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AdicionarCustoL extends AppCompatActivity {
 
-    private Spinner spinner;
+    //private Spinner spinner;
     private String userTlm, nomeLista, key, position;
+    private DatabaseReference mDatabase, mDatabase2;
+    private ValueEventListener mListener;
+    private HashMap<String,Double > produtoCusto;
+    private double custoTotal;
+    private TextView tv;
+    private ArrayList<String> membrosL, nomesLista;
+    private Spinner spinner;
+    private ArrayAdapter<String> spinnerArrayAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,13 +42,72 @@ public class AdicionarCustoL extends AppCompatActivity {
         getSupportActionBar().setTitle("Adicionar Custo");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        key = getIntent().getStringExtra("key");
         userTlm = getIntent().getStringExtra("userTlm");
         nomeLista = getIntent().getStringExtra("nameL");
+        key = getIntent().getStringExtra("key");
+        position = getIntent().getStringExtra("position");
 
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
+        mDatabase2 = FirebaseDatabase.getInstance().getReference("users");
 
-        position = getIntent().getStringExtra("position");
+        tv = findViewById(R.id.editTextCusto);
+        produtoCusto = new HashMap<>();
+        membrosL = new ArrayList<>();
+        nomesLista = new ArrayList<>();
+        custoTotal = 0.0;
+        spinner = findViewById(R.id.spinnerPagoPor);
+
+        mListener = mDatabase.child(key).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Lista l = dataSnapshot.getValue(Lista.class);
+
+                produtoCusto = l.getProdutoCusto();
+                membrosL = l.getMembrosLista();
+
+                if(produtoCusto != null) {
+                    for (Map.Entry<String, Double> a : produtoCusto.entrySet()) {
+                        custoTotal += a.getValue();
+                    }
+                }
+
+                if(membrosL != null) {
+                    for (String a : membrosL) {
+                        Query q = mDatabase2.child(a);
+                        q.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String nome = String.valueOf(dataSnapshot.child("nome").getValue());
+                                nomesLista.add(nome);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                }
+
+
+                if(nomesLista != null) {
+                    spinnerArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item, nomesLista);
+                    spinner.setAdapter(spinnerArrayAdapter);
+                }
+
+
+
+
+
+                tv.setText(String.valueOf(custoTotal));
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
 
