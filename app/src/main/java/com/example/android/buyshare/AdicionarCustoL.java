@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 public class AdicionarCustoL extends AppCompatActivity {
 
-    Spinner spinner;
+    private Spinner spinner;
+    private String userTlm, nomeLista, key, position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +21,21 @@ public class AdicionarCustoL extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Adicionar Custo");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        key = getIntent().getStringExtra("key");
+        userTlm = getIntent().getStringExtra("userTlm");
+        nomeLista = getIntent().getStringExtra("nameL");
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("listas");
+
+        position = getIntent().getStringExtra("position");
+
+
+
+
+
+
+
 
         spinner = (Spinner)findViewById(R.id.spinnerPagoPor);
 

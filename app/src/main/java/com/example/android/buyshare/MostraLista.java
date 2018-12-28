@@ -222,6 +222,10 @@ public class MostraLista extends AppCompatActivity {
 
         } else if (id == R.id.finalizar) {
             Intent intent = new Intent(MostraLista.this, AdicionarCustoL.class);
+            intent.putExtra("userTlm", userTlm);
+            intent.putExtra("nameL", nomeLista);
+            intent.putExtra("key", idL);
+            intent.putExtra("position", position);
             startActivity(intent);
         }
 
