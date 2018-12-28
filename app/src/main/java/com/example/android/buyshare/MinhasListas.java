@@ -92,6 +92,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
                         Lista l = singleSnapshot.getValue(Lista.class);
 
+                        
                         //listas privadas (e nao arquivadas)
                         if (l.getCriadorLista().equals(userTlm) && !l.isPartilhada() && !l.getQuemArquivou().contains(userTlm)) {
                             lPrivadas.add(l);
