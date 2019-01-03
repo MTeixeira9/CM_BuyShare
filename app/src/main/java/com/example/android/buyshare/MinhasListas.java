@@ -12,9 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.buyshare.Database.Lista;
@@ -22,11 +20,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class MinhasListas extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -53,11 +49,9 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         //ir buscar quem estah autenticado
         userTlm = getIntent().getStringExtra("userTlm");
 
-        // produtoCusto = (HashMap<String, Double>)getIntent().getSerializableExtra("produtoCusto");
-
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
 
-        mListasPartilhadas = findViewById(R.id.listaPartilhadas);
+        mListasPartilhadas = findViewById(R.id.listasPartilhadas);
         mListasPrivadas = findViewById(R.id.listasPrivadas);
 
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
@@ -92,7 +86,6 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
                         Lista l = singleSnapshot.getValue(Lista.class);
 
-                        
                         //listas privadas (e nao arquivadas)
                         if (l.getCriadorLista().equals(userTlm) && !l.isPartilhada() && !l.getQuemArquivou().contains(userTlm)) {
                             lPrivadas.add(l);
@@ -161,7 +154,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
                 break;
 
-            case R.id.listaPartilhadas:
+            case R.id.listasPartilhadas:
 
                 //IR BUSCAR A LISTA SELECIONADA
                 lSelected = lPartilhadas.get(p);
@@ -229,6 +222,23 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        String tipo = "";
+
+        switch (parent.getId()){
+            case R.id.listasPartilhadas:
+                tipo = "partilhada";
+                break;
+
+            case R.id.listasPrivadas:
+                tipo = "privada";
+                break;
+
+            default:
+                Toast.makeText(getApplicationContext(), "Algo correu mal", Toast.LENGTH_LONG).show();
+                break;
+        }
+
         Intent intent = new Intent();
         intent.setClass(this, MostraLista.class);
         String name = (String) parent.getItemAtPosition(position);
@@ -236,7 +246,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         intent.putExtra("nameL", name);
         intent.putExtra("userTlm", userTlm);
         intent.putExtra("position", Integer.toString(position));
-        //intent.putExtra("nomeClasse","0");
+        //intent.putExtra("tipoL", tipo);
 
         startActivity(intent);
     }

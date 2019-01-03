@@ -28,7 +28,7 @@ import java.util.Map;
 
 public class MostraLista extends AppCompatActivity {
 
-    private String userTlm, nomeLista, position;
+    private String userTlm, nomeLista, position, tipoLista;
     private DatabaseReference mDatabase, mDatabase2;
     private TextView listaCriadaPor;
     private LinearLayout linearLayout;
@@ -46,6 +46,7 @@ public class MostraLista extends AppCompatActivity {
         nomeLista = getIntent().getStringExtra("nameL");
         userTlm = getIntent().getStringExtra("userTlm");
         position = getIntent().getStringExtra("position");
+        //tipoLista = getIntent().getStringExtra("tipoL");
 
         pos = Integer.parseInt(position);
 
@@ -71,7 +72,7 @@ public class MostraLista extends AppCompatActivity {
                     String numTelemovel = l.getCriadorLista();
                     membros = l.getMembrosLista();
 
-                    if (numTelemovel.equals(userTlm) || membros.contains(userTlm)) {
+                    if (membros.contains(userTlm)) {
 
                         produtoCusto = l.getProdutoCusto();
 
