@@ -36,7 +36,6 @@ public class MostraLista extends AppCompatActivity {
     private HashMap<String, Double> produtoCusto;
     private int pos;
     private String idL;
-    private String nomeClasse;
     private ArrayList<String> membros ;
 
     @Override
@@ -44,21 +43,8 @@ public class MostraLista extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostra_lista);
 
-        //nomeClasse = getIntent().getStringExtra("nomeClasse");
         nomeLista = getIntent().getStringExtra("nameL");
-
-/*
-        if (nomeClasse.equals("0")) {
-            nomeLista = getIntent().getStringExtra("nameL");
-
-        } else {
-            nomeLista = getIntent().getStringExtra("nameL");
-
-        }
-*/
-
         userTlm = getIntent().getStringExtra("userTlm");
-
         position = getIntent().getStringExtra("position");
 
         pos = Integer.parseInt(position);
@@ -85,34 +71,32 @@ public class MostraLista extends AppCompatActivity {
                     String numTelemovel = l.getCriadorLista();
                     membros = l.getMembrosLista();
 
-                    Query q = mDatabase2.orderByChild("numeroTlm").equalTo(numTelemovel);
-                    q.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                                String nome = String.valueOf(singleSnapshot.child("nome").getValue());
-                                listaCriadaPor.setText("Lista criada por: " + nome);
-
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            Log.e("TAG", "onCancelled", databaseError.toException());
-                        }
-                    });
-
-
-                    //listaCriadaPor.setText("Lista criada por: " + nomePessoa);
-
-
-
                     if (numTelemovel.equals(userTlm) || membros.contains(userTlm)) {
 
                         produtoCusto = l.getProdutoCusto();
 
                         if (produtoCusto != null) {
                             if (count == pos) {
+
+                                /**
+                                 * IR BUSCAR O NOME DO CRIADOR DA LISTA
+                                 */
+                                Query q = mDatabase2.orderByChild("numeroTlm").equalTo(numTelemovel);
+                                q.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                                            String nome = String.valueOf(singleSnapshot.child("nome").getValue());
+                                            listaCriadaPor.setText("Lista criada por: " + nome);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        Log.e("TAG", "onCancelled", databaseError.toException());
+                                    }
+                                });
+
                                 idL = l.getIdL();
                                 for (Map.Entry<String, Double> a : produtoCusto.entrySet()) {
                                     CheckBox cb = new CheckBox(getApplicationContext());
@@ -124,26 +108,6 @@ public class MostraLista extends AppCompatActivity {
                             }
                         }
                         count++;
-/*
-                    }else if(nomeClasse.equals("1")){
-                        produtoCusto = l2.getProdutoCusto();
-
-                        if (produtoCusto != null) {
-                            if (count == pos) {
-                                idL = l.getIdL();
-                                for (Map.Entry<String, Double> a : produtoCusto.entrySet()) {
-                                    CheckBox cb = new CheckBox(getApplicationContext());
-                                    cb.setTextSize(18);
-                                    cb.setText(a.getKey());
-                                    linearLayout.addView(cb);
-                                }
-                                break;
-                            }
-                        }
-                        count++;
-
-                        */
-
                     }
                 }
             }
@@ -173,12 +137,12 @@ public class MostraLista extends AppCompatActivity {
             }
         });
     }
-/*
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mDatabase.removeEventListener(mListener);
-    }*/
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
