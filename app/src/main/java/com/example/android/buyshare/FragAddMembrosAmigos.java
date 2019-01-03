@@ -58,6 +58,8 @@ public class FragAddMembrosAmigos extends Fragment {
         idL = getActivity().getIntent().getStringExtra("idL");
 
 
+
+
         amigos = new HashMap<>();
         linearLayout = v.findViewById(R.id.linearLayoutAddMembros);
         adicionar = v.findViewById(R.id.buttonAddAmigosFrag);
@@ -144,8 +146,12 @@ public class FragAddMembrosAmigos extends Fragment {
                             }
                         });
 
-                        Intent intent = new Intent(getActivity(), VerMembros.class );
-                        startActivity(intent);
+                        Intent i = new Intent(getActivity(), VerMembros.class );
+                        i.putExtra("userTlm", userTlm);
+                        i.putExtra("nameL", nomeLista);
+                        i.putExtra("position", position);
+                        i.putExtra("idL", idL);
+                        startActivity(i);
 
                     }
 

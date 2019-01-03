@@ -1,5 +1,7 @@
 package com.example.android.buyshare.Database;
 
+import android.util.Pair;
+
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ public class Lista {
 
     private String idL;
     private String nomeLista;
-    private HashMap<String, Double > produtoCusto;
+    private HashMap<String,HashMap<String, Double> > produtoCusto;
     private String criadorLista;
     private ArrayList <String> membrosLista;
     private boolean partilhada;
@@ -20,7 +22,7 @@ public class Lista {
     public Lista(){
     }
 
-    public Lista(String idL, String criadorLista, String nomeLista, HashMap<String,Double > produtoCusto ){
+    public Lista(String idL, String criadorLista, String nomeLista, HashMap<String,HashMap<String, Double> > produtoCusto ){
         this.idL = idL;
         this.nomeLista = nomeLista;
         this.criadorLista = criadorLista;
@@ -50,5 +52,5 @@ public class Lista {
 
     public ArrayList<String> getQuemArquivou() { return quemArquivou; }
 
-    public HashMap<String, Double> getProdutoCusto() {return produtoCusto; }
+    public HashMap<String, HashMap<String, Double>> getProdutoCusto() {return produtoCusto; }
 }

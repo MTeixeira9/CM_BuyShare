@@ -3,6 +3,7 @@ package com.example.android.buyshare;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +27,7 @@ public class NovaLista extends AppCompatActivity {
     private EditText mItemEdit;
     private String userTlm;
     private DatabaseReference mDatabase;
-    private HashMap<String,Double> produtoCusto;
+    private HashMap<String,HashMap<String, Double>> prodQuantCusto;
 
 
     private static final String msgErrLista = "Tem de dar um nome à Lista!";
@@ -44,7 +45,7 @@ public class NovaLista extends AppCompatActivity {
         userTlm = getIntent().getStringExtra("userTlm");
 
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
-        produtoCusto = new HashMap<>();
+        prodQuantCusto = new HashMap<>();
 
         Button guardarLista = (Button) findViewById(R.id.guardarListaEditLista);
         guardarLista.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +62,7 @@ public class NovaLista extends AppCompatActivity {
                 if (!nomeLista.equals("")){
 
                     key = mDatabase.push().getKey();
-                    Lista lista = new Lista(key, userTlm, nomeLista, produtoCusto);
+                    Lista lista = new Lista(key, userTlm, nomeLista, prodQuantCusto);
 
                     mDatabase.child(key).setValue(lista);
 
@@ -80,12 +81,6 @@ public class NovaLista extends AppCompatActivity {
                 else{
                     Toast.makeText(getApplicationContext(), msgErrLista, Toast.LENGTH_LONG).show();
                 }
-
-
-
-
-
-
             }
         });
 
@@ -105,7 +100,9 @@ public class NovaLista extends AppCompatActivity {
             public void onClick(View v) {
                 String item = mItemEdit.getText().toString();
                 if (!item.equals("")) {
-                    produtoCusto.put(item, 0.0);
+                    HashMap<String, Double> quantC = new HashMap<>();
+                    quantC.put("0,0", 0.0);
+                    prodQuantCusto.put(item, quantC);
                     //produtos.add(item);
                     mAdapter.add(item);
                     mAdapter.notifyDataSetChanged();
@@ -114,12 +111,6 @@ public class NovaLista extends AppCompatActivity {
                 else{
                     Toast.makeText(getApplicationContext(), msgErrAddProd, Toast.LENGTH_LONG).show();
                 }
-
-
-
-
-
-                //intent.putStringArrayListExtra("listaProdutos", produtos);
             }
         });
 

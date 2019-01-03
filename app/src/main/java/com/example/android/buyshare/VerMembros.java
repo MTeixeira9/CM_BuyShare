@@ -39,6 +39,7 @@ public class VerMembros extends AppCompatActivity {
         position = getIntent().getStringExtra("position");
         nameL = getIntent().getStringExtra("nameL");
         idL = getIntent().getStringExtra("idL");
+        Toast.makeText(getApplicationContext(), "idLista: " + idL, Toast.LENGTH_LONG).show();
 
         getSupportActionBar().setTitle(nameL);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -61,7 +62,7 @@ public class VerMembros extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Lista l = dataSnapshot.getValue(Lista.class);
 
-                Toast.makeText(getApplicationContext(), "Nome Lista: " + l.getNomeLista(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Nome Lista: " + l.getNomeLista(), Toast.LENGTH_LONG).show();
 
                 membros = l.getMembrosLista();
 

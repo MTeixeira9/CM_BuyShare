@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -36,9 +37,10 @@ public class EstimarCustoLista extends AppCompatActivity {
     private ValueEventListener mListener;
     private TableLayout tableL;
     private int pos;
-    private ArrayList<EditText> idEditText;
+    private ArrayList<EditText> idQuant, idCusto;
+    private ArrayList<TextView> idProd;
     //private ArrayList<Double> arrayCusto;
-    private HashMap<String, Double> produtoCusto, novoHashMap;
+    private HashMap<String, HashMap<String, Double>> prodQuantCusto, novoHashMap;
     private ArrayList<String> prod;
     private ArrayList<Double> cust;
     private ArrayAdapter<String> mAdapter;
@@ -70,57 +72,66 @@ public class EstimarCustoLista extends AppCompatActivity {
         cust = new ArrayList<>();
 
         //arrayCusto = new ArrayList<>();
-        produtoCusto = new HashMap<>();
+        prodQuantCusto = new HashMap<>();
         novoHashMap = new HashMap<>();
 
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         count = mAdapter.getCount();
 
-
-
-
         mListener = mDatabase.child(key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                Lista l = dataSnapshot.getValue(Lista.class);
-                //ArrayList<String> prod = l.getProdutos();
-
-
-                produtoCusto = l.getProdutoCusto();
-
-                idEditText = new ArrayList<>();
-                int i = 0;
-
-                if(count == 0) {
-                    if (produtoCusto != null) {
-                        for (Map.Entry<String, Double> a : produtoCusto.entrySet()) {
-                            TableRow tr = new TableRow(getApplicationContext());
-                            TextView c1 = new TextView(getApplicationContext());
-                            c1.setTextSize(18);
-                            EditText c2 = new EditText(getApplicationContext());
-                            c2.setId(i);
-
-                            idEditText.add(c2);
-
-                            //c1.setText(prod.get(i));
-                            c1.setText(a.getKey());
-                            c1.setTextSize(18);
-                            c2.setText(String.valueOf(a.getValue()));
+                    Lista l = dataSnapshot.getValue(Lista.class);
+                    //ArrayList<String> prod = l.getProdutos();
 
 
-                            tr.addView(c1);
-                            tr.addView(c2);
+                    prodQuantCusto = l.getProdutoCusto();
 
+                    idProd = new ArrayList<>();
+                    idQuant = new ArrayList<>();
+                    idCusto = new ArrayList<>();
+                    int i = 0;
 
-                            tableL.addView(tr);
+                    if (count == 0) {
+                        if (prodQuantCusto != null) {
+                            for (Map.Entry<String, HashMap<String, Double>> a : prodQuantCusto.entrySet()) {
+                                TableRow tr = new TableRow(getApplicationContext());
 
-                            i++;
+                                TextView prod = new TextView(getApplicationContext());
+                                prod.setTextSize(18);
+                                prod.setId(i);
+                                idProd.add(prod);
 
+                                EditText quant = new EditText(getApplicationContext());
+                                quant.setId(i);
+                                idQuant.add(quant);
+
+                                EditText custo = new EditText(getApplicationContext());
+                                custo.setId(i);
+                                //c1.setText(prod.get(i));
+                                prod.setText(a.getKey());
+                                prod.setTextSize(18);
+                                idCusto.add(custo);
+
+                                for (Map.Entry<String, Double> e : a.getValue().entrySet()) {
+                                    quant.setText(String.valueOf(e.getKey()));
+                                    custo.setText(String.valueOf(e.getValue()));
+                                }
+
+                                tr.addView(prod);
+                                tr.addView(quant);
+                                tr.addView(custo);
+
+                                tableL.addView(tr);
+
+                                i++;
+
+                            }
                         }
                     }
+                    count++;
                 }
-            }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -129,76 +140,89 @@ public class EstimarCustoLista extends AppCompatActivity {
         });
 
 
-        final Button custo = (Button) findViewById(R.id.custo);
+        final Button total = (Button) findViewById(R.id.custo);
 
-        custo.setOnClickListener(new View.OnClickListener() {
+        total.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Double totalCusto = 0.0;
-                Double valor = 0.0;
-                String text = "";
+                String prod = "";
+                Double quant = 0.0;
+                Double custo = 0.0;
 
-                    for (int i = 0; i < idEditText.size(); i++) {
 
-                        EditText et = idEditText.get(i);
-                        String p = et.getText().toString();
-                        valor = Double.parseDouble(p);
+                for (int i = 0; i < idCusto.size(); i++) {
 
-                        cust.add(valor);
+                    TextView pr = idProd.get(i);
+                    EditText q = idQuant.get(i);
+                    String quantidade = q.getText().toString();
+                    EditText c = idCusto.get(i);
+                    String custoP = c.getText().toString();
+                    prod = pr.getText().toString();
+                    String quanti = quantidade;
+                    if (quantidade.indexOf(',') >= 0) {
+                        quanti = quantidade.replace(",", ".");
+                    }
+                    quant = Double.parseDouble(quanti);
+                    String custoProd = custoP;
+                    if (custoP.indexOf(',') >= 0) {
+                        custoProd = custoP.replace(",", ".");
+                    }
+                    custo = Double.parseDouble(custoProd);
 
-                        //arrayCusto.add(valor);
+                    String nQuant = quantidade;
+                    if (quantidade.indexOf('.') >= 0) {
+                        nQuant = quantidade.replace(".", ",");
+                    }
+                    HashMap<String, Double> res = new HashMap<>();
+                    res.put(nQuant, custo);
+                    novoHashMap.put(prod, res);
 
-                        if (p != null && p.length() > 0) {
-                            try {
-                                totalCusto += valor;
-                            } catch (Exception e) {
-                                Toast.makeText(getApplicationContext(), "ERROOOO", Toast.LENGTH_LONG).show();
-                            }
+                    if (prod != null && prod.length() > 0) {
+                        try {
+                            totalCusto += (quant * custo);
+                        } catch (Exception e) {
+                            Toast.makeText(getApplicationContext(), "ERROOOO", Toast.LENGTH_LONG).show();
                         }
                     }
-
-                    int j = 0;
-                    for (Map.Entry<String, Double> map : produtoCusto.entrySet()) {
-                        novoHashMap.put(map.getKey(), cust.get(j));
-                        j++;
-                    }
-
-                    mDatabase.child(key).child("produtoCusto").setValue(novoHashMap);
-
-
-                    //POPUP
-                    Intent intent = new Intent(EstimarCustoLista.this, PopUpEstimarCusto.class);
-                    intent.putExtra("custo", totalCusto);
-
-                    startActivity(intent);
-
-
                 }
-            });
+
+                mDatabase.child(key).child("produtoCusto").setValue(novoHashMap);
 
 
-        }
+                //POPUP
+                Intent intent = new Intent(EstimarCustoLista.this, PopUpEstimarCusto.class);
+                intent.putExtra("custo", Math.round(totalCusto*100.0) / 100.0);
 
-        @Override
-        public boolean onOptionsItemSelected (MenuItem item){
-            switch (item.getItemId()) {
-                case android.R.id.home:
-                    // app icon in action bar clicked; go home
-                    onBackPressed();
-                    return true;
-                default:
-                    return super.onOptionsItemSelected(item);
+                startActivity(intent);
+
+
             }
-        }
+        });
 
-        @Override
-        public void onBackPressed () {
-            Intent i = new Intent(EstimarCustoLista.this, MostraLista.class);
-            i.putExtra("userTlm", userTlm);
-            i.putExtra("position", position);
-            i.putExtra("nameL", nomeLista);
-            startActivity(i);
-        }
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(EstimarCustoLista.this, MostraLista.class);
+        i.putExtra("userTlm", userTlm);
+        i.putExtra("position", position);
+        i.putExtra("nameL", nomeLista);
+        startActivity(i);
+    }
+
+}

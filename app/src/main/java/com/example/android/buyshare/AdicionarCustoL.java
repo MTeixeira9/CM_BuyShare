@@ -3,6 +3,7 @@ package com.example.android.buyshare;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Pair;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -26,7 +27,7 @@ public class AdicionarCustoL extends AppCompatActivity {
     private String userTlm, nomeLista, key, position;
     private DatabaseReference mDatabase, mDatabase2;
     private ValueEventListener mListener;
-    private HashMap<String,Double > produtoCusto;
+    private HashMap<String,HashMap<String, Double>> prodQuantCusto;
     private double custoTotal;
     private TextView tv;
     private ArrayList<String> membrosL, nomesLista;
@@ -51,7 +52,7 @@ public class AdicionarCustoL extends AppCompatActivity {
         mDatabase2 = FirebaseDatabase.getInstance().getReference("users");
 
         tv = findViewById(R.id.editTextCusto);
-        produtoCusto = new HashMap<>();
+        prodQuantCusto = new HashMap<>();
         membrosL = new ArrayList<>();
         nomesLista = new ArrayList<>();
         custoTotal = 0.0;
@@ -62,12 +63,13 @@ public class AdicionarCustoL extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Lista l = dataSnapshot.getValue(Lista.class);
 
-                produtoCusto = l.getProdutoCusto();
+                prodQuantCusto = l.getProdutoCusto();
                 membrosL = l.getMembrosLista();
 
-                if(produtoCusto != null) {
-                    for (Map.Entry<String, Double> a : produtoCusto.entrySet()) {
-                        custoTotal += a.getValue();
+                if(prodQuantCusto != null) {
+                    for (Map.Entry<String, HashMap<String, Double>> a : prodQuantCusto.entrySet()) {
+                        for (Map.Entry<String, Double> e : a.getValue().entrySet())
+                        custoTotal += (Double.parseDouble(e.getKey()) * e.getValue());
                     }
                 }
 

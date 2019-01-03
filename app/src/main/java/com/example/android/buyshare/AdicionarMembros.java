@@ -107,7 +107,7 @@ public class AdicionarMembros extends AppCompatActivity {
                                 if (c.isChecked()) {
                                     String[] add = c.getText().toString().split("\\s+");
                                     Toast.makeText(getApplicationContext(), add[1], Toast.LENGTH_LONG).show();
-                                    paraAdicionar.add(add[1]);
+                                    paraAdicionar.add(add[add.length-1]);
                                 }
 
                             }

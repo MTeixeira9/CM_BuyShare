@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,7 +34,7 @@ public class MostraLista extends AppCompatActivity {
     private TextView listaCriadaPor;
     private LinearLayout linearLayout;
     private ValueEventListener mListener;
-    private HashMap<String, Double> produtoCusto;
+    private HashMap<String, HashMap<String, Double>> prodQuantCusto;
     private int pos;
     private String idL;
     private ArrayList<String> membros ;
@@ -56,7 +57,7 @@ public class MostraLista extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
         mDatabase2 = FirebaseDatabase.getInstance().getReference("users");
 
-        produtoCusto = new HashMap<>();
+        prodQuantCusto = new HashMap<>();
 
         idL = "";
         membros = new ArrayList<>();
@@ -74,9 +75,9 @@ public class MostraLista extends AppCompatActivity {
 
                     if (membros.contains(userTlm)) {
 
-                        produtoCusto = l.getProdutoCusto();
+                        prodQuantCusto = l.getProdutoCusto();
 
-                        if (produtoCusto != null) {
+                        if (prodQuantCusto != null) {
                             if (count == pos) {
 
                                 /**
@@ -99,7 +100,7 @@ public class MostraLista extends AppCompatActivity {
                                 });
 
                                 idL = l.getIdL();
-                                for (Map.Entry<String, Double> a : produtoCusto.entrySet()) {
+                                for (Map.Entry<String, HashMap<String, Double>> a : prodQuantCusto.entrySet()) {
                                     CheckBox cb = new CheckBox(getApplicationContext());
                                     cb.setTextSize(18);
                                     cb.setText(a.getKey());

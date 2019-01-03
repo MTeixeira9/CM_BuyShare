@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -29,7 +30,7 @@ public class EditarLista extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private ListView listView;
     private ValueEventListener mListener;
-    private HashMap<String, Double> produtoCusto;
+    private HashMap<String, HashMap<String, Double>> prodQuantCusto;
     private ArrayAdapter<String> mAdapter;
     private EditText mItemEdit;
 
@@ -59,7 +60,7 @@ public class EditarLista extends AppCompatActivity {
 
         listView.setAdapter(mAdapter);
 
-        produtoCusto = new HashMap<>();
+        prodQuantCusto = new HashMap<>();
 
         final TextView nomeTV = findViewById(R.id.nomeLEditLista);
 
@@ -70,14 +71,14 @@ public class EditarLista extends AppCompatActivity {
                 if (listView.getAdapter().getCount() == 0) {
                     Lista l = dataSnapshot.getValue(Lista.class);
 
-                    produtoCusto = l.getProdutoCusto();
+                    prodQuantCusto = l.getProdutoCusto();
 
                     String tv = l.getNomeLista();
 
                     nomeTV.setText(tv);
 
 
-                    for (String prod : produtoCusto.keySet()) {
+                    for (String prod : prodQuantCusto.keySet()) {
                         mAdapter.add(prod);
                         mAdapter.notifyDataSetChanged();
                     }
@@ -101,7 +102,7 @@ public class EditarLista extends AppCompatActivity {
                 if (!nomeLista.equals("")) {
 
                     mDatabase.child(key).child("nomeLista").setValue(nomeLista2);
-                    mDatabase.child(key).child("produtoCusto").setValue(produtoCusto);
+                    mDatabase.child(key).child("produtoCusto").setValue(prodQuantCusto);
 
                     Intent i = new Intent(EditarLista.this, MostraLista.class);
                     i.putExtra("userTlm", userTlm);
@@ -128,7 +129,9 @@ public class EditarLista extends AppCompatActivity {
             public void onClick(View v) {
                 String item = mItemEdit.getText().toString();
                 if (!item.equals("")) {
-                    produtoCusto.put(item, 0.0);
+                    HashMap quantC = new HashMap();
+                    quantC.put(0.0,0.0);
+                    prodQuantCusto.put(item, quantC);
                     mAdapter.add(item);
                     mAdapter.notifyDataSetChanged();
                     mItemEdit.setText("");

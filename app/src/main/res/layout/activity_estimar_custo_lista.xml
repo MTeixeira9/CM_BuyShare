@@ -31,31 +31,37 @@
             android:stretchColumns="0,5">
 
             <TableRow>
+
                 <TextView
                     android:id="@+id/prod"
-                    android:layout_width="match_parent"
+                    android:layout_width="143dp"
+                    android:layout_height="match_parent"
+                    android:padding="15dip"
+                    android:stretchColumns="0,5"
+                    android:text="Produto"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/quant"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="15dip"
                     android:stretchColumns="0,5"
-                    android:text="PRODUTO"
-                    android:textSize= "20sp"
-                    android:textColor="@color/colorPrimary"/>
+                    android:text="Quantidade"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/cust"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:padding="15dip"
                     android:stretchColumns="0,5"
-                    android:text="CUSTO"
-                    android:textSize= "20sp"
-                    android:textColor="@color/colorPrimary"/>
+                    android:text="Preço"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp" />
             </TableRow>
-
-
-
-
-
 
         </TableLayout>
     </ScrollView>
@@ -71,9 +77,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/button_style"
-        android:text="Custo"
+        android:text="Total"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
