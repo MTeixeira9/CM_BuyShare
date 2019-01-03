@@ -101,7 +101,7 @@ public class FragAddMembrosAmigos extends Fragment {
 
                                 if (c.isChecked()) {
                                     String[] add = c.getText().toString().split("\\s+");
-                                    paraAdicionar.add(add[1]);
+                                    paraAdicionar.add(add[add.length-1]);
                                 }
 
                             }
