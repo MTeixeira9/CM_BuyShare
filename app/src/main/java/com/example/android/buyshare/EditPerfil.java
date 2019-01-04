@@ -44,25 +44,17 @@ public class EditPerfil extends AppCompatActivity {
 
     private String userTlm;
     private Query q;
-    private EditText nomeET, passwordET, conf_PasswET, nTlmET, emailET;
-    private TextView nomeTV, pwdTV, nTlm_TV, email_TV;
-    private String nome, password, conf_Passw, nTlm, email;
+    private EditText nomeET, passwordET, conf_PasswET, emailET;
+    private String nome, password, conf_Passw, email;
     private static final int RESULT_LOAD_IMAGE = 1;
-
     private DatabaseReference mDatabase, mDatabaseUpload;
     private StorageReference mStorageRefUpload;
-
     private StorageTask mUploadTask;
-    private EditText mEditTextFileName;
-    
     private FirebaseAuth mAuth;
-
-    private ProgressBar mProgressBar;
-
     private Uri mImageUri;
-
+    private static final String MSG_PASSES_ERRO = "As palavras passe não coicidem";
     private static final String MSG_INV_EMAIL_ERRO = "Tem que inserir um email válido";
-
+    private int nAlteracoes;
 
     public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -84,16 +76,12 @@ public class EditPerfil extends AppCompatActivity {
 
         userTlm = getIntent().getStringExtra("userTlm");
 
-
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
-        if(user != null){
-        }else{
+        if (user != null) {
+        } else {
             signInAnonymously();
         }
-        
-        
-        
 
         //BASE DE DADOS
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
@@ -101,34 +89,27 @@ public class EditPerfil extends AppCompatActivity {
         mDatabaseUpload = FirebaseDatabase.getInstance().getReference("upload");
         mStorageRefUpload = FirebaseStorage.getInstance().getReference("upload");
 
-
-        nomeET = (EditText) findViewById(R.id.nome_perfil);
-        passwordET = (EditText) findViewById(R.id.pass_edit);
-        conf_PasswET = (EditText) findViewById(R.id.conf_pwd_edit);
-        emailET = (EditText) findViewById(R.id.email_edit);
-
+        nomeET = findViewById(R.id.nome_perfil);
+        passwordET = findViewById(R.id.pass_edit);
+        conf_PasswET = findViewById(R.id.conf_pwd_edit);
+        emailET = findViewById(R.id.email_edit);
 
         q = mDatabase.orderByChild("numeroTlm").equalTo(userTlm);
 
-
-        Button alterar = (Button) findViewById(R.id.button_load_image);
+        Button alterar = findViewById(R.id.button_load_image);
         alterar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                //photoPickerIntent.setType("image/*");
-               // startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
 
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(intent, RESULT_LOAD_IMAGE);
 
-
             }
         });
 
-        Button upload = (Button) findViewById(R.id.uploadFoto);
+        Button upload = findViewById(R.id.uploadFoto);
         upload.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -141,72 +122,66 @@ public class EditPerfil extends AppCompatActivity {
             }
         });
 
-
-        Button guardarDados = (Button) findViewById(R.id.guardarDados);
+        Button guardarDados = findViewById(R.id.guardarDados);
         guardarDados.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
                 nome = nomeET.getText().toString();
                 password = passwordET.getText().toString();
                 conf_Passw = conf_PasswET.getText().toString();
-                //nTlm = nTlmET.getText().toString();
                 email = emailET.getText().toString();
+                nAlteracoes = 0;
 
-
-                if (!password.equals(conf_Passw)){
-
-                    Toast.makeText(getApplicationContext(), "Palavra passe não coincide", Toast.LENGTH_SHORT).show();
-
-                }else if (!nome.equals("") || !password.equals("") || !conf_Passw.equals("")||  !email.equals("")) {
-
+                if (!nome.equals("") || !password.equals("") || !conf_Passw.equals("") || !email.equals("")) {
 
                     q.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            for (DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
+                            for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
 
-                                if(!nome.equals("")) {
+                                if (!nome.equals("")) {
                                     mDatabase.child(userTlm).child("nome").setValue(nome);
+                                    nAlteracoes++;
                                 }
 
-                                if(!email.equals("")) {
-                                    //if (!isValidEmail(email)) {
-                                      //  emailET.setError(MSG_INV_EMAIL_ERRO);
-                                   // }
-                                    mDatabase.child(userTlm).child("email").setValue(email);
+                                if (!email.equals("")) {
+                                    if (!isValidEmail(email)) {
+                                        emailET.setError(MSG_INV_EMAIL_ERRO);
+                                    } else {
+                                        mDatabase.child(userTlm).child("email").setValue(email);
+                                        nAlteracoes++;
+                                    }
                                 }
 
-                                if(!password.equals("")) {
-                                    mDatabase.child(userTlm).child("password").setValue(password);
+                                if (!password.equals("")) {
+                                    if (!password.equals(conf_Passw)) {
+                                        passwordET.setError(MSG_PASSES_ERRO);
+                                    } else {
+                                        mDatabase.child(userTlm).child("password").setValue(password);
+                                        nAlteracoes++;
+                                    }
                                 }
                             }
 
-                            Intent i = new Intent(EditPerfil.this, Perfil.class);
-                            i.putExtra("userTlm", userTlm);
-                            finish();
-                            startActivity(i);
+                            if (nAlteracoes > 0) {
+                                Intent i = new Intent(EditPerfil.this, Perfil.class);
+                                i.putExtra("userTlm", userTlm);
+                                finish();
+                                startActivity(i);
+                            }
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                            Log.e("TAG", "onCancelled", databaseError.toException());
                         }
                     });
-
-
-                    //finish();
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Falta inserir dados", Toast.LENGTH_LONG).show();
                 }
-
-                Intent i = new Intent(EditPerfil.this, Perfil.class);
-                i.putExtra("userTlm", userTlm);
-                finish();
-                startActivity(i);
             }
 
         });
@@ -233,7 +208,7 @@ public class EditPerfil extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        ImageView imageView = (ImageView) findViewById(R.id.imageView_editPerfil);
+        ImageView imageView = findViewById(R.id.imageView_editPerfil);
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
@@ -242,7 +217,6 @@ public class EditPerfil extends AppCompatActivity {
             Picasso.get().load(mImageUri).into(imageView);
         }
     }
-
 
     private String getFileExtension(Uri uri) {
         ContentResolver cR = getContentResolver();
@@ -253,9 +227,8 @@ public class EditPerfil extends AppCompatActivity {
     private void uploadFile() {
 
         if (mImageUri != null) {
-           final StorageReference fileReference = mStorageRefUpload.child(System.currentTimeMillis()
+            final StorageReference fileReference = mStorageRefUpload.child(System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
-
 
             mUploadTask = fileReference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -265,7 +238,7 @@ public class EditPerfil extends AppCompatActivity {
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                   // mProgressBar.setProgress(0);
+                                    // mProgressBar.setProgress(0);
                                 }
                             }, 5);
 
