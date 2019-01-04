@@ -2,7 +2,6 @@ package com.example.android.buyshare;
 
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,16 +14,11 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.buyshare.Database.Upload;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,7 +44,6 @@ public class EditPerfil extends AppCompatActivity {
     private DatabaseReference mDatabase, mDatabaseUpload;
     private StorageReference mStorageRefUpload;
     private StorageTask mUploadTask;
-    private FirebaseAuth mAuth;
     private Uri mImageUri;
     private static final String MSG_PASSES_ERRO = "As palavras passe não coicidem";
     private static final String MSG_INV_EMAIL_ERRO = "Tem que inserir um email válido";
@@ -75,13 +68,6 @@ public class EditPerfil extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         userTlm = getIntent().getStringExtra("userTlm");
-
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-        } else {
-            signInAnonymously();
-        }
 
         //BASE DE DADOS
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
@@ -138,7 +124,6 @@ public class EditPerfil extends AppCompatActivity {
                     q.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                             for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
 
                                 if (!nome.equals("")) {
@@ -187,20 +172,7 @@ public class EditPerfil extends AppCompatActivity {
         });
     }
 
-    private void signInAnonymously() {
-        mAuth.signInAnonymously().addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
-            }
-        }).addOnFailureListener(this, new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Log.e("MainActivity", "signFailed****** ", exception);
-            }
-        });
-    }
-
-    public final static boolean isValidEmail(String email) {
+    public static boolean isValidEmail(String email) {
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
     }
 

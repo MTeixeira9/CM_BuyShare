@@ -178,7 +178,7 @@ public class RegistoActivity extends AppCompatActivity {
         });
     }
 
-    public final static boolean isValidEmail(String email) {
+    public static boolean isValidEmail(String email) {
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
     }
 
