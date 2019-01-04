@@ -142,6 +142,8 @@ public class AdicionarCustoL extends AppCompatActivity {
                             if (numArray.equals(numCriadorLista) && userTlm.equals(numArray)) {
                                 //VAI PARA A PAGINA DividasReceber
                                 Intent i = new Intent(AdicionarCustoL.this, DividasReceber.class);
+                                i.putExtra("idL", key);
+                                i.putExtra("userTlm", userTlm);
                                 startActivity(i);
 
 

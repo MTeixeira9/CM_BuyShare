@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.util.Pair;
 import android.view.MenuItem;
@@ -104,10 +105,12 @@ public class EstimarCustoLista extends AppCompatActivity {
 
                                 EditText quant = new EditText(getApplicationContext());
                                 quant.setId(i);
+                                quant.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                                 idQuant.add(quant);
 
                                 EditText custo = new EditText(getApplicationContext());
                                 custo.setId(i);
+                                custo.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                                 //c1.setText(prod.get(i));
                                 prod.setText(a.getKey());
                                 prod.setTextSize(18);
