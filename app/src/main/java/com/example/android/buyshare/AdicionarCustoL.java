@@ -1,10 +1,15 @@
 package com.example.android.buyshare;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,14 +30,14 @@ public class AdicionarCustoL extends AppCompatActivity {
 
     //private Spinner spinner;
     private String userTlm, nomeLista, key, position;
-    private DatabaseReference mDatabase, mDatabase2;
+    private DatabaseReference mDatabaseL, mDatabaseU;
     private ValueEventListener mListener;
-    private HashMap<String,HashMap<String, Double>> prodQuantCusto;
-    private double custoTotal;
+    private double custoFinal;
     private TextView tv;
-    private ArrayList<String> membrosL, nomesLista;
+    private ArrayList<String> membrosL, nomesMembrosLista, numerosTlmMembros;
     private Spinner spinner;
     private ArrayAdapter<String> spinnerArrayAdapter;
+    private Intent i;
 
 
     @Override
@@ -48,40 +53,46 @@ public class AdicionarCustoL extends AppCompatActivity {
         key = getIntent().getStringExtra("key");
         position = getIntent().getStringExtra("position");
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("listas");
-        mDatabase2 = FirebaseDatabase.getInstance().getReference("users");
+        mDatabaseL = FirebaseDatabase.getInstance().getReference("listas");
+        mDatabaseU = FirebaseDatabase.getInstance().getReference("users");
 
         tv = findViewById(R.id.editTextCusto);
-        prodQuantCusto = new HashMap<>();
         membrosL = new ArrayList<>();
-        nomesLista = new ArrayList<>();
-        custoTotal = 0.0;
+        nomesMembrosLista = new ArrayList<>();
+        numerosTlmMembros = new ArrayList<>();
+        custoFinal = 0.0;
         spinner = findViewById(R.id.spinnerPagoPor);
+        i = new Intent();
 
-        mListener = mDatabase.child(key).addValueEventListener(new ValueEventListener() {
+        mListener = mDatabaseL.child(key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Lista l = dataSnapshot.getValue(Lista.class);
 
-                prodQuantCusto = l.getProdutoCusto();
                 membrosL = l.getMembrosLista();
 
-                if(prodQuantCusto != null) {
-                    for (Map.Entry<String, HashMap<String, Double>> a : prodQuantCusto.entrySet()) {
-                        for (Map.Entry<String, Double> e : a.getValue().entrySet())
-                        custoTotal += (Double.parseDouble(e.getKey()) * e.getValue());
-                    }
-                }
-
-                if(membrosL != null) {
+                if (membrosL != null) {
                     for (String a : membrosL) {
-                        Query q = mDatabase2.child(a);
+                        Query q = mDatabaseU.child(a);
                         q.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 String nome = String.valueOf(dataSnapshot.child("nome").getValue());
-                                nomesLista.add(nome);
+                                String numeroTlm = String.valueOf(dataSnapshot.child("numeroTlm").getValue());
+                                numerosTlmMembros.add(numeroTlm);
+                                nomesMembrosLista.add(nome);
+
+                                //preencher o spinner com os nomesMembrosLista
+                                if (nomesMembrosLista != null) {
+                                    spinnerArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                                            android.R.layout.simple_spinner_item, nomesMembrosLista);
+                                    spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    spinner = (Spinner) findViewById(R.id.spinnerPagoPor);
+                                    spinner.setAdapter(spinnerArrayAdapter);
+
+                                }
                             }
+
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -90,18 +101,6 @@ public class AdicionarCustoL extends AppCompatActivity {
                         });
                     }
                 }
-
-
-                if(nomesLista != null) {
-                    spinnerArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item, nomesLista);
-                    spinner.setAdapter(spinnerArrayAdapter);
-                }
-
-
-
-
-
-                tv.setText(String.valueOf(custoTotal));
 
             }
 
@@ -112,20 +111,51 @@ public class AdicionarCustoL extends AppCompatActivity {
         });
 
 
+        Button finalizar = (Button) findViewById(R.id.finalizar);
+        finalizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
 
+                Query q = mDatabaseL.orderByChild("idL").equalTo(key);
+                q.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                            Lista l = singleSnapshot.getValue(Lista.class);
 
 
+                            //ver que nome estah selecionado no spinner
+                            int posSel = spinner.getSelectedItemPosition();
+                            String selected = spinner.getSelectedItem().toString();
+                            String numArray = numerosTlmMembros.get(posSel);
+                            String numCriadorLista = l.getCriadorLista();
 
 
-        spinner = (Spinner)findViewById(R.id.spinnerPagoPor);
+                            //se o utilizador que finalizar for
+                            if (numArray.equals(numCriadorLista) && userTlm.equals(numArray)) {
+                                //VAI PARA A PAGINA DividasReceber
 
-        ArrayList<String> list = new ArrayList<>();
-        list.add("Nome1");
-        list.add("Nome2");
-        list.add("Nome3");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, list);
-        spinner.setAdapter(adapter);
+                            }else{
+                                //VAI PARA AS MINHAS LISTAS
+
+                            }
+
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+
+
+                });
+            }
+
+        });
     }
 }

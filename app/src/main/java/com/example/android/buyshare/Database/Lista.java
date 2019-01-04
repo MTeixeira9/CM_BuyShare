@@ -16,8 +16,9 @@ public class Lista {
     private HashMap<String,HashMap<String, Double> > produtoCusto;
     private String criadorLista;
     private ArrayList <String> membrosLista;
-    private boolean partilhada;
+    private boolean partilhada, finalizada;
     private ArrayList <String> quemEliminou, quemArquivou;
+    private String quemFinalizou;
 
     public Lista(){
     }
@@ -34,6 +35,8 @@ public class Lista {
         quemArquivou = new ArrayList<>();
         quemArquivou.add("");
         this.produtoCusto = produtoCusto;
+        finalizada = false;
+        quemFinalizou = "";
     }
 
     public String getIdL() {
@@ -53,4 +56,12 @@ public class Lista {
     public ArrayList<String> getQuemArquivou() { return quemArquivou; }
 
     public HashMap<String, HashMap<String, Double>> getProdutoCusto() {return produtoCusto; }
+
+    public String getQuemFinalizou() {
+        return quemFinalizou;
+    }
+
+    public boolean isFinalizada() {
+        return finalizada;
+    }
 }
