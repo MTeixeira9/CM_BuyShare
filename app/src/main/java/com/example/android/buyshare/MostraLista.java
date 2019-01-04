@@ -38,6 +38,7 @@ public class MostraLista extends AppCompatActivity {
     private int pos;
     private String idL;
     private ArrayList<String> membros ;
+    private boolean partilhada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +48,13 @@ public class MostraLista extends AppCompatActivity {
         nomeLista = getIntent().getStringExtra("nameL");
         userTlm = getIntent().getStringExtra("userTlm");
         position = getIntent().getStringExtra("position");
-        //tipoLista = getIntent().getStringExtra("tipoL");
+        tipoLista = getIntent().getStringExtra("tipoL");
 
         pos = Integer.parseInt(position);
+
+        partilhada = false;
+        if (tipoLista.equals("partilhada"))
+            partilhada = true;
 
         listaCriadaPor = findViewById(R.id.pessoaCriaLista);
         linearLayout = findViewById(R.id.linearLayoutID);
@@ -73,10 +78,46 @@ public class MostraLista extends AppCompatActivity {
                     String numTelemovel = l.getCriadorLista();
                     membros = l.getMembrosLista();
 
-                    if (membros.contains(userTlm)) {
-
+                    //LISTA SER PUBLICA
+                    if (membros.contains(userTlm) && partilhada && l.isPartilhada()) {
                         prodQuantCusto = l.getProdutoCusto();
+                        if (prodQuantCusto != null) {
+                            if (count == pos) {
 
+                                /**
+                                 * IR BUSCAR O NOME DO CRIADOR DA LISTA
+                                 */
+                                Query q = mDatabase2.orderByChild("numeroTlm").equalTo(numTelemovel);
+                                q.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                                            String nome = String.valueOf(singleSnapshot.child("nome").getValue());
+                                            listaCriadaPor.setText("Lista criada por: " + nome);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        Log.e("TAG", "onCancelled", databaseError.toException());
+                                    }
+                                });
+
+                                idL = l.getIdL();
+                                for (Map.Entry<String, HashMap<String, Double>> a : prodQuantCusto.entrySet()) {
+                                    CheckBox cb = new CheckBox(getApplicationContext());
+                                    cb.setTextSize(18);
+                                    cb.setText(a.getKey());
+                                    linearLayout.addView(cb);
+                                }
+                                break;
+                            }
+                        }
+                        count++;
+                    }
+                    //LISTA SER PRIVADA
+                    if (membros.contains(userTlm) && !partilhada && !l.isPartilhada()) {
+                        prodQuantCusto = l.getProdutoCusto();
                         if (prodQuantCusto != null) {
                             if (count == pos) {
 

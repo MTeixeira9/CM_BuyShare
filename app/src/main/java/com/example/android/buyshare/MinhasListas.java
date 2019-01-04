@@ -27,8 +27,8 @@ import java.util.List;
 
 public class MinhasListas extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    private ArrayAdapter<String> mAdapter;
-    private ArrayAdapter<String> mAdapter2;
+    private ArrayAdapter<String> mAdapterPartilhadas;
+    private ArrayAdapter<String> mAdapterPrivadas;
     private String userTlm;
     private ListView mListasPartilhadas;
     private ListView mListasPrivadas;
@@ -36,6 +36,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
     private ValueEventListener mListener;
     private ArrayList<Lista> lPrivadas, lPartilhadas;
     private ListView selectedListView;
+    private static final String MSG_EMPTY_LISTS = "Ainda não tem nenhuma lista";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +55,11 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         mListasPartilhadas = findViewById(R.id.listasPartilhadas);
         mListasPrivadas = findViewById(R.id.listasPrivadas);
 
-        mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-        mAdapter2 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        mAdapterPartilhadas = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        mAdapterPrivadas = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
 
-        mListasPartilhadas.setAdapter(mAdapter);
-        mListasPrivadas.setAdapter(mAdapter2);
+        mListasPartilhadas.setAdapter(mAdapterPartilhadas);
+        mListasPrivadas.setAdapter(mAdapterPrivadas);
 
         lPartilhadas = new ArrayList<>();
         lPrivadas = new ArrayList<>();
@@ -83,25 +84,37 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (mListasPrivadas.getAdapter().getCount() == 0) {
                     for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-
                         Lista l = singleSnapshot.getValue(Lista.class);
-
                         //listas privadas (e nao arquivadas)
                         if (l.getCriadorLista().equals(userTlm) && !l.isPartilhada() && !l.getQuemArquivou().contains(userTlm)) {
                             lPrivadas.add(l);
 
-                            mAdapter2.add(l.getNomeLista());
-                            mAdapter2.notifyDataSetChanged();
+                            mAdapterPrivadas.add(l.getNomeLista());
+                            mAdapterPrivadas.notifyDataSetChanged();
                         }
+                    }
+                }
+                if (mListasPartilhadas.getAdapter().getCount() == 0) {
+                    for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                        Lista l = singleSnapshot.getValue(Lista.class);
                         //listas partilhadas (e nao arquivadas nem eliminadas por mim)
-                        else if (l.getMembrosLista().contains(userTlm) && l.isPartilhada()
+                        if (l.getMembrosLista().contains(userTlm) && l.isPartilhada()
                                 && !l.getQuemArquivou().contains(userTlm) && !l.getQuemEliminou().contains(userTlm)) {
                             lPartilhadas.add(l);
 
-                            mAdapter.add(l.getNomeLista());
-                            mAdapter.notifyDataSetChanged();
+                            mAdapterPartilhadas.add(l.getNomeLista());
+                            mAdapterPartilhadas.notifyDataSetChanged();
                         }
                     }
+                }
+                if (mListasPrivadas.getAdapter().getCount() == 0) {
+                    mAdapterPrivadas.add(MSG_EMPTY_LISTS);
+                    mAdapterPrivadas.notifyDataSetChanged();
+                }
+
+                if (mListasPartilhadas.getAdapter().getCount() == 0) {
+                    mAdapterPartilhadas.add(MSG_EMPTY_LISTS);
+                    mAdapterPartilhadas.notifyDataSetChanged();
                 }
             }
 
@@ -143,13 +156,13 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
                     List<String> quemArq = lSelected.getQuemArquivou();
                     quemArq.add(userTlm);
                     mDatabase.child(lSelected.getIdL()).child("quemArquivou").setValue(quemArq);
-                    mAdapter2.remove(lSelected.getNomeLista());
-                    mAdapter2.notifyDataSetChanged();
+                    mAdapterPrivadas.remove(lSelected.getNomeLista());
+                    mAdapterPrivadas.notifyDataSetChanged();
 
                 } else if (item.getTitle().equals("Eliminar")) {
                     mDatabase.child(lSelected.getIdL()).removeValue();
-                    mAdapter2.remove(lSelected.getNomeLista());
-                    mAdapter2.notifyDataSetChanged();
+                    mAdapterPrivadas.remove(lSelected.getNomeLista());
+                    mAdapterPrivadas.notifyDataSetChanged();
                 }
 
                 break;
@@ -163,15 +176,15 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
                     List<String> quemArq = lSelected.getQuemArquivou();
                     quemArq.add(userTlm);
                     mDatabase.child(lSelected.getIdL()).child("quemArquivou").setValue(quemArq);
-                    mAdapter.remove(lSelected.getNomeLista());
-                    mAdapter.notifyDataSetChanged();
+                    mAdapterPartilhadas.remove(lSelected.getNomeLista());
+                    mAdapterPartilhadas.notifyDataSetChanged();
 
                 } else if (item.getTitle().equals("Eliminar")) {
                     List<String> quemEli = lSelected.getQuemEliminou();
                     quemEli.add(userTlm);
                     mDatabase.child(lSelected.getIdL()).child("quemEliminou").setValue(quemEli);
-                    mAdapter.remove(lSelected.getNomeLista());
-                    mAdapter.notifyDataSetChanged();
+                    mAdapterPartilhadas.remove(lSelected.getNomeLista());
+                    mAdapterPartilhadas.notifyDataSetChanged();
                 }
 
                 break;
@@ -225,7 +238,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
         String tipo = "";
 
-        switch (parent.getId()){
+        switch (parent.getId()) {
             case R.id.listasPartilhadas:
                 tipo = "partilhada";
                 break;
@@ -239,16 +252,18 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
                 break;
         }
 
-        Intent intent = new Intent();
-        intent.setClass(this, MostraLista.class);
         String name = (String) parent.getItemAtPosition(position);
 
-        intent.putExtra("nameL", name);
-        intent.putExtra("userTlm", userTlm);
-        intent.putExtra("position", Integer.toString(position));
-        //intent.putExtra("tipoL", tipo);
+        if (!name.equals(MSG_EMPTY_LISTS)) {
+            Intent intent = new Intent();
+            intent.setClass(this, MostraLista.class);
+            intent.putExtra("nameL", name);
+            intent.putExtra("userTlm", userTlm);
+            intent.putExtra("position", Integer.toString(position));
+            intent.putExtra("tipoL", tipo);
 
-        startActivity(intent);
+            startActivity(intent);
+        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

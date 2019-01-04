@@ -64,7 +64,7 @@ public class RegistoActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Registo");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Button insereFoto = findViewById(R.id.escolherFoto);
+        /*Button insereFoto = findViewById(R.id.escolherFoto);
         insereFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +73,7 @@ public class RegistoActivity extends AppCompatActivity {
                 startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
 
             }
-        });
+        });*/
 
         Button registo = findViewById(R.id.registar);
         registo.setOnClickListener(new View.OnClickListener() {
