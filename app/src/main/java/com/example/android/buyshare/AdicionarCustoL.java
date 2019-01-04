@@ -6,9 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -32,12 +34,11 @@ public class AdicionarCustoL extends AppCompatActivity {
     private String userTlm, nomeLista, key, position;
     private DatabaseReference mDatabaseL, mDatabaseU;
     private ValueEventListener mListener;
-    private double custoFinal;
     private TextView tv;
     private ArrayList<String> membrosL, nomesMembrosLista, numerosTlmMembros;
     private Spinner spinner;
     private ArrayAdapter<String> spinnerArrayAdapter;
-    private Intent i;
+    private EditText custoFinal;
 
 
     @Override
@@ -60,9 +61,8 @@ public class AdicionarCustoL extends AppCompatActivity {
         membrosL = new ArrayList<>();
         nomesMembrosLista = new ArrayList<>();
         numerosTlmMembros = new ArrayList<>();
-        custoFinal = 0.0;
         spinner = findViewById(R.id.spinnerPagoPor);
-        i = new Intent();
+        custoFinal = findViewById(R.id.editTextCusto);
 
         mListener = mDatabaseL.child(key).addValueEventListener(new ValueEventListener() {
             @Override
@@ -127,14 +127,22 @@ public class AdicionarCustoL extends AppCompatActivity {
 
                             //ver que nome estah selecionado no spinner
                             int posSel = spinner.getSelectedItemPosition();
-                            String selected = spinner.getSelectedItem().toString();
+                            //String selected = spinner.getSelectedItem().toString();
                             String numArray = numerosTlmMembros.get(posSel);
                             String numCriadorLista = l.getCriadorLista();
+                            String c = custoFinal.getText().toString();
+                            Double custD = Double.parseDouble(c);
+
+                            mDatabaseL.child(key).child("custoFinal").setValue(custD);
+                            mDatabaseL.child(key).child("quemPagou").setValue(numArray);
+                            mDatabaseL.child(key).child("finalizada").setValue(true);
 
 
                             //se o utilizador que finalizar for
                             if (numArray.equals(numCriadorLista) && userTlm.equals(numArray)) {
                                 //VAI PARA A PAGINA DividasReceber
+                                Intent i = new Intent(AdicionarCustoL.this, DividasReceber.class);
+                                startActivity(i);
 
 
                             }else{
@@ -157,5 +165,26 @@ public class AdicionarCustoL extends AppCompatActivity {
             }
 
         });
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(AdicionarCustoL.this, MinhasListas.class);
+        i.putExtra("userTlm", userTlm);
+        startActivity(i);
     }
 }
