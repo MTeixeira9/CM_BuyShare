@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class AdicionarMembros extends AppCompatActivity {
+public class AdicionarMembrosGrupo extends AppCompatActivity {
 
     private ArrayAdapter<String> mAdapter;
     private String userLogado;
@@ -95,7 +95,7 @@ public class AdicionarMembros extends AppCompatActivity {
 
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(AdicionarMembros.this, MostraGrupo.class);
+                        Intent i = new Intent(AdicionarMembrosGrupo.this, MostraGrupo.class);
 
                         paraAdicionar = new ArrayList<>();
                         for (int a = 0; a <= linearLayout.getChildCount(); a++) {
@@ -174,7 +174,7 @@ public class AdicionarMembros extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(AdicionarMembros.this, MostraGrupo.class);
+        Intent i = new Intent(AdicionarMembrosGrupo.this, MostraGrupo.class);
         i.putExtra("userTlm", userLogado);
         i.putExtra("nomeG", nomeGrupo);
         i.putExtra("posGrupo", posGrupoString);

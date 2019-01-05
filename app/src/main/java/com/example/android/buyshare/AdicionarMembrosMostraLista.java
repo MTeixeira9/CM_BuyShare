@@ -12,7 +12,7 @@ public class AdicionarMembrosMostraLista extends AppCompatActivity {
 
     private SectionsPageAdapter mSectrionsPageAdapter;
     private ViewPager mViewPager;
-    private String userTlm, position, nameL;
+    private String userTlm, position, nameL, idL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +27,7 @@ public class AdicionarMembrosMostraLista extends AppCompatActivity {
         userTlm = getIntent().getStringExtra("userTlm");
         position = getIntent().getStringExtra("position");
         nameL = getIntent().getStringExtra("nameL");
+        idL = getIntent().getStringExtra("idL");
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         setupViewPager(mViewPager);
@@ -61,6 +62,7 @@ public class AdicionarMembrosMostraLista extends AppCompatActivity {
         i.putExtra("userTlm", userTlm);
         i.putExtra("nameL", nameL);
         i.putExtra("position", position);
+        i.putExtra("idL", idL);
         startActivity(i);
     }
 

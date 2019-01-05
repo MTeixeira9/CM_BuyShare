@@ -1,18 +1,16 @@
 package com.example.android.buyshare;
 
-import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
-import com.example.android.buyshare.Database.Grupo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,10 +20,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FragAddMembrosGrupos extends Fragment {
+public class FragAddMembrosGrupos extends Fragment implements IOnBackPressed {
 
-    private String userTlm, nomeLista, position;
-    private ArrayAdapter<String> mAdapter;
+    private String userTlm, nomeLista, position, idL;
     private DatabaseReference mDatabase;
     private ValueEventListener mListener;
     private Map<String, String> amigos;
@@ -46,6 +43,7 @@ public class FragAddMembrosGrupos extends Fragment {
         userTlm = getActivity().getIntent().getStringExtra("userTlm");
         nomeLista = getActivity().getIntent().getStringExtra("nameL");
         position = getActivity().getIntent().getStringExtra("position");
+        idL = getActivity().getIntent().getStringExtra("idL");
 
         amigos = new HashMap<>();
         nomeGrupo = "";
@@ -61,20 +59,13 @@ public class FragAddMembrosGrupos extends Fragment {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                     String nome = String.valueOf(singleSnapshot.child("nome").getValue());
 
-                    if(nome != null){
+                    if(!nome.equals("")){
                         CheckBox cb = new CheckBox(getContext());
                         cb.setTextSize(18);
                         cb.setText(nome);
                         linearLayout.addView(cb);
                     }
-
-                    /*
-                    Grupo g = dataSnapshot.getValue(Grupo.class);
-                    nomeGrupo = g.getNome();*/
-
                 }
-
-
             }
 
             @Override
@@ -83,12 +74,28 @@ public class FragAddMembrosGrupos extends Fragment {
             }
         }) ;
 
-
-
         return v;
     }
 
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item){
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
-
-
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(getActivity(), MostraLista.class);
+        i.putExtra("userTlm", userTlm);
+        i.putExtra("nameL", nomeLista);
+        i.putExtra("position", position);
+        i.putExtra("idL", idL);
+        startActivity(i);
+    }
 }

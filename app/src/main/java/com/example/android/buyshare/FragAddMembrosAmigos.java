@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -30,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class FragAddMembrosAmigos extends Fragment {
+public class FragAddMembrosAmigos extends Fragment implements IOnBackPressed {
 
     private String userTlm, nomeLista, position, idL;
     private ArrayAdapter<String> mAdapter;
@@ -57,24 +58,18 @@ public class FragAddMembrosAmigos extends Fragment {
         position = getActivity().getIntent().getStringExtra("position");
         idL = getActivity().getIntent().getStringExtra("idL");
 
-
-
-
         amigos = new HashMap<>();
         linearLayout = v.findViewById(R.id.linearLayoutAddMembros);
         adicionar = v.findViewById(R.id.buttonAddAmigosFrag);
 
-
         membrosLista = new ArrayList<>();
 
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
-
         mListener = mDatabase.child(userTlm).addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User u = dataSnapshot.getValue(User.class);
-
                 amigos = u.getAmigos();
 
                 if (amigos != null) {
@@ -172,11 +167,25 @@ public class FragAddMembrosAmigos extends Fragment {
 
     }
 
-    /*
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mDatabase.removeEventListener(mListener);
-        mDatabaseL.removeEventListener(mListenerL);
-    }*/
+    public boolean onOptionsItemSelected (MenuItem item){
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(getActivity(), MostraLista.class);
+        i.putExtra("userTlm", userTlm);
+        i.putExtra("nameL", nomeLista);
+        i.putExtra("position", position);
+        i.putExtra("idL", idL);
+        startActivity(i);
+    }
 }

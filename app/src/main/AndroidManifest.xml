@@ -37,7 +37,7 @@
             android:parentActivityName=".NovaLista" />
         <activity
             android:name=".AdicionarCustoL"
-            android:parentActivityName=".NovaLista" />
+            android:parentActivityName=".MostraLista" />
         <activity
             android:name=".CriarGrupoAddM"
             android:parentActivityName=".AdicionarMembrosMostraLista" />
@@ -81,7 +81,7 @@
             android:name=".MostraGrupo"
             android:parentActivityName=".MeusGrupos" />
         <activity
-            android:name=".AdicionarMembros"
+            android:name=".AdicionarMembrosGrupo"
             android:parentActivityName=".MostraGrupo" />
         <activity android:name=".EditarLista"></activity>
     </application>

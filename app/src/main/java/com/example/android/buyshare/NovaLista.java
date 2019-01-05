@@ -116,18 +116,24 @@ public class NovaLista extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.novalista, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
-        int id = item.getItemId();
-
-        return super.onOptionsItemSelected(item);
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(NovaLista.this, MinhasListas.class);
+        i.putExtra("userTlm", userTlm);
+        startActivity(i);
     }
 
 }

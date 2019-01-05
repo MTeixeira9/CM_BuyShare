@@ -64,7 +64,7 @@ public class RegistoActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Registo");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Button insereFoto = findViewById(R.id.escolherFoto);
+        /*Button insereFoto = findViewById(R.id.escolherFoto);
         insereFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,18 +73,18 @@ public class RegistoActivity extends AppCompatActivity {
                 startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
 
             }
-        });
+        });*/
 
-        Button registo = (Button) findViewById(R.id.registar);
+        Button registo = findViewById(R.id.registar);
         registo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                final TextView nomeBox = (TextView) findViewById(R.id.nomeRegisto);
-                final TextView passBox = (TextView) findViewById(R.id.passRegisto);
-                final TextView confirPassBox = (TextView) findViewById(R.id.confPassRegisto);
-                final TextView emailBox = (TextView) findViewById(R.id.emailRegisto);
-                final TextView telemovelBox = (TextView) findViewById(R.id.tlmRegisto);
+                final TextView nomeBox = findViewById(R.id.nomeRegisto);
+                final TextView passBox = findViewById(R.id.passRegisto);
+                final TextView confirPassBox = findViewById(R.id.confPassRegisto);
+                final TextView emailBox = findViewById(R.id.emailRegisto);
+                final TextView telemovelBox = findViewById(R.id.tlmRegisto);
 
                 final String nomeR = nomeBox.getText().toString();
                 final String passR = passBox.getText().toString();
@@ -178,7 +178,7 @@ public class RegistoActivity extends AppCompatActivity {
         });
     }
 
-    public final static boolean isValidEmail(String email) {
+    public static boolean isValidEmail(String email) {
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
     }
 
@@ -189,7 +189,7 @@ public class RegistoActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             try {
                 final Uri imageUri = data.getData();
-                ImageView imageView = (ImageView) findViewById(R.id.imageView_editPerfil);
+                ImageView imageView = findViewById(R.id.imageView_editPerfil);
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                 imageView.setImageBitmap(selectedImage);

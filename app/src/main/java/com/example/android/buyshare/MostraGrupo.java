@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.android.buyshare.Database.Grupo;
 import com.example.android.buyshare.Database.User;
@@ -19,7 +18,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -57,7 +55,7 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
         addMembros.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MostraGrupo.this, AdicionarMembros.class);
+                Intent i = new Intent(MostraGrupo.this, AdicionarMembrosGrupo.class);
                 i.putExtra("userTlm", userLogado);
                 i.putExtra("posGrupo", String.valueOf(posGrupoString));
                 i.putExtra("nomeG", nomeGrupo);
@@ -128,7 +126,7 @@ public class MostraGrupo extends AppCompatActivity implements AdapterView.OnItem
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent();
-        intent.setClass(this, AdicionarMembros.class);
+        intent.setClass(this, AdicionarMembrosGrupo.class);
         String grupo = (String) parent.getItemAtPosition(position);
 
         intent.putExtra("userTlm", userLogado);

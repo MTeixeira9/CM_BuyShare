@@ -1,6 +1,7 @@
 package com.example.android.buyshare;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,13 +22,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Amigos extends AppCompatActivity {
 
     private static final String MSG_SUCESSO = "Amigo adicionado com sucesso!";
-
+    private DatabaseReference mDatabaseUsers;
+    private DatabaseReference mDatabaseUploads;
     private ArrayAdapter<String> mAdapter;
     private String userLogado;
 
@@ -52,31 +59,45 @@ public class Amigos extends AppCompatActivity {
             }
         });
 
-        ListView mListAmigos = findViewById(R.id.listAmigos);
-        mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        final ListView mListAmigos = findViewById(R.id.listAmigos);
+        final List<RowItem> rowItems = new ArrayList<>();
+
+        //mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         /**
          * opcoes amigos
          * */
         registerForContextMenu(mListAmigos);
-        mListAmigos.setAdapter(mAdapter);
 
         //adicionar logo os amigos da base de dados
-        final DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference("users");
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference("users");
+        mDatabaseUploads = FirebaseDatabase.getInstance().getReference("upload");
 
-        Query q = mDataBase.orderByChild("numeroTlm").equalTo(userLogado);
+        Query q = mDatabaseUsers.orderByChild("numeroTlm").equalTo(userLogado);
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot singleSnapShot : dataSnapshot.getChildren()) {
                     User u = singleSnapShot.getValue(User.class);
-                    Map<String, String> amigos = (Map<String, String>)  u.getAmigos();
+                    Map<String, String> amigos = u.getAmigos();
 
                     if(amigos != null) {
                         for (Map.Entry<String, String> amigo : amigos.entrySet()) {
-                            mAdapter.add(amigo.getValue() + " " + amigo.getKey());
-                            mAdapter.notifyDataSetChanged();
+                            String url = mDatabaseUploads.child(amigo.getKey()).child("imageUrl").toString();
+                            ImageView img = new ImageView(getApplicationContext());
+                            if (url == null){
+                                Drawable d = getResources().getDrawable(R.drawable.user_icon);
+                                img.setImageDrawable(d);
+                            }
+                            else {
+                                new DownloadImageTask((ImageView) img).execute(url);
+                            }
+                            RowItem r = new RowItem(img.getId(), amigo.getValue(), amigo.getKey());
+                            rowItems.add(r);
                         }
                     }
+
+                    CustomBaseAdapter adapter = new CustomBaseAdapter(getApplicationContext(), rowItems);
+                    mListAmigos.setAdapter(adapter);
                 }
             }
 
@@ -85,6 +106,8 @@ public class Amigos extends AppCompatActivity {
                 Log.e("TAG", "onCancelled", databaseError.toException());
             }
         });
+
+
     }
 
     @Override
