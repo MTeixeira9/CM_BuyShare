@@ -13,9 +13,9 @@ package com.example.android.buyshare;
 
 public class CustomBaseAdapter extends BaseAdapter {
     Context context;
-    List<RowItem> rowItems;
+    List<RowItemAmigo> rowItems;
 
-    public CustomBaseAdapter(Context context, List<RowItem> items) {
+    public CustomBaseAdapter(Context context, List<RowItemAmigo> items) {
         this.context = context;
         this.rowItems = items;
     }
@@ -43,7 +43,7 @@ public class CustomBaseAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        RowItem rowItem = (RowItem) getItem(position);
+        RowItemAmigo rowItem = (RowItemAmigo) getItem(position);
 
         holder.txtDesc.setText(rowItem.getDesc());
         holder.txtTitle.setText(rowItem.getTitle());

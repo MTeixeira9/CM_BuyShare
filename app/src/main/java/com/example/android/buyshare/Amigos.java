@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.android.buyshare.Database.Lista;
 import com.example.android.buyshare.Database.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,8 +23,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +75,7 @@ public class Amigos extends AppCompatActivity {
     }
 
     private void atualizaFriends() {
-        final List<RowItem> rowItems = new ArrayList<>();
+        final List<RowItemAmigo> rowItems = new ArrayList<>();
         Query q = mDatabaseUsers.orderByChild("numeroTlm").equalTo(userLogado);
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -99,7 +96,7 @@ public class Amigos extends AppCompatActivity {
                             else {
                                 new DownloadImageTask((ImageView) img).execute(url);
                             }
-                            RowItem r = new RowItem(img.getId(), amigo.getValue(), amigo.getKey());
+                            RowItemAmigo r = new RowItemAmigo(img.getId(), amigo.getValue(), amigo.getKey());
                             rowItems.add(r);
                         }
                     }
@@ -127,7 +124,7 @@ public class Amigos extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         final int p = info.position;
-        RowItem r = (RowItem) adapter.getItem(p);
+        RowItemAmigo r = (RowItemAmigo) adapter.getItem(p);
         String nTelemovelEliminar = r.getDesc();
         mDatabaseUsers.child(userLogado).child("amigos").child(nTelemovelEliminar).removeValue();
         mDatabaseUsers.child(nTelemovelEliminar).child("amigos").child(userLogado).removeValue();
