@@ -74,8 +74,10 @@ public class DividasReceber extends AppCompatActivity {
                 custoFinal = l.getCustoFinal();
                 membrosL = l.getMembrosLista();
                 Double emprestado = custoFinal - (custoFinal / membrosL.size());
-                e = String.valueOf(emprestado);
-                final String deveTE = String.valueOf(custoFinal/membrosL.size());
+                e = String.valueOf(Math.round(emprestado*100.0) / 100.0);
+                Double d = custoFinal/membrosL.size();
+
+                final String deveTE = String.valueOf(Math.round(d*100.0) / 100.0);
                 final Double quantiaADever = custoFinal/membrosL.size();
 
                 despesaTextV.setText("Despesa Total: " + custoFinal +"€");
@@ -108,9 +110,12 @@ public class DividasReceber extends AppCompatActivity {
                                     public void onClick(View v) {
                                         //Toast.makeText(getApplicationContext(),v.getId()+" <- ID" ,Toast.LENGTH_LONG).show();
                                         String idN = mDatabaseN.push().getKey();
+                                        ArrayList<String> notif = new ArrayList<>();
+                                        notif.add(idN);
                                         Notificacao n = new Notificacao(idN, idL,
                                                 membrosL.get(0), posNumTlNotifica.get(v.getId()), quantiaADever );
                                         mDatabaseN.child(idN).setValue(n);
+                                        mDatabaseU.child(posNumTlNotifica.get(v.getId())).child("notificacoes").setValue(notif);
 
                                     }
                                 });

@@ -79,6 +79,9 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
 
+                Intent i = new Intent(MinhasListas.this, Notificacoes.class);
+                i.putExtra("userTlm", userTlm);
+                startActivity(i);
             }
         });
 
