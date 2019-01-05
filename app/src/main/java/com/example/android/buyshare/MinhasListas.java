@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
     private ValueEventListener mListener;
     private ArrayList<Lista> lPrivadas, lPartilhadas;
     private ListView selectedListView;
+    private ImageView notificacoes;
     private static final String MSG_EMPTY_LISTS = "Ainda não tem nenhuma lista";
 
     @Override
@@ -68,6 +70,17 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
 
         lPartilhadas = new ArrayList<>();
         lPrivadas = new ArrayList<>();
+
+        /**
+         * Notificacoes
+         */
+        notificacoes = findViewById(R.id.notifications);
+        notificacoes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         /**
          * opcoes listas

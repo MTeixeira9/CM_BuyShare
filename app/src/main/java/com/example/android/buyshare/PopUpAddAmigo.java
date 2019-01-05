@@ -66,10 +66,11 @@ public class PopUpAddAmigo extends Activity {
                         mListener = mDatabase.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                aAdicionar = null;
                                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                                     User u = singleSnapshot.getValue(User.class);
-                                    //ir buscar user logado
-                                    if (u.getNumeroTlm().equals(tlmUserLogado)) {
+                                    //ir buscar user logado (apenas 1 vez)
+                                    if (logado == null && u.getNumeroTlm().equals(tlmUserLogado)) {
                                         logado = u;
                                     }
                                     //ir buscar user a add
@@ -79,7 +80,8 @@ public class PopUpAddAmigo extends Activity {
                                 }
                                 count++;
 
-                                Log.d(count + " -> LOGADO: " + logado.getNome(), " --- ADD: " + aAdicionar.getNome());
+                                if(aAdicionar != null)
+                                    Log.d(count + " -> LOGADO: " + logado.getNome(), " --- ADD: " + aAdicionar.getNome());
 
                                 emptyAdd = false;
                                 proprio = false;
@@ -92,7 +94,7 @@ public class PopUpAddAmigo extends Activity {
                                 }
                                 //add a si proprio
                                 if (!emptyAdd) {
-                                    if (logado.getNome().equals(aAdicionar.getNome())) {
+                                    if (tlmUserLogado.equals(aAdicionar.getNumeroTlm())) {
                                         nTelemovel.setError(MSG_ERRO2);
                                         proprio = true;
                                     }

@@ -9,12 +9,14 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.android.buyshare.Database.Lista;
 import com.example.android.buyshare.Database.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,7 +37,9 @@ public class Amigos extends AppCompatActivity {
     private DatabaseReference mDatabaseUsers;
     private DatabaseReference mDatabaseUploads;
     private ArrayAdapter<String> mAdapter;
+    private CustomBaseAdapter adapter;
     private String userLogado;
+    private ListView mListAmigos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +49,7 @@ public class Amigos extends AppCompatActivity {
         getSupportActionBar().setTitle("Meus Amigos");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Button addAmigos = findViewById(R.id.addAmigos);
+        final Button addAmigos = findViewById(R.id.addAmigos);
         userLogado = getIntent().getStringExtra("userTlm");
 
         addAmigos.setOnClickListener(new View.OnClickListener() {
@@ -59,10 +63,8 @@ public class Amigos extends AppCompatActivity {
             }
         });
 
-        final ListView mListAmigos = findViewById(R.id.listAmigos);
-        final List<RowItem> rowItems = new ArrayList<>();
+        mListAmigos = findViewById(R.id.listAmigos);
 
-        //mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         /**
          * opcoes amigos
          * */
@@ -72,6 +74,11 @@ public class Amigos extends AppCompatActivity {
         mDatabaseUsers = FirebaseDatabase.getInstance().getReference("users");
         mDatabaseUploads = FirebaseDatabase.getInstance().getReference("upload");
 
+        atualizaFriends();
+    }
+
+    private void atualizaFriends() {
+        final List<RowItem> rowItems = new ArrayList<>();
         Query q = mDatabaseUsers.orderByChild("numeroTlm").equalTo(userLogado);
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -82,7 +89,8 @@ public class Amigos extends AppCompatActivity {
 
                     if(amigos != null) {
                         for (Map.Entry<String, String> amigo : amigos.entrySet()) {
-                            String url = mDatabaseUploads.child(amigo.getKey()).child("imageUrl").toString();
+                            String url = null;
+                            //url = mDatabaseUploads.child(amigo.getKey()).child("imageUrl").toString();
                             ImageView img = new ImageView(getApplicationContext());
                             if (url == null){
                                 Drawable d = getResources().getDrawable(R.drawable.user_icon);
@@ -96,7 +104,7 @@ public class Amigos extends AppCompatActivity {
                         }
                     }
 
-                    CustomBaseAdapter adapter = new CustomBaseAdapter(getApplicationContext(), rowItems);
+                    adapter = new CustomBaseAdapter(getApplicationContext(), rowItems);
                     mListAmigos.setAdapter(adapter);
                 }
             }
@@ -106,8 +114,6 @@ public class Amigos extends AppCompatActivity {
                 Log.e("TAG", "onCancelled", databaseError.toException());
             }
         });
-
-
     }
 
     @Override
@@ -117,14 +123,22 @@ public class Amigos extends AppCompatActivity {
         menu.add(0, v.getId(), 0, "Eliminar");
     }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        final int p = info.position;
+        RowItem r = (RowItem) adapter.getItem(p);
+        String nTelemovelEliminar = r.getDesc();
+        mDatabaseUsers.child(userLogado).child("amigos").child(nTelemovelEliminar).removeValue();
+        mDatabaseUsers.child(nTelemovelEliminar).child("amigos").child(userLogado).removeValue();
+        atualizaFriends();
+        return true;
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
             if (resultCode == 1) {
-                String nome = data.getStringExtra("nomeA");
-                String tlmv = data.getStringExtra("nTlm");
-                String novoAmigo = nome + " " + tlmv;
-                mAdapter.add(novoAmigo);
-                mAdapter.notifyDataSetChanged();
+                atualizaFriends();
                 Toast.makeText(getApplicationContext(), MSG_SUCESSO, Toast.LENGTH_LONG).show();
             }
         }
