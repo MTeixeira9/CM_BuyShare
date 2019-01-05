@@ -29,7 +29,7 @@ public class User {
     private String email;
     private Map<String,String> amigos;
     private List<String> grupos;
-    private List<String> listas;
+    private List<String> listas, notificacoes;
 
     public User(){
     }
@@ -42,6 +42,7 @@ public class User {
         amigos = new HashMap<>();
         grupos = new ArrayList<>();
         listas = new ArrayList<>();
+        notificacoes = new ArrayList<>();
     }
 
     public String getPassword(){
@@ -72,4 +73,7 @@ public class User {
         return listas;
     }
 
+    public List<String> getNotificacoes() {
+        return notificacoes;
+    }
 }

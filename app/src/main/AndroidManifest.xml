@@ -19,8 +19,9 @@
         <activity
             android:name=".RegistoActivity"
             android:parentActivityName=".LoginActivity" />
-        <activity android:name=".MinhasListas"
-            android:theme="@style/minhasListasTheme"/>
+        <activity
+            android:name=".MinhasListas"
+            android:theme="@style/minhasListasTheme" />
         <activity
             android:name=".MeusGrupos"
             android:parentActivityName=".MinhasListas" />
@@ -84,7 +85,9 @@
         <activity
             android:name=".AdicionarMembrosGrupo"
             android:parentActivityName=".MostraGrupo" />
-        <activity android:name=".EditarLista"></activity>
+        <activity android:name=".EditarLista" />
+        <activity android:name=".Notificacoes"
+            android:parentActivityName=".MinhasListas" />
     </application>
 
 </manifest>

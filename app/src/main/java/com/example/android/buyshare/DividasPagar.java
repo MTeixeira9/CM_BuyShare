@@ -3,6 +3,8 @@ package com.example.android.buyshare;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.android.buyshare.Database.Lista;
@@ -81,6 +83,15 @@ public class DividasPagar extends AppCompatActivity {
             }
         });
 
+
+
+        Button pagar =  findViewById(R.id.pagar);
+        pagar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 }
