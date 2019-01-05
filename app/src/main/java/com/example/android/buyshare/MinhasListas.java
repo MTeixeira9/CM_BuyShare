@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -43,7 +44,11 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_minhas_listas);
 
-        getSupportActionBar().setTitle("Minhas Listas");
+        //getSupportActionBar().setTitle("Minhas Listas");
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Minhas Listas");
+        setSupportActionBar(toolbar);
 
         Button novaLista = findViewById(R.id.novaLista);
 

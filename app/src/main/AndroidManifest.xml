@@ -19,7 +19,8 @@
         <activity
             android:name=".RegistoActivity"
             android:parentActivityName=".LoginActivity" />
-        <activity android:name=".MinhasListas" />
+        <activity android:name=".MinhasListas"
+            android:theme="@style/minhasListasTheme"/>
         <activity
             android:name=".MeusGrupos"
             android:parentActivityName=".MinhasListas" />

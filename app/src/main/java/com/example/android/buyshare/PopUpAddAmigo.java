@@ -32,6 +32,7 @@ public class PopUpAddAmigo extends Activity {
     private DatabaseReference mDatabase;
     private ValueEventListener mListener;
     public boolean emptyAdd, proprio, alreadyFriend;
+    int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class PopUpAddAmigo extends Activity {
 
         //telemovel user logado
         tlmUserLogado = getIntent().getStringExtra("userTlm");
+        count = 0;
 
         Button addAmigo = findViewById(R.id.enviarConvite);
         addAmigo.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +77,9 @@ public class PopUpAddAmigo extends Activity {
                                         aAdicionar = u;
                                     }
                                 }
+                                count++;
+
+                                Log.d(count + " -> LOGADO: " + logado.getNome(), " --- ADD: " + aAdicionar.getNome());
 
                                 emptyAdd = false;
                                 proprio = false;
