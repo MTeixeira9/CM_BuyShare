@@ -1,11 +1,11 @@
 package com.example.android.buyshare;
 
-public class RowItem {
+public class RowItemAmigo {
     private int imageId;
     private String title;
     private String desc;
 
-    public RowItem(int imageId, String title, String desc) {
+    public RowItemAmigo(int imageId, String title, String desc) {
         this.imageId = imageId;
         this.title = title;
         this.desc = desc;
