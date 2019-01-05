@@ -47,9 +47,6 @@
             android:name=".NovoAmigoAddM"
             android:parentActivityName=".AdicionarMembrosMostraLista" />
         <activity
-            android:name=".DividasPagar"
-            android:parentActivityName=".MinhasListas" />
-        <activity
             android:name=".MostraLista"
             android:parentActivityName=".MinhasListas" />
         <activity
