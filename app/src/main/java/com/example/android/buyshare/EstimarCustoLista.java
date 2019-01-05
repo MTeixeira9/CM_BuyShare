@@ -81,7 +81,7 @@ public class EstimarCustoLista extends AppCompatActivity {
         mListener = mDatabase.child(key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Lista l = dataSnapshot.getValue(Lista.class);
+                        Lista l = dataSnapshot.getValue(Lista.class);
                     //ArrayList<String> prod = l.getProdutos();
 
 
