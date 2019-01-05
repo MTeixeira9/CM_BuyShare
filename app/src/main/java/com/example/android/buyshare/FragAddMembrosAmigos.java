@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class FragAddMembrosAmigos extends Fragment implements IOnBackPressed {
 
-    private String userTlm, nomeLista, position, idL;
+    private String userTlm, nomeLista, position, idL, tipoLista;
     private ArrayAdapter<String> mAdapter;
     private DatabaseReference mDatabase, mDatabaseL;
     private ValueEventListener mListener, mListenerL;
@@ -57,6 +57,8 @@ public class FragAddMembrosAmigos extends Fragment implements IOnBackPressed {
         nomeLista = getActivity().getIntent().getStringExtra("nameL");
         position = getActivity().getIntent().getStringExtra("position");
         idL = getActivity().getIntent().getStringExtra("idL");
+        tipoLista = getActivity().getIntent().getStringExtra("tipoL");
+
 
         amigos = new HashMap<>();
         linearLayout = v.findViewById(R.id.linearLayoutAddMembros);
@@ -186,6 +188,7 @@ public class FragAddMembrosAmigos extends Fragment implements IOnBackPressed {
         i.putExtra("nameL", nomeLista);
         i.putExtra("position", position);
         i.putExtra("idL", idL);
+        i.putExtra("tipoL", tipoLista);
         startActivity(i);
     }
 }

@@ -206,6 +206,7 @@ public class MostraLista extends AppCompatActivity {
             addMembros.putExtra("nameL", nomeLista);
             addMembros.putExtra("position", position);
             addMembros.putExtra("idL", idL);
+            addMembros.putExtra("tipoL", tipoLista);
 
             startActivity(addMembros);
 

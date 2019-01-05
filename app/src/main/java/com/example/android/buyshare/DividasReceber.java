@@ -5,6 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.android.buyshare.Database.Lista;
@@ -21,9 +24,11 @@ public class DividasReceber extends AppCompatActivity {
 
     private TextView despesaTextV, numPessoasTextV, valorEmprestado;
     private String idL, userTlm;
-    private DatabaseReference mDatabaseL;
+    private DatabaseReference mDatabaseL, mDatabaseU;
     private Double custoFinal;
     private ArrayList<String> membrosL;
+    private TableLayout tableL;
+    private String e;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +44,14 @@ public class DividasReceber extends AppCompatActivity {
         numPessoasTextV = findViewById(R.id.numPessoas);
         valorEmprestado = findViewById(R.id.emprestaste);
         mDatabaseL = FirebaseDatabase.getInstance().getReference("listas");
+        mDatabaseU = FirebaseDatabase.getInstance().getReference("users");
         custoFinal = 0.0;
         membrosL = new ArrayList<>();
+        e = "";
+
+        tableL = findViewById(R.id.tableLDividasR);
+        tableL.setStretchAllColumns(true);
+        tableL.bringToFront();
 
         Query q = mDatabaseL.child(idL);
         q.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -50,12 +61,56 @@ public class DividasReceber extends AppCompatActivity {
                 Lista l = dataSnapshot.getValue(Lista.class);
                 custoFinal = l.getCustoFinal();
                 membrosL = l.getMembrosLista();
-                Double emprestado = custoFinal-(custoFinal/membrosL.size());
-                String e = String.valueOf(emprestado);
+                Double emprestado = custoFinal - (custoFinal / membrosL.size());
+                e = String.valueOf(emprestado);
 
                 despesaTextV.setText("Despesa Total: " + custoFinal);
-                numPessoasTextV.setText("Nº de pessoas envolvidas: " + membrosL.size()+"");
+                numPessoasTextV.setText("Nº de pessoas envolvidas: " + membrosL.size() + "");
                 valorEmprestado.setText("Emprestaste: " + e + "€");
+
+                int i = 0;
+                for (String a : membrosL) {
+
+                    Query qU = mDatabaseU.child(a);
+                    qU.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            TableRow tr = new TableRow(getApplicationContext());
+
+                            TextView quemDeve = new TextView(getApplicationContext());
+                            String nome = String.valueOf(dataSnapshot.child("nome").getValue());
+
+                            quemDeve.setTextSize(18);
+                            //Falta acrescentar o valor
+                            quemDeve.setText(nome + " deve-te " + e + "€!");
+
+                            Button notifica = new Button(getApplicationContext());
+                            notifica.setText("Notifa");
+
+                            Button pago = new Button(getApplicationContext());
+                            pago.setText("Pago!");
+
+                            tr.addView(quemDeve);
+                            tr.addView(notifica);
+                            tr.addView(pago);
+
+                            tableL.addView(tr);
+
+
+
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                    i++;
+
+                }
 
             }
 

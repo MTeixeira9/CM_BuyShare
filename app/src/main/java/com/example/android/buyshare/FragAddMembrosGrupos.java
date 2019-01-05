@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class FragAddMembrosGrupos extends Fragment implements IOnBackPressed {
 
-    private String userTlm, nomeLista, position, idL;
+    private String userTlm, nomeLista, position, idL, tipoLista;
     private DatabaseReference mDatabase;
     private ValueEventListener mListener;
     private Map<String, String> amigos;
@@ -44,6 +44,8 @@ public class FragAddMembrosGrupos extends Fragment implements IOnBackPressed {
         nomeLista = getActivity().getIntent().getStringExtra("nameL");
         position = getActivity().getIntent().getStringExtra("position");
         idL = getActivity().getIntent().getStringExtra("idL");
+        tipoLista = getActivity().getIntent().getStringExtra("tipoL");
+
 
         amigos = new HashMap<>();
         nomeGrupo = "";
@@ -96,6 +98,8 @@ public class FragAddMembrosGrupos extends Fragment implements IOnBackPressed {
         i.putExtra("nameL", nomeLista);
         i.putExtra("position", position);
         i.putExtra("idL", idL);
+        i.putExtra("tipoL", tipoLista);
+
         startActivity(i);
     }
 }

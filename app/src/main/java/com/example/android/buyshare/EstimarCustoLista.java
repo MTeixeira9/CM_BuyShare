@@ -192,6 +192,7 @@ public class EstimarCustoLista extends AppCompatActivity {
                 }
 
                 mDatabase.child(key).child("produtoCusto").setValue(novoHashMap);
+                mDatabase.child(key).child("custoFinal").setValue(Math.round(totalCusto*100.0) / 100.0);
 
 
                 //POPUP
