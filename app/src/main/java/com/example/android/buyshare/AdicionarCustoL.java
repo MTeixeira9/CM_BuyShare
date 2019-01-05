@@ -69,8 +69,6 @@ public class AdicionarCustoL extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Lista l = dataSnapshot.getValue(Lista.class);
 
-                custoFinal.setText(String.valueOf(l.getCustoFinal()));
-
                 membrosL = l.getMembrosLista();
 
                 if (membrosL != null) {

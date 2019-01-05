@@ -36,9 +36,10 @@ public class MostraLista extends AppCompatActivity {
     private ValueEventListener mListener;
     private HashMap<String, HashMap<String, Double>> prodQuantCusto;
     private int pos;
-    private String idL;
-    private ArrayList<String> membros ;
+    private String idL, finalizada;
+    private ArrayList<String> membros;
     private boolean partilhada;
+    private Button edit_button, contas_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,9 @@ public class MostraLista extends AppCompatActivity {
 
         prodQuantCusto = new HashMap<>();
 
+
         idL = "";
+        finalizada = "";
         membros = new ArrayList<>();
 
         mListener = mDatabase.addValueEventListener(new ValueEventListener() {
@@ -104,6 +107,7 @@ public class MostraLista extends AppCompatActivity {
                                 });
 
                                 idL = l.getIdL();
+                                finalizada = String.valueOf(l.isFinalizada());
                                 for (Map.Entry<String, HashMap<String, Double>> a : prodQuantCusto.entrySet()) {
                                     CheckBox cb = new CheckBox(getApplicationContext());
                                     cb.setTextSize(18);
@@ -141,6 +145,7 @@ public class MostraLista extends AppCompatActivity {
                                 });
 
                                 idL = l.getIdL();
+                                finalizada = String.valueOf(l.isFinalizada());Toast.makeText(getApplicationContext(), "FIN - " + finalizada, Toast.LENGTH_LONG).show();
                                 for (Map.Entry<String, HashMap<String, Double>> a : prodQuantCusto.entrySet()) {
                                     CheckBox cb = new CheckBox(getApplicationContext());
                                     cb.setTextSize(18);
@@ -153,6 +158,40 @@ public class MostraLista extends AppCompatActivity {
                         count++;
                     }
                 }
+
+                edit_button = findViewById(R.id.edit_button);
+                contas_button = findViewById(R.id.dividas);
+
+                if(finalizada.equals("true")){
+                    edit_button.setVisibility(View.INVISIBLE);
+                    contas_button.setVisibility(View.VISIBLE);
+                }else{
+                    edit_button.setVisibility(View.VISIBLE);
+                    contas_button.setVisibility(View.INVISIBLE);
+                }
+
+                edit_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MostraLista.this, EditarLista.class);
+                        intent.putExtra("key", idL);
+                        intent.putExtra("nameL", nomeLista);
+                        intent.putExtra("userTlm", userTlm);
+                        intent.putExtra("position", position);
+                        startActivity(intent);
+                    }
+                });
+
+                contas_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MostraLista.this, DividasReceber.class);
+                        intent.putExtra("idL", idL);
+                        intent.putExtra("userTlm", userTlm);
+                        startActivity(intent);
+                    }
+                });
+
             }
 
             @Override
@@ -164,21 +203,6 @@ public class MostraLista extends AppCompatActivity {
         getSupportActionBar().setTitle(nomeLista);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Button edit_button = findViewById(R.id.edit_button);
-
-        edit_button.setOnClickListener(new View.OnClickListener()
-
-        {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MostraLista.this, EditarLista.class);
-                intent.putExtra("key", idL);
-                intent.putExtra("nameL", nomeLista);
-                intent.putExtra("userTlm", userTlm);
-                intent.putExtra("position", position);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -188,8 +212,33 @@ public class MostraLista extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.mostralista, menu);
+    public boolean onCreateOptionsMenu(final Menu menu) {
+
+
+        Query q = mDatabase.orderByChild("idL").equalTo(idL);
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    Lista l = singleSnapshot.getValue(Lista.class);
+                    if(!l.isFinalizada()){
+                        getMenuInflater().inflate(R.menu.mostralista, menu);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+
+        });
+
+
+
+
         return true;
     }
 
