@@ -7,7 +7,7 @@
     tools:context=".DividasPagar">
 
     <TextView
-        android:id="@+id/despesaTotal"
+        android:id="@+id/despesaTotalPagar"
         android:layout_width="211dp"
         android:layout_height="36dp"
         android:layout_marginStart="40dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/numPessoas"
+        android:id="@+id/numPessoasDPagar"
         android:layout_width="297dp"
         android:layout_height="35dp"
         android:layout_marginStart="40dp"
@@ -28,7 +28,7 @@
         android:text="Nº pessoas envolvidas: x pessoas"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/despesaTotal" />
+        app:layout_constraintTop_toBottomOf="@+id/despesaTotalPagar" />
 
     <View
         android:id="@+id/divider"
@@ -38,7 +38,7 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/numPessoas" />
+        app:layout_constraintTop_toBottomOf="@+id/numPessoasDPagar" />
 
 
     <ImageView
@@ -54,7 +54,7 @@
 
 
     <TextView
-        android:id="@+id/textView30"
+        android:id="@+id/devesTV"
         android:layout_width="185dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="124dp"

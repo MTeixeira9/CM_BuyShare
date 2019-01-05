@@ -40,8 +40,8 @@ public class DividasReceber extends AppCompatActivity {
 
         idL = getIntent().getStringExtra("idL");
         userTlm = getIntent().getStringExtra("userTlm");
-        despesaTextV = findViewById(R.id.despesaTotal);
-        numPessoasTextV = findViewById(R.id.numPessoas);
+        despesaTextV = findViewById(R.id.despesaTotalPagar);
+        numPessoasTextV = findViewById(R.id.numPessoasDPagar);
         valorEmprestado = findViewById(R.id.emprestaste);
         mDatabaseL = FirebaseDatabase.getInstance().getReference("listas");
         mDatabaseU = FirebaseDatabase.getInstance().getReference("users");
@@ -64,7 +64,7 @@ public class DividasReceber extends AppCompatActivity {
                 Double emprestado = custoFinal - (custoFinal / membrosL.size());
                 e = String.valueOf(emprestado);
 
-                despesaTextV.setText("Despesa Total: " + custoFinal);
+                despesaTextV.setText("Despesa Total: " + custoFinal +"€");
                 numPessoasTextV.setText("Nº de pessoas envolvidas: " + membrosL.size() + "");
                 valorEmprestado.setText("Emprestaste: " + e + "€");
 
@@ -82,7 +82,7 @@ public class DividasReceber extends AppCompatActivity {
                             String nome = String.valueOf(dataSnapshot.child("nome").getValue());
 
                             quemDeve.setTextSize(18);
-                            //Falta acrescentar o valor
+
                             quemDeve.setText(nome + " deve-te " + e + "€!");
 
                             Button notifica = new Button(getApplicationContext());
