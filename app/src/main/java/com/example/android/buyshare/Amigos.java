@@ -75,7 +75,7 @@ public class Amigos extends AppCompatActivity {
     }
 
     private void atualizaFriends() {
-        final List<RowItemAmigo> rowItems = new ArrayList<>();
+        final List<RowItem> rowItems = new ArrayList<>();
         Query q = mDatabaseUsers.orderByChild("numeroTlm").equalTo(userLogado);
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -96,7 +96,7 @@ public class Amigos extends AppCompatActivity {
                             else {
                                 new DownloadImageTask((ImageView) img).execute(url);
                             }
-                            RowItemAmigo r = new RowItemAmigo(img.getId(), amigo.getValue(), amigo.getKey());
+                            RowItem r = new RowItem(img.getId(), amigo.getValue(), amigo.getKey());
                             rowItems.add(r);
                         }
                     }
@@ -124,7 +124,7 @@ public class Amigos extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         final int p = info.position;
-        RowItemAmigo r = (RowItemAmigo) adapter.getItem(p);
+        RowItem r = (RowItem) adapter.getItem(p);
         String nTelemovelEliminar = r.getDesc();
         mDatabaseUsers.child(userLogado).child("amigos").child(nTelemovelEliminar).removeValue();
         mDatabaseUsers.child(nTelemovelEliminar).child("amigos").child(userLogado).removeValue();

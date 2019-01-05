@@ -29,7 +29,6 @@ public class VerMembros extends AppCompatActivity {
     private ValueEventListener mListener;
     private ArrayList<String> membros;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
