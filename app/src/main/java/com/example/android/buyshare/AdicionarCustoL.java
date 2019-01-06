@@ -71,6 +71,8 @@ public class AdicionarCustoL extends AppCompatActivity {
 
                 membrosL = l.getMembrosLista();
 
+                custoFinal.setText(String.valueOf(l.getCustoFinal())); // porque tiraram isto?
+
                 if (membrosL != null) {
                     for (String a : membrosL) {
                         Query q = mDatabaseU.child(a);
@@ -132,6 +134,8 @@ public class AdicionarCustoL extends AppCompatActivity {
                             String numCriadorLista = l.getCriadorLista();
                             String c = custoFinal.getText().toString();
                             Double custD = Double.parseDouble(c);
+
+
 
                             mDatabaseL.child(key).child("custoFinal").setValue(custD);
                             mDatabaseL.child(key).child("quemPagou").setValue(numArray);
