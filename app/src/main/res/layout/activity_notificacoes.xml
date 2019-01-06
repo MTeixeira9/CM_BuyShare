@@ -27,7 +27,7 @@
             android:id="@+id/tableLNotificacoes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="0">
+            android:stretchColumns="0,5">
 
         </TableLayout>
     </ScrollView>

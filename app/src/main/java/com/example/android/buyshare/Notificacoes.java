@@ -65,18 +65,7 @@ public class Notificacoes extends AppCompatActivity {
                     quemPagou = n.getQuemPagou();
                     quantia = n.getQuantia();
 
-                    Query q = mDatabaseU.child(quemPagou);
-                    q.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            nomePessoa = String.valueOf(dataSnapshot.child("nome").getValue());
-                        }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
 /*
                     Query q2 = mDatabaseL.child(n.getIdL());
                     q2.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -95,13 +84,26 @@ public class Notificacoes extends AppCompatActivity {
 
                     if (quemDeve.equals(userTlm)) {
 
+                        Query q = mDatabaseU.child(quemPagou);
+                        q.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                nomePessoa = String.valueOf(dataSnapshot.child("nome").getValue());
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
                         TableRow tr = new TableRow(getApplicationContext());
 
 
                         TextView tv = new TextView(getApplicationContext());
                         tv.setText("Deves " + (double) Math.round(quantia * 100) / 100 + "€ à " + nomePessoa + "\n"
                                 + " referente à lista: " );
-                        tv.setTextSize(15);
+                        tv.setTextSize(16);
 
                         Button pagar = new Button(getApplicationContext());
                         pagar.setText("Pagar");
