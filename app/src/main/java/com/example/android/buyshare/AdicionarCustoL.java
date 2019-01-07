@@ -71,8 +71,6 @@ public class AdicionarCustoL extends AppCompatActivity {
 
                 membrosL = l.getMembrosLista();
 
-                custoFinal.setText(String.valueOf(l.getCustoFinal())); // porque tiraram isto?
-
                 if (membrosL != null) {
                     for (String a : membrosL) {
                         Query q = mDatabaseU.child(a);
