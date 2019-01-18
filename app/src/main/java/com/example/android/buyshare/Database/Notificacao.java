@@ -9,18 +9,22 @@ public class Notificacao {
     private String idL;
     private String quemPagou;
     private String quemDeve;
+    private String nomeL;
+    private String nomeP;
     private Double quantia;
 
     public Notificacao(){
 
     }
 
-    public Notificacao(String idN, String idL, String quemPagou, String quemDeve, Double quantia){
+    public Notificacao(String idN, String idL, String quemPagou, String quemDeve, Double quantia, String nomeL, String nomeP){
         this.idN = idN;
         this.idL = idL;
         this.quemPagou = quemPagou;
         this.quemDeve = quemDeve;
         this.quantia = quantia;
+        this.nomeL = nomeL;
+        this.nomeP = nomeP;
     }
 
     public String getIdL() {
@@ -43,4 +47,7 @@ public class Notificacao {
         return quemPagou;
     }
 
+    public String getNomeL() {return nomeL; }
+
+    public String getNomeP() { return nomeP; }
 }

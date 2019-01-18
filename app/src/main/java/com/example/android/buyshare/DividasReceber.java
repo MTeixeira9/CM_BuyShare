@@ -28,7 +28,7 @@ import java.util.HashMap;
 public class DividasReceber extends AppCompatActivity {
 
     private TextView despesaTextV, numPessoasTextV, valorEmprestado;
-    private String idL, userTlm;
+    private String idL, userTlm, nomeLista;
     private DatabaseReference mDatabaseL, mDatabaseU, mDatabaseN;
     private Double custoFinal;
     private ArrayList<String> membrosL;
@@ -37,6 +37,7 @@ public class DividasReceber extends AppCompatActivity {
     private ArrayList<Button> botoesNotifica;
     private HashMap<Integer, String> posNumTlNotifica;
     private int posNotifica;
+    private String nome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,10 @@ public class DividasReceber extends AppCompatActivity {
 
         idL = getIntent().getStringExtra("idL");
         userTlm = getIntent().getStringExtra("userTlm");
+        //nomeLista = getIntent().getStringExtra("nameL");
+
+        Toast.makeText(getApplicationContext(), "Valor nomeLista: " + nomeLista, Toast.LENGTH_LONG).show();
+
         despesaTextV = findViewById(R.id.despesaTotalPagar);
         numPessoasTextV = findViewById(R.id.numPessoasDPagar);
         valorEmprestado = findViewById(R.id.emprestaste);
@@ -57,6 +62,7 @@ public class DividasReceber extends AppCompatActivity {
         custoFinal = 0.0;
         membrosL = new ArrayList<>();
         e = "";
+        nome = "";
 
         tableL = findViewById(R.id.tableLDividasR);
         tableL.setStretchAllColumns(true);
@@ -80,6 +86,8 @@ public class DividasReceber extends AppCompatActivity {
                 final String deveTE = String.valueOf(Math.round(d*100.0) / 100.0);
                 final Double quantiaADever = custoFinal/membrosL.size();
 
+                nomeLista = l.getNomeLista();
+
                 despesaTextV.setText("Despesa Total: " + custoFinal +"€");
                 numPessoasTextV.setText("Nº de pessoas envolvidas: " + membrosL.size() + "");
                 valorEmprestado.setText("Emprestaste: " + e + "€");
@@ -96,7 +104,7 @@ public class DividasReceber extends AppCompatActivity {
                                 TableRow tr = new TableRow(getApplicationContext());
 
                                 TextView quemDeve = new TextView(getApplicationContext());
-                                String nome = String.valueOf(dataSnapshot.child("nome").getValue());
+                                nome = String.valueOf(dataSnapshot.child("nome").getValue());
                                 String numTlm = String.valueOf(dataSnapshot.child("numeroTlm").getValue());
                                 quemDeve.setTextSize(18);
                                 quemDeve.setText(nome + " deve-te " + deveTE + "€!");
@@ -113,7 +121,7 @@ public class DividasReceber extends AppCompatActivity {
                                         ArrayList<String> notif = new ArrayList<>();
                                         notif.add(idN);
                                         Notificacao n = new Notificacao(idN, idL,
-                                                membrosL.get(0), posNumTlNotifica.get(v.getId()), quantiaADever );
+                                                membrosL.get(0), posNumTlNotifica.get(v.getId()), quantiaADever, nomeLista, ""  );
                                         mDatabaseN.child(idN).setValue(n);
                                         mDatabaseU.child(posNumTlNotifica.get(v.getId())).child("notificacoes").setValue(notif);
 

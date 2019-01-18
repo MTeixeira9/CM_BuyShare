@@ -14,12 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.buyshare.Database.Notificacao;
+import com.example.android.buyshare.Database.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class Notificacoes extends AppCompatActivity {
 
@@ -28,7 +31,7 @@ public class Notificacoes extends AppCompatActivity {
     private TableLayout tableLayout;
     private ArrayAdapter<String> mAdapter;
     private ValueEventListener mListener;
-    private String quemDeve, quemPagou, nomePessoa, nomeLista;
+    private String quemDeve, quemPagou, nomePessoa, nomeLista, all;
     private double quantia;
 
 
@@ -51,19 +54,32 @@ public class Notificacoes extends AppCompatActivity {
         quemPagou = "";
         nomePessoa = "";
         nomeLista = "";
+        all = "";
         quantia = 0.0;
 
-        mListener = mDatabaseN.addValueEventListener(new ValueEventListener() {
+        Query q = mDatabaseU;
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    User u = dataSnapshot.getValue(User.class);
 
-                    Notificacao n = singleSnapshot.getValue(Notificacao.class);
+                    mListener = mDatabaseN.addValueEventListener(new ValueEventListener() {
+
+                        ArrayList<String> devePagouQuantia = new ArrayList<>();
+
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+
+                                Notificacao n = singleSnapshot.getValue(Notificacao.class);
 
 
-                    quemDeve = n.getQuemDeve();
-                    quemPagou = n.getQuemPagou();
-                    quantia = n.getQuantia();
+                                quemDeve = n.getQuemDeve();
+                                quemPagou = n.getQuemPagou();
+                                quantia = n.getQuantia();
+                                nomePessoa = u.getNome();
+                                nomeLista = n.getNomeL();
 
 
 /*
@@ -80,43 +96,56 @@ public class Notificacoes extends AppCompatActivity {
 
                         }
                     });
+
 */
-
-                    if (quemDeve.equals(userTlm)) {
-
+                                if (quemDeve.equals(userTlm)) {
+/*
                         Query q = mDatabaseU.child(quemPagou);
                         q.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 nomePessoa = String.valueOf(dataSnapshot.child("nome").getValue());
+
+
                             }
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
 
                             }
-                        });
-
-                        TableRow tr = new TableRow(getApplicationContext());
+                        });*/
 
 
-                        TextView tv = new TextView(getApplicationContext());
-                        tv.setText("Deves " + (double) Math.round(quantia * 100) / 100 + "€ à " + nomePessoa + "\n"
-                                + " referente à lista: " );
-                        tv.setTextSize(16);
-
-                        Button pagar = new Button(getApplicationContext());
-                        pagar.setText("Pagar");
-
-                        tr.addView(tv);
-                        tr.addView(pagar);
-
-                        tableLayout.addView(tr);
+                                    TableRow tr = new TableRow(getApplicationContext());
 
 
-                    }
+                                    TextView tv = new TextView(getApplicationContext());
+                                    tv.setText("Deves " + (double) Math.round(quantia * 100) / 100 + "€ à " + nomePessoa + "\n"
+                                            + " referente à lista: " + nomeLista);
+                                    tv.setTextSize(16);
 
 
+                                    Button pagar = new Button(getApplicationContext());
+                                    pagar.setText("Pagar");
+
+                                    tr.addView(tv);
+                                    tr.addView(pagar);
+
+                                    tableLayout.addView(tr);
+
+
+                                }
+
+
+                            } //for
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                 }
 
             }
@@ -126,6 +155,7 @@ public class Notificacoes extends AppCompatActivity {
 
             }
         });
+
 
 
     }

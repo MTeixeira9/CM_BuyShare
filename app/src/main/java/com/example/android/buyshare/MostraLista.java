@@ -188,6 +188,7 @@ public class MostraLista extends AppCompatActivity {
                         Intent intent = new Intent(MostraLista.this, DividasReceber.class);
                         intent.putExtra("idL", idL);
                         intent.putExtra("userTlm", userTlm);
+                        intent.putExtra("nameL", nomeLista);
                         startActivity(intent);
                     }
                 });
