@@ -62,7 +62,7 @@ public class Notificacoes extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                    User u = dataSnapshot.getValue(User.class);
+                    final User u = singleSnapshot.getValue(User.class);
 
                     mListener = mDatabaseN.addValueEventListener(new ValueEventListener() {
 
