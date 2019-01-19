@@ -21,6 +21,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AdicionarCustoL extends AppCompatActivity {
 
@@ -197,16 +198,4 @@ public class AdicionarCustoL extends AppCompatActivity {
         startActivity(i);
     }
 
-    public static class EditModel {
-
-        private String editTextValue;
-
-        public String getEditTextValue() {
-            return editTextValue;
-        }
-
-        public void setEditTextValue(String editTextValue) {
-            this.editTextValue = editTextValue;
-        }
-    }
 }
