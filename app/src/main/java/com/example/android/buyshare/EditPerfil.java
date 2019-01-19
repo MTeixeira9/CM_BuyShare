@@ -216,7 +216,7 @@ public class EditPerfil extends AppCompatActivity {
 
                             String uploadId = mDatabaseUpload.push().getKey();
                             Upload upload = new Upload(fileReference.getName(),
-                                    fileReference.getDownloadUrl().toString(), uploadId);
+                                    mImageUri.toString(), uploadId);
 
                             mDatabaseUpload.child(userTlm).setValue(upload);
 
