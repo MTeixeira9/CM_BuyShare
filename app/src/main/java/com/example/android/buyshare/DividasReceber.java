@@ -36,8 +36,10 @@ public class DividasReceber extends AppCompatActivity {
     private String e;
     private ArrayList<Button> botoesNotifica;
     private HashMap<Integer, String> posNumTlNotifica;
+    private HashMap<String, Boolean> notificados;
     private int posNotifica;
     private String nome;
+    private TableRow tr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +51,6 @@ public class DividasReceber extends AppCompatActivity {
 
         idL = getIntent().getStringExtra("idL");
         userTlm = getIntent().getStringExtra("userTlm");
-        //nomeLista = getIntent().getStringExtra("nameL");
-
-        Toast.makeText(getApplicationContext(), "Valor nomeLista: " + nomeLista, Toast.LENGTH_LONG).show();
 
         despesaTextV = findViewById(R.id.despesaTotalPagar);
         numPessoasTextV = findViewById(R.id.numPessoasDPagar);
@@ -69,7 +68,7 @@ public class DividasReceber extends AppCompatActivity {
         tableL.bringToFront();
         posNumTlNotifica = new HashMap<>();
         botoesNotifica = new ArrayList<>();
-
+        notificados = new HashMap<>();
 
         Query q = mDatabaseL.child(idL);
         q.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -79,6 +78,7 @@ public class DividasReceber extends AppCompatActivity {
                 Lista l = dataSnapshot.getValue(Lista.class);
                 custoFinal = l.getCustoFinal();
                 membrosL = l.getMembrosLista();
+                notificados = l.getNotificados();
                 Double emprestado = custoFinal - (custoFinal / membrosL.size());
                 e = String.valueOf(Math.round(emprestado*100.0) / 100.0);
                 Double d = custoFinal/membrosL.size();
@@ -94,14 +94,14 @@ public class DividasReceber extends AppCompatActivity {
 
                 int i = 0;
                 posNotifica = 1;
-                for (String a : membrosL) {
+                for (final String a : membrosL) {
                     if(i !=0){
                         Query qU = mDatabaseU.child(a);
                         qU.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                TableRow tr = new TableRow(getApplicationContext());
+                                tr = new TableRow(getApplicationContext());
 
                                 TextView quemDeve = new TextView(getApplicationContext());
                                 nome = String.valueOf(dataSnapshot.child("nome").getValue());
@@ -109,32 +109,48 @@ public class DividasReceber extends AppCompatActivity {
                                 quemDeve.setTextSize(18);
                                 quemDeve.setText(nome + " deve-te " + deveTE + "€!");
 
-                                Button notifica = new Button(getApplicationContext());
-                                notifica.setText("Notifica");
-                                notifica.setId(posNotifica);
-                                //Toast.makeText(getApplicationContext(),posNotifica + " <- POSnOTIFICA" ,Toast.LENGTH_LONG).show();
-                                notifica.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        //Toast.makeText(getApplicationContext(),v.getId()+" <- ID" ,Toast.LENGTH_LONG).show();
-                                        String idN = mDatabaseN.push().getKey();
-                                        ArrayList<String> notif = new ArrayList<>();
-                                        notif.add(idN);
-                                        Notificacao n = new Notificacao(idN, idL,
-                                                membrosL.get(0), posNumTlNotifica.get(v.getId()), quantiaADever, nomeLista, ""  );
-                                        mDatabaseN.child(idN).setValue(n);
-                                        mDatabaseU.child(posNumTlNotifica.get(v.getId())).child("notificacoes").setValue(notif);
+                                Boolean notificado = notificados.get(a);
 
-                                    }
-                                });
-
-
-                                final int index = posNotifica;
-                                posNumTlNotifica.put(posNotifica,numTlm );
-                                botoesNotifica.add(notifica);
+                                final Button notifica = new Button(getApplicationContext());
+                                TextView noti = new TextView(getApplicationContext());
 
                                 tr.addView(quemDeve);
-                                tr.addView(notifica);
+
+                                if (notificado){
+                                    noti.setTextSize(18);
+                                    noti.setText("Notificado!");
+                                    tr.addView(noti);
+                                }
+                                else {
+                                    notifica.setText("Notifica");
+                                    notifica.setId(posNotifica);
+
+                                    posNumTlNotifica.put(posNotifica,numTlm );
+                                    botoesNotifica.add(notifica);
+                                    tr.addView(notifica);
+                                    //Toast.makeText(getApplicationContext(),posNotifica + " <- POSnOTIFICA" ,Toast.LENGTH_LONG).show();
+                                    notifica.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            //Toast.makeText(getApplicationContext(),v.getId()+" <- ID" ,Toast.LENGTH_LONG).show();
+                                            notificados.put(a, true);
+                                            String idN = mDatabaseN.push().getKey();
+                                            ArrayList<String> notif = new ArrayList<>();
+                                            notif.add(idN);
+                                            Notificacao n = new Notificacao(idN, idL,
+                                                    membrosL.get(0), posNumTlNotifica.get(v.getId()), quantiaADever, nomeLista, "");
+                                            mDatabaseN.child(idN).setValue(n);
+                                            mDatabaseU.child(posNumTlNotifica.get(v.getId())).child("notificacoes").setValue(notif);
+                                            mDatabaseL.child(idL).child("notificados").setValue(notificados);
+                                            //notifica.setVisibility(View.INVISIBLE);
+                                            tr.removeView(notifica);
+                                            TextView tv = new TextView(getApplicationContext());
+                                            tv.setTextSize(18);
+                                            tv.setText("Notificado!");
+                                            tr.addView(tv);
+                                        }
+                                    });
+                                }
 
                                 tableL.addView(tr);
 
