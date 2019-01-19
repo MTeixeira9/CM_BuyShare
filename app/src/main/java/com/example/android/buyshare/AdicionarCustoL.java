@@ -133,11 +133,23 @@ public class AdicionarCustoL extends AppCompatActivity {
                             String c = custoFinal.getText().toString();
                             Double custD = Double.parseDouble(c);
 
+                            ArrayList<String> membros = l.getMembrosLista();
+                            int count = 0;
+                            HashMap<String, Boolean> notificados = new HashMap<>();
+                            for (String s : membros){
+                                if (count != 0){
+                                    notificados.put(s, false);
+                                }else{
+                                    count++;
+                                }
+
+                            }
 
 
                             mDatabaseL.child(key).child("custoFinal").setValue(custD);
                             mDatabaseL.child(key).child("quemPagou").setValue(numArray);
                             mDatabaseL.child(key).child("finalizada").setValue(true);
+                            mDatabaseL.child(key).child("notificados").setValue(notificados);
 
 
                             //se o utilizador que finalizar for
@@ -149,7 +161,7 @@ public class AdicionarCustoL extends AppCompatActivity {
                                 startActivity(i);
 
 
-                            }else{
+                            } else {
                                 //VAI PARA AS MINHAS LISTAS
 
                             }
@@ -170,7 +182,6 @@ public class AdicionarCustoL extends AppCompatActivity {
 
         });
     }
-
 
 
     @Override

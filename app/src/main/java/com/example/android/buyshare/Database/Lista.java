@@ -14,6 +14,7 @@ public class Lista {
     private String idL;
     private String nomeLista;
     private HashMap<String,HashMap<String, Double> > produtoCusto;
+    private HashMap<String,Boolean> notificados;
     private String criadorLista;
     private ArrayList <String> membrosLista;
     private boolean partilhada, finalizada;
@@ -39,6 +40,7 @@ public class Lista {
         finalizada = false;
         quemPagou = "";
         custoFinal = 0.0;
+        this.notificados = new HashMap<>();
     }
 
     public String getIdL() {
@@ -58,6 +60,10 @@ public class Lista {
     public ArrayList<String> getQuemArquivou() { return quemArquivou; }
 
     public HashMap<String, HashMap<String, Double>> getProdutoCusto() {return produtoCusto; }
+
+    public HashMap<String, Boolean> getNotificados() {
+        return notificados;
+    }
 
     public String getQuemPagou() {
         return quemPagou;
