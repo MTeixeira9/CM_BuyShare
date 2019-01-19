@@ -148,6 +148,7 @@ public class FragAddMembrosAmigos extends Fragment implements IOnBackPressed {
                         i.putExtra("nameL", nomeLista);
                         i.putExtra("position", position);
                         i.putExtra("idL", idL);
+                        i.putExtra("tipoL", tipoLista);
                         startActivity(i);
 
                     }

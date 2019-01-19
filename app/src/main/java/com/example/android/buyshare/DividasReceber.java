@@ -141,12 +141,9 @@ public class DividasReceber extends AppCompatActivity {
                                             mDatabaseN.child(idN).setValue(n);
                                             mDatabaseU.child(posNumTlNotifica.get(v.getId())).child("notificacoes").setValue(notif);
                                             mDatabaseL.child(idL).child("notificados").setValue(notificados);
-                                            //notifica.setVisibility(View.INVISIBLE);
-                                            tr.removeView(notifica);
-                                            TextView tv = new TextView(getApplicationContext());
-                                            tv.setTextSize(18);
-                                            tv.setText("Notificado!");
-                                            tr.addView(tv);
+                                            notifica.setText("Notificado!");
+                                            notifica.setClickable(false);
+
                                         }
                                     });
                                 }

@@ -42,7 +42,7 @@ public class AdicionarMembrosMostraLista extends AppCompatActivity {
     private void setupViewPager (ViewPager viewPager){
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new FragAddMembrosAmigos(), "Amigos");
-        adapter.addFragment(new FragAddMembrosGrupos(), "Grupos");
+        //adapter.addFragment(new FragAddMembrosGrupos(), "Grupos");
         viewPager.setAdapter(adapter);
     }
 

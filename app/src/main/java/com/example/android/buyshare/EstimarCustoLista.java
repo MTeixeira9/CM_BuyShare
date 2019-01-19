@@ -33,7 +33,7 @@ import static java.security.AccessController.getContext;
 
 public class EstimarCustoLista extends AppCompatActivity {
 
-    private String key, userTlm, position, nomeLista;
+    private String key, userTlm, position, nomeLista, tipoL;
     private DatabaseReference mDatabase;
     private ValueEventListener mListener;
     private TableLayout tableL;
@@ -59,6 +59,7 @@ public class EstimarCustoLista extends AppCompatActivity {
         key = getIntent().getStringExtra("key");
         userTlm = getIntent().getStringExtra("userTlm");
         nomeLista = getIntent().getStringExtra("nameL");
+        tipoL = getIntent().getStringExtra("tipoL");
 
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
 
@@ -226,6 +227,7 @@ public class EstimarCustoLista extends AppCompatActivity {
         i.putExtra("userTlm", userTlm);
         i.putExtra("position", position);
         i.putExtra("nameL", nomeLista);
+        i.putExtra("tipoL", tipoL);
         startActivity(i);
     }
 

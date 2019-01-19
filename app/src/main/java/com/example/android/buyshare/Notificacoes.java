@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,17 +24,16 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Notificacoes extends AppCompatActivity {
 
     private String userTlm;
     private DatabaseReference mDatabaseN, mDatabaseU, mDatabaseL;
     private TableLayout tableLayout;
-    private ArrayAdapter<String> mAdapter;
-    private ValueEventListener mListener;
     private String quemDeve, quemPagou, nomePessoa, nomeLista, all;
     private double quantia;
-
+    private User u;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,97 +57,78 @@ public class Notificacoes extends AppCompatActivity {
         all = "";
         quantia = 0.0;
 
-        Query q = mDatabaseU;
+        Query q = mDatabaseU.orderByChild("numeroTlm").equalTo(userTlm);
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                    final User u = singleSnapshot.getValue(User.class);
-
-                    mListener = mDatabaseN.addValueEventListener(new ValueEventListener() {
-
-                        ArrayList<String> devePagouQuantia = new ArrayList<>();
-
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-
-                                Notificacao n = singleSnapshot.getValue(Notificacao.class);
-
-
-                                quemDeve = n.getQuemDeve();
-                                quemPagou = n.getQuemPagou();
-                                quantia = n.getQuantia();
-                                nomePessoa = u.getNome();
-                                nomeLista = n.getNomeL();
-
-
-/*
-                    Query q2 = mDatabaseL.child(n.getIdL());
-                    q2.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            nomeLista = String.valueOf(dataSnapshot.child("nomeLista").getValue());
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-*/
-                                if (quemDeve.equals(userTlm)) {
-/*
-                        Query q = mDatabaseU.child(quemPagou);
-                        q.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                nomePessoa = String.valueOf(dataSnapshot.child("nome").getValue());
+                    u = singleSnapshot.getValue(User.class);
+                    List<String> notificacoes = u.getNotificacoes();
+                    Log.d("ANTES", u.getNome());
+                    if (notificacoes != null) {
+                        for (String idNot : notificacoes) {
+                            Log.d("id--", idNot);
+                            Query qN = mDatabaseN.orderByChild("idN").equalTo(idNot);
+                            qN.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                                        Notificacao n = singleSnapshot.getValue(Notificacao.class);
+                                        quemDeve = n.getQuemDeve();
+                                        quemPagou = n.getQuemPagou();
+                                        quantia = n.getQuantia();
+                                        nomePessoa = u.getNome();
+                                        nomeLista = n.getNomeL();
 
 
-                            }
+                                        Query q = mDatabaseU.orderByChild("numeroTlm").equalTo(quemPagou);
+                                        q.addListenerForSingleValueEvent(new ValueEventListener() {
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                                                    User deve = singleSnapshot.getValue(User.class);
+                                                    String nomeDeve = deve.getNome();
 
-                            }
-                        });*/
+                                                    if (quemDeve.equals(userTlm)) {
+                                                        TableRow tr = new TableRow(getApplicationContext());
+                                                        TextView tv = new TextView(getApplicationContext());
+                                                        tv.setText("Deves " + (double) Math.round(quantia * 100) / 100 + "€ a " + nomeDeve + "\n"
+                                                                + " referente à lista: " + nomeLista);
+                                                        tv.setTextSize(16);
+
+                                                        Button pagar = new Button(getApplicationContext());
+                                                        pagar.setText("Pagar");
+                                                        tr.addView(tv);
+                                                        tr.addView(pagar);
+                                                        tableLayout.addView(tr);
+                                                    }
+
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
 
 
-                                    TableRow tr = new TableRow(getApplicationContext());
+                                        });
 
 
-                                    TextView tv = new TextView(getApplicationContext());
-                                    tv.setText("Deves " + (double) Math.round(quantia * 100) / 100 + "€ à " + nomePessoa + "\n"
-                                            + " referente à lista: " + nomeLista);
-                                    tv.setTextSize(16);
 
 
-                                    Button pagar = new Button(getApplicationContext());
-                                    pagar.setText("Pagar");
-
-                                    tr.addView(tv);
-                                    tr.addView(pagar);
-
-                                    tableLayout.addView(tr);
-
-
+                                    }
                                 }
 
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                            } //for
-
+                                }
+                            });
                         }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
+                    }
                 }
-
             }
 
             @Override
@@ -155,9 +136,6 @@ public class Notificacoes extends AppCompatActivity {
 
             }
         });
-
-
-
     }
 
 

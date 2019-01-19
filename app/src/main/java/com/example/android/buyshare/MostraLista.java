@@ -309,6 +309,7 @@ public class MostraLista extends AppCompatActivity {
             estCusto.putExtra("nameL", nomeLista);
             estCusto.putExtra("key", idL);
             estCusto.putExtra("position", position);
+            estCusto.putExtra("tipoL", tipoLista);
             startActivity(estCusto);
 
         } else if (id == R.id.finalizar) {
