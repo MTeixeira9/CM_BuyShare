@@ -145,7 +145,8 @@ public class MostraLista extends AppCompatActivity {
                                 });
 
                                 idL = l.getIdL();
-                                finalizada = String.valueOf(l.isFinalizada());Toast.makeText(getApplicationContext(), "FIN - " + finalizada, Toast.LENGTH_LONG).show();
+                                finalizada = String.valueOf(l.isFinalizada());
+                                Toast.makeText(getApplicationContext(), "FIN - " + finalizada, Toast.LENGTH_LONG).show();
                                 for (Map.Entry<String, HashMap<String, Double>> a : prodQuantCusto.entrySet()) {
                                     CheckBox cb = new CheckBox(getApplicationContext());
                                     cb.setTextSize(18);
@@ -162,10 +163,38 @@ public class MostraLista extends AppCompatActivity {
                 edit_button = findViewById(R.id.edit_button);
                 contas_button = findViewById(R.id.dividas);
 
-                if(finalizada.equals("true")){
-                    edit_button.setVisibility(View.INVISIBLE);
-                    contas_button.setVisibility(View.VISIBLE);
-                }else{
+                if (finalizada.equals("true")) {
+
+                    Query q = mDatabase.orderByChild("idL").equalTo(idL);
+                    q.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                                Lista l = singleSnapshot.getValue(Lista.class);
+
+                                String quemPagou = l.getQuemPagou();
+
+                                if(!userTlm.equals(quemPagou)){
+                                    contas_button.setVisibility(View.INVISIBLE);
+                                }else{
+                                    contas_button.setVisibility(View.VISIBLE);
+                                }
+
+                                edit_button.setVisibility(View.INVISIBLE);
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+
+                } else {
                     edit_button.setVisibility(View.VISIBLE);
                     contas_button.setVisibility(View.INVISIBLE);
                 }
@@ -185,11 +214,13 @@ public class MostraLista extends AppCompatActivity {
                 contas_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         Intent intent = new Intent(MostraLista.this, DividasReceber.class);
                         intent.putExtra("idL", idL);
                         intent.putExtra("userTlm", userTlm);
                         intent.putExtra("nameL", nomeLista);
                         startActivity(intent);
+
                     }
                 });
 
@@ -222,7 +253,7 @@ public class MostraLista extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                     Lista l = singleSnapshot.getValue(Lista.class);
-                    if(!l.isFinalizada()){
+                    if (!l.isFinalizada()) {
                         getMenuInflater().inflate(R.menu.mostralista, menu);
                     }
                 }
@@ -236,8 +267,6 @@ public class MostraLista extends AppCompatActivity {
 
 
         });
-
-
 
 
         return true;
