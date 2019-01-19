@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/button_load_image" />
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/imageView_editPerfil"
+        android:id="@+id/imageView_Perfil"
         android:layout_width="114dp"
         android:layout_height="134dp"
         android:layout_marginStart="84dp"
@@ -158,7 +158,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_editPerfil" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView_Perfil" />
 
     <Button
         android:id="@+id/uploadFoto"
@@ -174,7 +174,7 @@
         app:layout_constraintBottom_toTopOf="@+id/nome_perfil"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.093"
-        app:layout_constraintStart_toEndOf="@+id/imageView_editPerfil" />
+        app:layout_constraintStart_toEndOf="@+id/imageView_Perfil" />
 
 
 </android.support.constraint.ConstraintLayout>

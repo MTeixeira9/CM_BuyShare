@@ -189,7 +189,7 @@ public class RegistoActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             try {
                 final Uri imageUri = data.getData();
-                ImageView imageView = findViewById(R.id.imageView_editPerfil);
+                ImageView imageView = findViewById(R.id.imageView_Perfil);
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                 imageView.setImageBitmap(selectedImage);

@@ -16,7 +16,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -62,11 +65,11 @@ public class Perfil extends AppCompatActivity {
         pwdTV = findViewById(R.id.pwd_perfil);
         nTlm_TV = findViewById(R.id.nTlm_perfil);
         email_TV = findViewById(R.id.email_perfil);
-        imageView = findViewById(R.id.imageView_editPerfil);
+        imageView = findViewById(R.id.imageView_Perfil);
 
         //BASE DE DADOS
         mDatabaseUsers = FirebaseDatabase.getInstance().getReference("users");
-        mStorage = FirebaseStorage.getInstance().getReference("uploads");
+        mStorage = FirebaseStorage.getInstance().getReference("upload");
 
         mDatabaseFotos = FirebaseDatabase.getInstance().getReference("upload");
 
@@ -77,22 +80,21 @@ public class Perfil extends AppCompatActivity {
         q2.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                    /*
-                    String name = String.valueOf(singleSnapshot.child("name").getValue());
+                //for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+
+                    String name = String.valueOf(dataSnapshot.child("name").getValue());
+                    String url = String.valueOf(dataSnapshot.child("imageUrl").getValue());
 
                     // Reference to an image file in Cloud Storage
-                    StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("name");
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(name);
+                   // Toast.makeText(getApplicationContext(), storageReference.url+"", Toast.LENGTH_LONG).show();
 
                     // Load the image using Glide
-                    Glide.with(this )
-                            .using(new FirebaseImageLoader())
-                            .load(storageReference)
-                            .into(imageView);
-                    */
-
+                    Glide.with(Perfil.this)
+                            .load(url)
+                            .into((ImageView) findViewById(R.id.imageView_Perfil));
                 }
-            }
+            //}
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

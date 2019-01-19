@@ -64,10 +64,10 @@
         android:background="@drawable/border_style"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/imageView7"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_editPerfil" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView_Perfil" />
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/imageView_editPerfil"
+        android:id="@+id/imageView_Perfil"
         android:layout_width="114dp"
         android:layout_height="134dp"
         android:layout_marginStart="84dp"

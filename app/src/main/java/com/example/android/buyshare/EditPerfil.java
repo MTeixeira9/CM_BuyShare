@@ -180,7 +180,7 @@ public class EditPerfil extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        ImageView imageView = findViewById(R.id.imageView_editPerfil);
+        ImageView imageView = findViewById(R.id.imageView_Perfil);
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
