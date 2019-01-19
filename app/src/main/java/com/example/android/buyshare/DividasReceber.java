@@ -72,7 +72,6 @@ public class DividasReceber extends AppCompatActivity {
 
         Query q = mDatabaseL.child(idL);
         q.addListenerForSingleValueEvent(new ValueEventListener() {
-
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Lista l = dataSnapshot.getValue(Lista.class);

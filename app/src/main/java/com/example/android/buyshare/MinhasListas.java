@@ -85,12 +85,6 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-        /**
-         * opcoes listas
-         * */
-        registerForContextMenu(mListasPrivadas);
-        registerForContextMenu(mListasPartilhadas);
-
         novaLista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,14 +122,27 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
                         }
                     }
                 }
+
                 if (mListasPrivadas.getAdapter().getCount() == 0) {
                     mAdapterPrivadas.add(MSG_EMPTY_LISTS);
                     mAdapterPrivadas.notifyDataSetChanged();
+                }
+                else{
+                    /**
+                     * opcoes listas
+                     * */
+                    registerForContextMenu(mListasPrivadas);
                 }
 
                 if (mListasPartilhadas.getAdapter().getCount() == 0) {
                     mAdapterPartilhadas.add(MSG_EMPTY_LISTS);
                     mAdapterPartilhadas.notifyDataSetChanged();
+                }
+                else{
+                    /**
+                     * opcoes listas
+                     * */
+                    registerForContextMenu(mListasPartilhadas);
                 }
             }
 
