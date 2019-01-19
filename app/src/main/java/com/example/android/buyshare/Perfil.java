@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.InputStream;
@@ -40,10 +41,10 @@ public class Perfil extends AppCompatActivity {
     private TextView nomeTV, pwdTV, nTlm_TV, email_TV;
     private ImageView image;
     private String userTlm;
-    private DatabaseReference mDatabase, mDatabase2;
+    private DatabaseReference mDatabaseUsers, mDatabaseFotos;
     private StorageReference mStorage;
     private ImageView imageView;
-    
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,22 +65,49 @@ public class Perfil extends AppCompatActivity {
         imageView = findViewById(R.id.imageView_editPerfil);
 
         //BASE DE DADOS
-        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference("users");
         mStorage = FirebaseStorage.getInstance().getReference("uploads");
 
-        mDatabase2 = FirebaseDatabase.getInstance().getReference("upload");
+        mDatabaseFotos = FirebaseDatabase.getInstance().getReference("upload");
 
-        Query q = mDatabase.orderByChild("numeroTlm").equalTo(userTlm);
+        /**
+         * PREENCHER FOTO
+         */
+        Query q2 = mDatabaseFotos.child(userTlm);
+        q2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    /*
+                    String name = String.valueOf(singleSnapshot.child("name").getValue());
 
+                    // Reference to an image file in Cloud Storage
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("name");
 
+                    // Load the image using Glide
+                    Glide.with(this )
+                            .using(new FirebaseImageLoader())
+                            .load(storageReference)
+                            .into(imageView);
+                    */
 
-        Query q2 = mDatabase2.child(userTlm).child("imageUrl");
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+        /**
+         * PREENCHER DADOS DA PESSOA
+         */
+        Query q = mDatabaseUsers.orderByChild("numeroTlm").equalTo(userTlm);
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
 
                     //Valores da base de dados
                     String nTelemovel = String.valueOf(singleSnapshot.child("numeroTlm").getValue());
@@ -91,7 +119,6 @@ public class Perfil extends AppCompatActivity {
                     pwdTV.setText(pass);
                     nTlm_TV.setText(nTelemovel);
                     email_TV.setText(email);
-
 
 
                     //String url = mDatabase2.child(userTlm).child("imageUrl").toString();
