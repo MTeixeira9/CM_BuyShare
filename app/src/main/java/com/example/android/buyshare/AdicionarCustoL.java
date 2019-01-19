@@ -4,17 +4,13 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.buyshare.Database.Lista;
 import com.google.firebase.database.DataSnapshot;
@@ -25,8 +21,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class AdicionarCustoL extends AppCompatActivity {
 
@@ -201,5 +195,18 @@ public class AdicionarCustoL extends AppCompatActivity {
         Intent i = new Intent(AdicionarCustoL.this, MinhasListas.class);
         i.putExtra("userTlm", userTlm);
         startActivity(i);
+    }
+
+    public static class EditModel {
+
+        private String editTextValue;
+
+        public String getEditTextValue() {
+            return editTextValue;
+        }
+
+        public void setEditTextValue(String editTextValue) {
+            this.editTextValue = editTextValue;
+        }
     }
 }

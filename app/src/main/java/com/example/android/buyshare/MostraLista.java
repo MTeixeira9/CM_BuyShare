@@ -207,6 +207,8 @@ public class MostraLista extends AppCompatActivity {
                         intent.putExtra("nameL", nomeLista);
                         intent.putExtra("userTlm", userTlm);
                         intent.putExtra("position", position);
+                        intent.putExtra("tipoL", tipoLista);
+
                         startActivity(intent);
                     }
                 });
@@ -295,6 +297,8 @@ public class MostraLista extends AppCompatActivity {
             membros.putExtra("nameL", nomeLista);
             membros.putExtra("position", position);
             membros.putExtra("idL", idL);
+            membros.putExtra("tipoL", tipoLista);
+
 
             startActivity(membros);
 

@@ -22,7 +22,7 @@ import java.util.List;
 
 public class VerMembros extends AppCompatActivity {
 
-    private String userTlm, position, nameL, idL;
+    private String userTlm, position, nameL, idL, tipoLista;
     private ListView listVerMembros;
     private ArrayAdapter<String> mAdapter;
     private DatabaseReference mDatabase;
@@ -38,6 +38,8 @@ public class VerMembros extends AppCompatActivity {
         position = getIntent().getStringExtra("position");
         nameL = getIntent().getStringExtra("nameL");
         idL = getIntent().getStringExtra("idL");
+        tipoLista = getIntent().getStringExtra("tipoL");
+
         Toast.makeText(getApplicationContext(), "idLista: " + idL, Toast.LENGTH_LONG).show();
 
         getSupportActionBar().setTitle(nameL);
@@ -106,6 +108,8 @@ public class VerMembros extends AppCompatActivity {
         i.putExtra("nameL", nameL);
         i.putExtra("position", position);
         i.putExtra("idL", idL);
+        i.putExtra("tipoL", tipoLista);
+
         startActivity(i);
     }
 }
