@@ -3,8 +3,6 @@ package com.example.android.buyshare;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Pair;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -18,11 +16,17 @@ import com.example.android.buyshare.Database.Lista;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class NovaLista extends AppCompatActivity {
 
-    private ArrayAdapter<String> mAdapter;
+   private ArrayAdapter<String> mAdapter;
+
+    private CustomeAdapter customeAdapter;
+   // private ArrayList<EditModel> editModelArrayList;
+
+
     private ListView mShoppingList;
     private EditText mItemEdit;
     private String userTlm;
@@ -86,9 +90,11 @@ public class NovaLista extends AppCompatActivity {
 
         mItemEdit = (EditText) findViewById(R.id.produtoInserido);
         mShoppingList = (ListView) findViewById(R.id.listViewItems);
+        //mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
 
         mShoppingList.setAdapter(mAdapter);
+
 
 
 
@@ -99,12 +105,18 @@ public class NovaLista extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String item = mItemEdit.getText().toString();
+
+                //EditText edit = mItemEdit.getText().toString();
+
                 if (!item.equals("")) {
                     HashMap<String, Double> quantC = new HashMap<>();
                     quantC.put("0,0", 0.0);
                     prodQuantCusto.put(item, quantC);
                     //produtos.add(item);
+
                     mAdapter.add(item);
+
+
                     mAdapter.notifyDataSetChanged();
                     mItemEdit.setText("");
                 }
@@ -113,7 +125,6 @@ public class NovaLista extends AppCompatActivity {
                 }
             }
         });
-
     }
 
 

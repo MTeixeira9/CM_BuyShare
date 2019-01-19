@@ -26,7 +26,7 @@ import java.util.HashMap;
 
 public class EditarLista extends AppCompatActivity {
 
-    private String userTlm, key, nomeLista, position, nomeLista2;
+    private String userTlm, key, nomeLista, position, nomeLista2, tipoLista;
     private DatabaseReference mDatabase;
     private ListView listView;
     private ValueEventListener mListener;
@@ -53,6 +53,8 @@ public class EditarLista extends AppCompatActivity {
         key = getIntent().getStringExtra("key");
         nomeLista = getIntent().getStringExtra("nameL");
         position = getIntent().getStringExtra("position");
+        tipoLista = getIntent().getStringExtra("tipoL");
+
 
 
         listView = findViewById(R.id.listViewEditLista);
@@ -108,6 +110,7 @@ public class EditarLista extends AppCompatActivity {
                     i.putExtra("userTlm", userTlm);
                     i.putExtra("position", position);
                     i.putExtra("nameL", nomeLista2);
+
                    // i.putExtra("nomeClasse","1");
 
                     //i.putExtra("idL", key);
@@ -161,6 +164,8 @@ public class EditarLista extends AppCompatActivity {
         Intent i = new Intent(EditarLista.this, MostraLista.class);
         i.putExtra("userTlm", userTlm);
         i.putExtra("position", position);
+        i.putExtra("key", key);
+        i.putExtra("tipoL", tipoLista);
 
         if(nomeLista2 == null){
             i.putExtra("nameL", nomeLista);
@@ -168,6 +173,8 @@ public class EditarLista extends AppCompatActivity {
             i.putExtra("nameL", nomeLista2);
 
         }
+
+
         startActivity(i);
     }
 }
