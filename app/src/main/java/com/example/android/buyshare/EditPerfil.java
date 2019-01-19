@@ -214,11 +214,9 @@ public class EditPerfil extends AppCompatActivity {
                                 }
                             }, 5);
 
-                            Toast.makeText(getApplicationContext(), "Upload successful", Toast.LENGTH_LONG).show();
-                            Upload upload = new Upload(fileReference.getName(),
-                                    fileReference.getDownloadUrl().toString());
-
                             String uploadId = mDatabaseUpload.push().getKey();
+                            Upload upload = new Upload(fileReference.getName(),
+                                    fileReference.getDownloadUrl().toString(), uploadId);
 
                             mDatabaseUpload.child(userTlm).setValue(upload);
 

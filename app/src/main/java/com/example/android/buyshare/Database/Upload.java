@@ -6,18 +6,16 @@ import com.google.firebase.database.IgnoreExtraProperties;
 public class Upload {
     private String mName;
     private String mImageUrl;
+    private String idFoto;
 
     public Upload() {
         //empty constructor needed
     }
 
-    public Upload(String name, String imageUrl) {
-        if (name.trim().equals("")) {
-            name = "No Name";
-        }
-
-        mName = name;
-        mImageUrl = imageUrl;
+    public Upload(String name, String imageUrl, String idFoto) {
+        this.mName = name;
+        this.mImageUrl = imageUrl;
+        this.idFoto = idFoto;
     }
 
     public String getName() {
@@ -34,5 +32,9 @@ public class Upload {
 
     public void setImageUrl(String imageUrl) {
         mImageUrl = imageUrl;
+    }
+
+    public String getIdFoto() {
+        return idFoto;
     }
 }
