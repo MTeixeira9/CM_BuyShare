@@ -62,77 +62,11 @@ public class Notificacoes extends AppCompatActivity {
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                    u = singleSnapshot.getValue(User.class);
-
-                    List<String> notificacoes = u.getNotificacoes();
-
-                    if (notificacoes != null) {
-                        for (String idNot : notificacoes) {
-                            Query qN = mDatabaseN.orderByChild("idN").equalTo(idNot);
-                            qN.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                                        Notificacao n = singleSnapshot.getValue(Notificacao.class);
-                                        quemDeve = n.getQuemDeve();
-                                        quemPagou = n.getQuemPagou();
-                                        quantia = n.getQuantia();
-                                        nomePessoa = u.getNome();
-                                        nomeLista = n.getNomeL();
-                                    }
-
-                                    Query q = mDatabaseU.orderByChild("numeroTlm").equalTo(quemPagou);
-                                    q.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                                                User deve = singleSnapshot.getValue(User.class);
-                                                String nomeDeve = deve.getNome();
-
-                                                TableRow tr = new TableRow(getApplicationContext());
-                                                TextView tv = new TextView(getApplicationContext());
-
-
-                                                tv.setText("Deves " + (double) Math.round(quantia * 100) / 100 + "€ a " + nomeDeve + "\n"
-                                                        + " referente à lista: " + nomeLista);
-
-                                                tv.setTextSize(16);
-
-                                                Button pagar = new Button(getApplicationContext());
-                                                pagar.setText("Pagar");
-                                                tr.addView(tv);
-                                                tr.addView(pagar);
-                                                tableLayout.addView(tr);
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
-                        }
-
                 u = dataSnapshot.getValue(User.class);
                 List<String> notificacoes = u.getNotificacoes();
 
                 if (notificacoes != null) {
                     for (String idNot : notificacoes) {
-                        quemDeve = "";
-                        quemPagou = "";
-                        nomePessoa = "";
-                        nomeLista = "";
-                        quantia = 0.0;
-
                         Query qN = mDatabaseN.child(idNot);
                         qN.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -176,7 +110,6 @@ public class Notificacoes extends AppCompatActivity {
 
                             }
                         });
-
                     }
                 }
             }
@@ -207,4 +140,5 @@ public class Notificacoes extends AppCompatActivity {
         i.putExtra("userTlm", userTlm);
         startActivity(i);
     }
+
 }
