@@ -63,6 +63,7 @@ public class Notificacoes extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                     u = singleSnapshot.getValue(User.class);
+
                     List<String> notificacoes = u.getNotificacoes();
 
                     if (notificacoes != null) {
@@ -90,8 +91,11 @@ public class Notificacoes extends AppCompatActivity {
 
                                                 TableRow tr = new TableRow(getApplicationContext());
                                                 TextView tv = new TextView(getApplicationContext());
+
+
                                                 tv.setText("Deves " + (double) Math.round(quantia * 100) / 100 + "€ a " + nomeDeve + "\n"
                                                         + " referente à lista: " + nomeLista);
+
                                                 tv.setTextSize(16);
 
                                                 Button pagar = new Button(getApplicationContext());
