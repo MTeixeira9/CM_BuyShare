@@ -29,23 +29,17 @@ public class EditarLista extends AppCompatActivity {
     private String userTlm, key, nomeLista, position, nomeLista2, tipoLista;
     private DatabaseReference mDatabase;
     private ListView listView;
-    private ValueEventListener mListener;
     private HashMap<String, HashMap<String, Double>> prodQuantCusto;
     private ArrayAdapter<String> mAdapter;
     private EditText mItemEdit;
 
-
-    private static final String msgErrLista = "Tem de dar um nome à Lista!";
-    private static final String msgErrAddProd = "Tem de inserir um produto!";
-
+    private static final String MSG_EMPTY_LIST_NAME = "Tem de dar um nome à Lista!";
+    private static final String MSG_ERR_ADD_PROD = "Tem de inserir um produto!";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_lista);
-
-        getSupportActionBar().setTitle("Lista Editada");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
 
@@ -55,7 +49,8 @@ public class EditarLista extends AppCompatActivity {
         position = getIntent().getStringExtra("position");
         tipoLista = getIntent().getStringExtra("tipoL");
 
-
+        getSupportActionBar().setTitle("Lista: " + nomeLista);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         listView = findViewById(R.id.listViewEditLista);
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
@@ -66,19 +61,15 @@ public class EditarLista extends AppCompatActivity {
 
         final TextView nomeTV = findViewById(R.id.nomeLEditLista);
 
-
-        mListener = mDatabase.child(key).addValueEventListener(new ValueEventListener() {
+        mDatabase.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (listView.getAdapter().getCount() == 0) {
                     Lista l = dataSnapshot.getValue(Lista.class);
-
                     prodQuantCusto = l.getProdutoCusto();
 
                     String tv = l.getNomeLista();
-
                     nomeTV.setText(tv);
-
 
                     for (String prod : prodQuantCusto.keySet()) {
                         mAdapter.add(prod);
@@ -93,12 +84,12 @@ public class EditarLista extends AppCompatActivity {
             }
         });
 
-        Button guardarLista = (Button) findViewById(R.id.guardarListaEditLista);
+        Button guardarLista = findViewById(R.id.guardarListaEditLista);
         guardarLista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                EditText nomeL = (EditText) findViewById(R.id.nomeLEditLista);
+                EditText nomeL = findViewById(R.id.nomeLEditLista);
                 nomeLista2 = nomeL.getText().toString();
 
                 if (!nomeLista.equals("")) {
@@ -110,23 +101,21 @@ public class EditarLista extends AppCompatActivity {
                     i.putExtra("userTlm", userTlm);
                     i.putExtra("position", position);
                     i.putExtra("nameL", nomeLista2);
-
-                   // i.putExtra("nomeClasse","1");
-
-                    //i.putExtra("idL", key);
+                    i.putExtra("tipoL", tipoLista);
 
                     startActivity(i);
 
                 }
-
+                else{
+                    nomeL.setError(MSG_EMPTY_LIST_NAME);
+                }
             }
         });
 
 
-        mItemEdit = (EditText) findViewById(R.id.produtoInserido);
+        mItemEdit = findViewById(R.id.produtoInserido);
 
-
-        ImageButton addProduto = (ImageButton) findViewById(R.id.addProdButton);
+        ImageButton addProduto = findViewById(R.id.addProdButton);
         addProduto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,7 +128,7 @@ public class EditarLista extends AppCompatActivity {
                     mAdapter.notifyDataSetChanged();
                     mItemEdit.setText("");
                 } else {
-                    Toast.makeText(getApplicationContext(), msgErrAddProd, Toast.LENGTH_LONG).show();
+                    mItemEdit.setError(MSG_ERR_ADD_PROD);
                 }
             }
         });
@@ -166,15 +155,7 @@ public class EditarLista extends AppCompatActivity {
         i.putExtra("position", position);
         i.putExtra("key", key);
         i.putExtra("tipoL", tipoLista);
-
-        if(nomeLista2 == null){
-            i.putExtra("nameL", nomeLista);
-        }else{
-            i.putExtra("nameL", nomeLista2);
-
-        }
-
-
+        i.putExtra("nameL", nomeLista2);
         startActivity(i);
     }
 }
