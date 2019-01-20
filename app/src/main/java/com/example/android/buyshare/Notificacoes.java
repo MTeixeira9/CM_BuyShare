@@ -64,10 +64,9 @@ public class Notificacoes extends AppCompatActivity {
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                     u = singleSnapshot.getValue(User.class);
                     List<String> notificacoes = u.getNotificacoes();
-                    Log.d("ANTES", u.getNome());
+
                     if (notificacoes != null) {
                         for (String idNot : notificacoes) {
-                            Log.d("id--", idNot);
                             Query qN = mDatabaseN.orderByChild("idN").equalTo(idNot);
                             qN.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
@@ -79,46 +78,35 @@ public class Notificacoes extends AppCompatActivity {
                                         quantia = n.getQuantia();
                                         nomePessoa = u.getNome();
                                         nomeLista = n.getNomeL();
-
-
-                                        Query q = mDatabaseU.orderByChild("numeroTlm").equalTo(quemPagou);
-                                        q.addListenerForSingleValueEvent(new ValueEventListener() {
-
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                                                    User deve = singleSnapshot.getValue(User.class);
-                                                    String nomeDeve = deve.getNome();
-
-                                                    if (quemDeve.equals(userTlm)) {
-                                                        TableRow tr = new TableRow(getApplicationContext());
-                                                        TextView tv = new TextView(getApplicationContext());
-                                                        tv.setText("Deves " + (double) Math.round(quantia * 100) / 100 + "€ a " + nomeDeve + "\n"
-                                                                + " referente à lista: " + nomeLista);
-                                                        tv.setTextSize(16);
-
-                                                        Button pagar = new Button(getApplicationContext());
-                                                        pagar.setText("Pagar");
-                                                        tr.addView(tv);
-                                                        tr.addView(pagar);
-                                                        tableLayout.addView(tr);
-                                                    }
-
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                            }
-
-
-                                        });
-
-
-
-
                                     }
+
+                                    Query q = mDatabaseU.orderByChild("numeroTlm").equalTo(quemPagou);
+                                    q.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                                                User deve = singleSnapshot.getValue(User.class);
+                                                String nomeDeve = deve.getNome();
+
+                                                TableRow tr = new TableRow(getApplicationContext());
+                                                TextView tv = new TextView(getApplicationContext());
+                                                tv.setText("Deves " + (double) Math.round(quantia * 100) / 100 + "€ a " + nomeDeve + "\n"
+                                                        + " referente à lista: " + nomeLista);
+                                                tv.setTextSize(16);
+
+                                                Button pagar = new Button(getApplicationContext());
+                                                pagar.setText("Pagar");
+                                                tr.addView(tv);
+                                                tr.addView(pagar);
+                                                tableLayout.addView(tr);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
                                 }
 
                                 @Override

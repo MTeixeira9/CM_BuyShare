@@ -41,7 +41,7 @@ public class DividasReceber extends AppCompatActivity {
     private int posNotifica;
     private String nome , idN;
     private TableRow tr;
-    private List<String> notificacoes;
+    //private List<String> notificacoes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class DividasReceber extends AppCompatActivity {
         posNumTlNotifica = new HashMap<>();
         botoesNotifica = new ArrayList<>();
         notificados = new HashMap<>();
-        notificacoes = new ArrayList<>();
+        //notificacoes = new ArrayList<>();
 
         Query q = mDatabaseL.child(idL);
         q.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -133,7 +133,7 @@ public class DividasReceber extends AppCompatActivity {
                                         @Override
                                         public void onClick(final View v) {
                                             //Toast.makeText(getApplicationContext(),v.getId()+" <- ID" ,Toast.LENGTH_LONG).show();
-                                            notificados.put(a, true);
+
 
                                             Query qU = mDatabaseU.orderByChild("numeroTlm").equalTo(posNumTlNotifica.get(v.getId()));
                                             qU.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -142,9 +142,16 @@ public class DividasReceber extends AppCompatActivity {
                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                     for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                                                         User u = singleSnapshot.getValue(User.class);
-                                                        notificacoes = u.getNotificacoes();
+                                                        List<String>  notificacoes = u.getNotificacoes();
+                                                        notificados.put(a, true);
                                                         idN = mDatabaseN.push().getKey();
-                                                        notificacoes.add(idN);
+                                                        if(notificacoes != null){
+                                                            notificacoes.add(idN);
+                                                        }else{
+                                                            notificacoes = new ArrayList<>();
+                                                            notificacoes.add(idN);
+                                                        }
+
                                                         Notificacao n = new Notificacao(idN, idL,
                                                                 membrosL.get(0), posNumTlNotifica.get(v.getId()), quantiaADever, nomeLista, "");
                                                         mDatabaseN.child(idN).setValue(n);
