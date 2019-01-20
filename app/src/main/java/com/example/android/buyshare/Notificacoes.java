@@ -140,4 +140,5 @@ public class Notificacoes extends AppCompatActivity {
         i.putExtra("userTlm", userTlm);
         startActivity(i);
     }
+
 }
