@@ -145,7 +145,10 @@ public class DividasReceber extends AppCompatActivity {
                                                         List<String>  notificacoes = u.getNotificacoes();
                                                         notificados.put(a, true);
                                                         idN = mDatabaseN.push().getKey();
-                                                        notificacoes.add(idN);
+                                                        if(notificacoes != null){
+                                                            notificacoes.add(idN);
+                                                        }
+
                                                         Notificacao n = new Notificacao(idN, idL,
                                                                 membrosL.get(0), posNumTlNotifica.get(v.getId()), quantiaADever, nomeLista, "");
                                                         mDatabaseN.child(idN).setValue(n);
