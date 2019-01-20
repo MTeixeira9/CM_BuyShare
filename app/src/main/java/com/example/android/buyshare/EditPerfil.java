@@ -113,6 +113,42 @@ public class EditPerfil extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
+
+                /**
+                 * PREENCHER FOTO
+                 */
+               /* Query q2 = mDatabaseUpload.child(userTlm);
+                q2.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        //for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+
+                        String name = String.valueOf(dataSnapshot.child("name").getValue());
+                        String url = String.valueOf(dataSnapshot.child("imageUrl").getValue());
+
+                        // Reference to an image file in Cloud Storage
+                        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(name);
+                        // Toast.makeText(getApplicationContext(), storageReference.url+"", Toast.LENGTH_LONG).show();
+
+                        // Load the image using Glide
+                        Glide.with(EditPerfil.this)
+                                .load(url)
+                                .into((ImageView) findViewById(R.id.imageView_EditPerfil));
+                    }
+                    //}
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+*/
+
+
+
+
+
                 nome = nomeET.getText().toString();
                 password = passwordET.getText().toString();
                 conf_Passw = conf_PasswET.getText().toString();
@@ -214,9 +250,11 @@ public class EditPerfil extends AppCompatActivity {
                                 }
                             }, 5);
 
+                            StorageReference islandRef = fileReference.child("gs://cmbuyshare-5f07c.appspot.com/upload");
+
                             String uploadId = mDatabaseUpload.push().getKey();
                             Upload upload = new Upload(fileReference.getName(),
-                                    mImageUri.toString(), uploadId);
+                                    islandRef + "/" + fileReference.getName(), uploadId);
 
                             mDatabaseUpload.child(userTlm).setValue(upload);
 

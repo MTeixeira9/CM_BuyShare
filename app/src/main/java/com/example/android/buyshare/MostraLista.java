@@ -31,7 +31,7 @@ public class MostraLista extends AppCompatActivity {
 
     private String userTlm, nomeLista, position, tipoLista;
     private DatabaseReference mDatabase, mDatabase2;
-    private TextView listaCriadaPor;
+    private TextView listaCriadaPor, custoTotal;
     private LinearLayout linearLayout;
     private ValueEventListener mListener;
     private HashMap<String, HashMap<String, Double>> prodQuantCusto;
@@ -60,6 +60,8 @@ public class MostraLista extends AppCompatActivity {
         listaCriadaPor = findViewById(R.id.pessoaCriaLista);
         linearLayout = findViewById(R.id.linearLayoutID);
 
+        custoTotal = findViewById(R.id.custoTotal);
+
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
         mDatabase2 = FirebaseDatabase.getInstance().getReference("users");
 
@@ -79,6 +81,7 @@ public class MostraLista extends AppCompatActivity {
                     Lista l = singleSnapshot.getValue(Lista.class);
 
                     String numTelemovel = l.getCriadorLista();
+
                     membros = l.getMembrosLista();
 
                     //LISTA SER PUBLICA
@@ -114,6 +117,13 @@ public class MostraLista extends AppCompatActivity {
                                     cb.setText(a.getKey());
                                     linearLayout.addView(cb);
                                 }
+
+                                Double custoF = l.getCustoFinal();
+                                if(l.isFinalizada() == true) {
+                                    custoTotal.setText("Total: " + String.valueOf(custoF) + "€");
+                                }
+
+
                                 break;
                             }
                         }
