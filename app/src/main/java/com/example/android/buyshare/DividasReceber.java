@@ -147,6 +147,9 @@ public class DividasReceber extends AppCompatActivity {
                                                         idN = mDatabaseN.push().getKey();
                                                         if(notificacoes != null){
                                                             notificacoes.add(idN);
+                                                        }else{
+                                                            notificacoes = new ArrayList<>();
+                                                            notificacoes.add(idN);
                                                         }
 
                                                         Notificacao n = new Notificacao(idN, idL,
