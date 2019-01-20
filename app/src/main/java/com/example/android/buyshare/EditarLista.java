@@ -92,7 +92,7 @@ public class EditarLista extends AppCompatActivity {
                 EditText nomeL = findViewById(R.id.nomeLEditLista);
                 nomeLista2 = nomeL.getText().toString();
 
-                if (!nomeLista.equals("")) {
+                if (!nomeLista2.equals("")) {
 
                     mDatabase.child(key).child("nomeLista").setValue(nomeLista2);
                     mDatabase.child(key).child("produtoCusto").setValue(prodQuantCusto);
@@ -122,7 +122,7 @@ public class EditarLista extends AppCompatActivity {
                 String item = mItemEdit.getText().toString();
                 if (!item.equals("")) {
                     HashMap quantC = new HashMap();
-                    quantC.put(0.0,0.0);
+                    quantC.put("0,0",0.0);
                     prodQuantCusto.put(item, quantC);
                     mAdapter.add(item);
                     mAdapter.notifyDataSetChanged();

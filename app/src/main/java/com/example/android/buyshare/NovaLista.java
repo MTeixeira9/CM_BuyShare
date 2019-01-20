@@ -22,11 +22,7 @@ import java.util.HashMap;
 public class NovaLista extends AppCompatActivity {
 
    private ArrayAdapter<String> mAdapter;
-
     private CustomeAdapter customeAdapter;
-   // private ArrayList<EditModel> editModelArrayList;
-
-
     private ListView mShoppingList;
     private EditText mItemEdit;
     private String userTlm;
@@ -51,77 +47,55 @@ public class NovaLista extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
         prodQuantCusto = new HashMap<>();
 
-        Button guardarLista = (Button) findViewById(R.id.guardarListaEditLista);
+        Button guardarLista = findViewById(R.id.guardarListaEditLista);
         guardarLista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
-                EditText nomeL = (EditText) findViewById(R.id.nomeLEditLista);
+                EditText nomeL = findViewById(R.id.nomeLEditLista);
                 String nomeLista = nomeL.getText().toString();
-
-
-                String key = "";
 
                 if (!nomeLista.equals("")){
 
-                    key = mDatabase.push().getKey();
+                    String key = mDatabase.push().getKey();
                     Lista lista = new Lista(key, userTlm, nomeLista, prodQuantCusto);
 
                     mDatabase.child(key).setValue(lista);
 
-                    //Bundle b = new Bundle();
-                   // b.putStringArrayList("listaProdutos", produto);
-
                     Intent i = new Intent(NovaLista.this, MinhasListas.class);
                     i.putExtra("userTlm", userTlm);
-                    //i.putExtra("produtoCusto", produtoCusto);
-                    //i.putExtras(b);
-
-
                     startActivity(i);
                     finish();
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), msgErrLista, Toast.LENGTH_LONG).show();
+                    nomeL.setError(msgErrLista);
                 }
             }
         });
 
-        mItemEdit = (EditText) findViewById(R.id.produtoInserido);
-        mShoppingList = (ListView) findViewById(R.id.listViewItems);
-        //mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        mItemEdit = findViewById(R.id.produtoInserido);
+        mShoppingList = findViewById(R.id.listViewItems);
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
 
         mShoppingList.setAdapter(mAdapter);
 
-
-
-
-
-
-        ImageButton addProduto = (ImageButton) findViewById(R.id.addProdButton);
+        ImageButton addProduto = findViewById(R.id.addProdButton);
         addProduto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String item = mItemEdit.getText().toString();
 
-                //EditText edit = mItemEdit.getText().toString();
-
                 if (!item.equals("")) {
                     HashMap<String, Double> quantC = new HashMap<>();
                     quantC.put("0,0", 0.0);
                     prodQuantCusto.put(item, quantC);
-                    //produtos.add(item);
 
                     mAdapter.add(item);
-
-
                     mAdapter.notifyDataSetChanged();
                     mItemEdit.setText("");
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), msgErrAddProd, Toast.LENGTH_LONG).show();
+                    mItemEdit.setError(msgErrAddProd);
                 }
             }
         });
