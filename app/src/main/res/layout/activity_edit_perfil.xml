@@ -160,7 +160,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_Perfil" />
 
-    <Button
+    <!--Button
         android:id="@+id/uploadFoto"
         android:layout_width="87dp"
         android:layout_height="35dp"
@@ -174,7 +174,7 @@
         app:layout_constraintBottom_toTopOf="@+id/nome_perfil"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.093"
-        app:layout_constraintStart_toEndOf="@+id/imageView_Perfil" />
+        app:layout_constraintStart_toEndOf="@+id/imageView_Perfil" /-->
 
 
 </android.support.constraint.ConstraintLayout>

@@ -94,7 +94,7 @@ public class EditPerfil extends AppCompatActivity {
 
             }
         });
-
+/*
         Button upload = findViewById(R.id.uploadFoto);
         upload.setOnClickListener(new View.OnClickListener() {
 
@@ -107,7 +107,7 @@ public class EditPerfil extends AppCompatActivity {
                 }
             }
         });
-
+*/
         Button guardarDados = findViewById(R.id.guardarDados);
         guardarDados.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,6 +202,12 @@ public class EditPerfil extends AppCompatActivity {
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Falta inserir dados", Toast.LENGTH_LONG).show();
+                }
+
+                if (mUploadTask != null && mUploadTask.isInProgress()) {
+                    Toast.makeText(getApplicationContext(), "Upload in progress", Toast.LENGTH_SHORT).show();
+                } else {
+                    uploadFile();
                 }
             }
 
