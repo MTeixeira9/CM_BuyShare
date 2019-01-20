@@ -67,12 +67,6 @@ public class Notificacoes extends AppCompatActivity {
 
                 if (notificacoes != null) {
                     for (String idNot : notificacoes) {
-                        quemDeve = "";
-                        quemPagou = "";
-                        nomePessoa = "";
-                        nomeLista = "";
-                        quantia = 0.0;
-
                         Query qN = mDatabaseN.child(idNot);
                         qN.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
