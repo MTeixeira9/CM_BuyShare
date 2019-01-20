@@ -75,6 +75,7 @@ public class MostraLista extends AppCompatActivity {
         mListener = mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                linearLayout.removeAllViews();
                 int count = 0;
 
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
