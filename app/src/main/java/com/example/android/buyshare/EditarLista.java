@@ -5,8 +5,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Pair;
+import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +24,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class EditarLista extends AppCompatActivity {
 
@@ -32,7 +36,7 @@ public class EditarLista extends AppCompatActivity {
     private HashMap<String, HashMap<String, Double>> prodQuantCusto;
     private ArrayAdapter<String> mAdapter;
     private EditText mItemEdit;
-
+    private List<String> lProdutos;
     private static final String MSG_EMPTY_LIST_NAME = "Tem de dar um nome à Lista!";
     private static final String MSG_ERR_ADD_PROD = "Tem de inserir um produto!";
 
@@ -48,18 +52,25 @@ public class EditarLista extends AppCompatActivity {
         nomeLista = getIntent().getStringExtra("nameL");
         position = getIntent().getStringExtra("position");
         tipoLista = getIntent().getStringExtra("tipoL");
+        nomeLista2 = "";
+        lProdutos = new ArrayList<>();
 
-        getSupportActionBar().setTitle("Lista: " + nomeLista);
+        getSupportActionBar().setTitle(nomeLista);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         listView = findViewById(R.id.listViewEditLista);
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
 
         listView.setAdapter(mAdapter);
+        /**
+         * opcoes listas
+         * */
+        registerForContextMenu(listView);
 
         prodQuantCusto = new HashMap<>();
 
-        final TextView nomeTV = findViewById(R.id.nomeLEditLista);
+        TextView nomeTV = findViewById(R.id.nomeLEditLista);
+        nomeTV.setText(nomeLista);
 
         mDatabase.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -68,12 +79,12 @@ public class EditarLista extends AppCompatActivity {
                     Lista l = dataSnapshot.getValue(Lista.class);
                     prodQuantCusto = l.getProdutoCusto();
 
-                    String tv = l.getNomeLista();
-                    nomeTV.setText(tv);
-
-                    for (String prod : prodQuantCusto.keySet()) {
-                        mAdapter.add(prod);
-                        mAdapter.notifyDataSetChanged();
+                    if (prodQuantCusto != null ) {
+                        for (String prod : prodQuantCusto.keySet()) {
+                            lProdutos.add(prod);
+                            mAdapter.add(prod);
+                            mAdapter.notifyDataSetChanged();
+                        }
                     }
                 }
             }
@@ -95,7 +106,8 @@ public class EditarLista extends AppCompatActivity {
                 if (!nomeLista2.equals("")) {
 
                     mDatabase.child(key).child("nomeLista").setValue(nomeLista2);
-                    mDatabase.child(key).child("produtoCusto").setValue(prodQuantCusto);
+                    if (prodQuantCusto != null)
+                        mDatabase.child(key).child("produtoCusto").setValue(prodQuantCusto);
 
                     Intent i = new Intent(EditarLista.this, MostraLista.class);
                     i.putExtra("userTlm", userTlm);
@@ -105,8 +117,7 @@ public class EditarLista extends AppCompatActivity {
 
                     startActivity(i);
 
-                }
-                else{
+                } else {
                     nomeL.setError(MSG_EMPTY_LIST_NAME);
                 }
             }
@@ -121,9 +132,14 @@ public class EditarLista extends AppCompatActivity {
             public void onClick(View v) {
                 String item = mItemEdit.getText().toString();
                 if (!item.equals("")) {
-                    HashMap quantC = new HashMap();
-                    quantC.put("0,0",0.0);
+                    HashMap<String, Double> quantC = new HashMap<>();
+                    quantC.put("0,0", 0.0);
+
+                    if (prodQuantCusto == null)
+                        prodQuantCusto = new HashMap<>();
                     prodQuantCusto.put(item, quantC);
+                    lProdutos.add(item);
+
                     mAdapter.add(item);
                     mAdapter.notifyDataSetChanged();
                     mItemEdit.setText("");
@@ -132,12 +148,32 @@ public class EditarLista extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, v.getId(), 0, "Eliminar");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        final int p = info.position;
+        String pSelected = lProdutos.get(p);
+        if (item.getTitle().equals("Eliminar")) {
+            prodQuantCusto.remove(pSelected);
+            mAdapter.remove(pSelected);
+            mAdapter.notifyDataSetChanged();
+        }
+
+        return super.onContextItemSelected(item);
 
     }
 
     @Override
-    public boolean onOptionsItemSelected (MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // app icon in action bar clicked; go home
@@ -149,13 +185,16 @@ public class EditarLista extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed () {
+    public void onBackPressed() {
         Intent i = new Intent(EditarLista.this, MostraLista.class);
         i.putExtra("userTlm", userTlm);
         i.putExtra("position", position);
-        i.putExtra("key", key);
         i.putExtra("tipoL", tipoLista);
-        i.putExtra("nameL", nomeLista2);
+
+        if (nomeLista2.equals(""))
+            i.putExtra("nameL", nomeLista);
+        else
+            i.putExtra("nameL", nomeLista2);
         startActivity(i);
     }
 }
