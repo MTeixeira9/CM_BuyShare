@@ -134,9 +134,8 @@ public class DividasReceber extends AppCompatActivity {
                                         public void onClick(final View v) {
                                             //Toast.makeText(getApplicationContext(),v.getId()+" <- ID" ,Toast.LENGTH_LONG).show();
                                             notificados.put(a, true);
-                                            idN = mDatabaseN.push().getKey();
 
-                                            Query qU = mDatabaseU.orderByChild("numTlm").equalTo(posNumTlNotifica.get(v.getId()));
+                                            Query qU = mDatabaseU.orderByChild("numeroTlm").equalTo(posNumTlNotifica.get(v.getId()));
                                             qU.addListenerForSingleValueEvent(new ValueEventListener() {
 
                                                 @Override
@@ -144,7 +143,7 @@ public class DividasReceber extends AppCompatActivity {
                                                     for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                                                         User u = singleSnapshot.getValue(User.class);
                                                         notificacoes = u.getNotificacoes();
-
+                                                        idN = mDatabaseN.push().getKey();
                                                         notificacoes.add(idN);
                                                         Notificacao n = new Notificacao(idN, idL,
                                                                 membrosL.get(0), posNumTlNotifica.get(v.getId()), quantiaADever, nomeLista, "");
