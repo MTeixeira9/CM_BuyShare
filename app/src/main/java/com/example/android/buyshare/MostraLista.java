@@ -120,7 +120,7 @@ public class MostraLista extends AppCompatActivity {
                                 }
 
                                 Double custoF = l.getCustoFinal();
-                                if(l.isFinalizada() == true) {
+                                if(l.isFinalizada()) {
                                     custoTotal.setText("Total: " + String.valueOf(custoF) + "€");
                                 }
 
@@ -157,7 +157,7 @@ public class MostraLista extends AppCompatActivity {
 
                                 idL = l.getIdL();
                                 finalizada = String.valueOf(l.isFinalizada());
-                                Toast.makeText(getApplicationContext(), "FIN - " + finalizada, Toast.LENGTH_LONG).show();
+
                                 for (Map.Entry<String, HashMap<String, Double>> a : prodQuantCusto.entrySet()) {
                                     CheckBox cb = new CheckBox(getApplicationContext());
                                     cb.setTextSize(18);
