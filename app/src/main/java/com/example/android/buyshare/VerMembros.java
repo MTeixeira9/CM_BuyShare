@@ -26,7 +26,6 @@ public class VerMembros extends AppCompatActivity {
     private ListView listVerMembros;
     private ArrayAdapter<String> mAdapter;
     private DatabaseReference mDatabase;
-    private ValueEventListener mListener;
     private ArrayList<String> membros;
 
     @Override
@@ -56,7 +55,7 @@ public class VerMembros extends AppCompatActivity {
         membros = new ArrayList<>();
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
 
-        mListener = mDatabase.child(idL).addValueEventListener(new ValueEventListener() {
+        mDatabase.child(idL).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Lista l = dataSnapshot.getValue(Lista.class);

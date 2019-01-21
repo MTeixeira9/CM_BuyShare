@@ -203,8 +203,6 @@ public class MostraLista extends AppCompatActivity {
                         }
                     });
 
-
-
                 } else {
                     edit_button.setVisibility(View.VISIBLE);
                     contas_button.setVisibility(View.INVISIBLE);
@@ -258,7 +256,7 @@ public class MostraLista extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        
+
         Query q = mDatabase.orderByChild("idL").equalTo(idL);
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -279,7 +277,6 @@ public class MostraLista extends AppCompatActivity {
 
 
         });
-
 
         return true;
     }
@@ -322,12 +319,39 @@ public class MostraLista extends AppCompatActivity {
             startActivity(estCusto);
 
         } else if (id == R.id.finalizar) {
-            Intent intent = new Intent(MostraLista.this, AdicionarCustoL.class);
-            intent.putExtra("userTlm", userTlm);
-            intent.putExtra("nameL", nomeLista);
-            intent.putExtra("key", idL);
-            intent.putExtra("position", position);
-            startActivity(intent);
+
+            Query q = mDatabase.orderByChild("idL").equalTo(idL);
+            q.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                        Lista l = singleSnapshot.getValue(Lista.class);
+                        if (l.isPartilhada()) {
+                            Intent intent = new Intent(MostraLista.this, AdicionarCustoL.class);
+                            intent.putExtra("userTlm", userTlm);
+                            intent.putExtra("nameL", nomeLista);
+                            intent.putExtra("key", idL);
+                            intent.putExtra("position", position);
+                            intent.putExtra("tipoL", tipoLista);
+                            startActivity(intent);
+                        }
+                        else{
+                            mDatabase.child(idL).child("finalizada").setValue(true);
+                            Intent intent = new Intent(MostraLista.this, MinhasListas.class);
+                            intent.putExtra("userTlm", userTlm);
+                            startActivity(intent);
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+
+
+            });
         }
 
         return super.onOptionsItemSelected(item);

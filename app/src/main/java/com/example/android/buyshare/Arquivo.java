@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.android.buyshare.Database.Lista;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +29,7 @@ public class Arquivo extends AppCompatActivity {
     private String userTlm;
     private DatabaseReference mDatabase;
     private ValueEventListener mListener;
+    private static final String MSG_EMPTY_LISTS = "Ainda não tem nenhuma lista";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,11 @@ public class Arquivo extends AppCompatActivity {
                         mAdapter.notifyDataSetChanged();
                     }
                 }
+
+                if (listaArq.getAdapter().getCount() == 0) {
+                    mAdapter.add(MSG_EMPTY_LISTS);
+                    mAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -83,9 +90,11 @@ public class Arquivo extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (mListener != null)
+            mDatabase.removeEventListener(mListener);
+
         Intent i = new Intent(Arquivo.this, MinhasListas.class);
         i.putExtra("userTlm", userTlm);
         startActivity(i);
     }
-
 }
