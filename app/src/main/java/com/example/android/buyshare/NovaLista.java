@@ -34,6 +34,7 @@ public class NovaLista extends AppCompatActivity {
     private HashMap<String, HashMap<String, Double>> prodQuantCusto;
     private static final String msgErrLista = "Tem de dar um nome à Lista!";
     private static final String msgErrAddProd = "Tem de inserir um produto!";
+    private static final String MSG_NO_EMPTY_LIST = "A lista deve conter pelo menos 1 produto!";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,16 +60,19 @@ public class NovaLista extends AppCompatActivity {
                 String nomeLista = nomeL.getText().toString();
 
                 if (!nomeLista.equals("")) {
+                    if (lProdutos.size() == 0) {
+                        Toast.makeText(getApplicationContext(), MSG_NO_EMPTY_LIST, Toast.LENGTH_LONG).show();
+                    } else {
+                        String key = mDatabase.push().getKey();
+                        Lista lista = new Lista(key, userTlm, nomeLista, prodQuantCusto);
 
-                    String key = mDatabase.push().getKey();
-                    Lista lista = new Lista(key, userTlm, nomeLista, prodQuantCusto);
+                        mDatabase.child(key).setValue(lista);
 
-                    mDatabase.child(key).setValue(lista);
-
-                    Intent i = new Intent(NovaLista.this, MinhasListas.class);
-                    i.putExtra("userTlm", userTlm);
-                    startActivity(i);
-                    finish();
+                        Intent i = new Intent(NovaLista.this, MinhasListas.class);
+                        i.putExtra("userTlm", userTlm);
+                        startActivity(i);
+                        finish();
+                    }
                 } else {
                     nomeL.setError(msgErrLista);
                 }
@@ -119,9 +123,13 @@ public class NovaLista extends AppCompatActivity {
         final int p = info.position;
         String pSelected = lProdutos.get(p);
         if (item.getTitle().equals("Eliminar")) {
-            prodQuantCusto.remove(pSelected);
-            mAdapter.remove(pSelected);
-            mAdapter.notifyDataSetChanged();
+            if (lProdutos.size() == 1) {
+                Toast.makeText(getApplicationContext(), MSG_NO_EMPTY_LIST, Toast.LENGTH_LONG).show();
+            } else {
+                prodQuantCusto.remove(pSelected);
+                mAdapter.remove(pSelected);
+                mAdapter.notifyDataSetChanged();
+            }
         }
 
         return super.onContextItemSelected(item);

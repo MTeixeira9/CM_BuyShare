@@ -38,6 +38,7 @@ public class EditarLista extends AppCompatActivity {
     private EditText mItemEdit;
     private List<String> lProdutos;
     private static final String MSG_EMPTY_LIST_NAME = "Tem de dar um nome à Lista!";
+    private static final String MSG_NO_EMPTY_LIST = "A lista deve conter pelo menos 1 produto!";
     private static final String MSG_ERR_ADD_PROD = "Tem de inserir um produto!";
 
     @Override
@@ -69,8 +70,7 @@ public class EditarLista extends AppCompatActivity {
 
         prodQuantCusto = new HashMap<>();
 
-        TextView nomeTV = findViewById(R.id.nomeLEditLista);
-        nomeTV.setText(nomeLista);
+        final TextView nomeTV = findViewById(R.id.nomeLEditLista);
 
         mDatabase.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -78,8 +78,9 @@ public class EditarLista extends AppCompatActivity {
                 if (listView.getAdapter().getCount() == 0) {
                     Lista l = dataSnapshot.getValue(Lista.class);
                     prodQuantCusto = l.getProdutoCusto();
+                    nomeTV.setText(l.getNomeLista());
 
-                    if (prodQuantCusto != null ) {
+                    if (prodQuantCusto != null) {
                         for (String prod : prodQuantCusto.keySet()) {
                             lProdutos.add(prod);
                             mAdapter.add(prod);
@@ -106,8 +107,7 @@ public class EditarLista extends AppCompatActivity {
                 if (!nomeLista2.equals("")) {
 
                     mDatabase.child(key).child("nomeLista").setValue(nomeLista2);
-                    if (prodQuantCusto != null)
-                        mDatabase.child(key).child("produtoCusto").setValue(prodQuantCusto);
+                    mDatabase.child(key).child("produtoCusto").setValue(prodQuantCusto);
 
                     Intent i = new Intent(EditarLista.this, MostraLista.class);
                     i.putExtra("userTlm", userTlm);
@@ -163,9 +163,13 @@ public class EditarLista extends AppCompatActivity {
         final int p = info.position;
         String pSelected = lProdutos.get(p);
         if (item.getTitle().equals("Eliminar")) {
-            prodQuantCusto.remove(pSelected);
-            mAdapter.remove(pSelected);
-            mAdapter.notifyDataSetChanged();
+            if (lProdutos.size() == 1) {
+                Toast.makeText(getApplicationContext(), MSG_NO_EMPTY_LIST, Toast.LENGTH_LONG).show();
+            } else {
+                prodQuantCusto.remove(pSelected);
+                mAdapter.remove(pSelected);
+                mAdapter.notifyDataSetChanged();
+            }
         }
 
         return super.onContextItemSelected(item);

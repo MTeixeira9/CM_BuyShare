@@ -258,8 +258,7 @@ public class MostraLista extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-
-
+        
         Query q = mDatabase.orderByChild("idL").equalTo(idL);
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -309,7 +308,6 @@ public class MostraLista extends AppCompatActivity {
             membros.putExtra("position", position);
             membros.putExtra("idL", idL);
             membros.putExtra("tipoL", tipoLista);
-
 
             startActivity(membros);
 

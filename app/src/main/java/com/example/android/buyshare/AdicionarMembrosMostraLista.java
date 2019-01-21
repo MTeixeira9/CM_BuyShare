@@ -64,7 +64,6 @@ public class AdicionarMembrosMostraLista extends AppCompatActivity {
         i.putExtra("userTlm", userTlm);
         i.putExtra("nameL", nameL);
         i.putExtra("position", position);
-        i.putExtra("idL", idL);
         i.putExtra("tipoL", tipoLista);
 
         startActivity(i);
