@@ -1,6 +1,8 @@
 package com.example.android.buyshare;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -120,7 +122,7 @@ public class MostraLista extends AppCompatActivity {
                                 }
 
                                 Double custoF = l.getCustoFinal();
-                                if(l.isFinalizada()) {
+                                if (l.isFinalizada()) {
                                     custoTotal.setText("Total: " + String.valueOf(custoF) + "€");
                                 }
 
@@ -163,6 +165,24 @@ public class MostraLista extends AppCompatActivity {
                                     cb.setTextSize(18);
                                     cb.setText(a.getKey());
                                     linearLayout.addView(cb);
+
+                                    cb.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            CheckBox cb = (CheckBox) view;
+                                            if (cb.isChecked()) {
+                                                cb.setPaintFlags(cb.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                                                cb.setTextColor(Color.GRAY);
+                                            }
+                                            else {
+                                                if ((cb.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) > 0) {
+                                                    cb.setPaintFlags(cb.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                                                    cb.setTextColor(Color.BLACK);
+                                                }
+                                            }
+                                        }
+                                    });
+
                                 }
                                 break;
                             }
@@ -186,9 +206,9 @@ public class MostraLista extends AppCompatActivity {
 
                                 String quemPagou = l.getQuemPagou();
 
-                                if(!userTlm.equals(quemPagou)){
+                                if (!userTlm.equals(quemPagou)) {
                                     contas_button.setVisibility(View.INVISIBLE);
-                                }else{
+                                } else {
                                     contas_button.setVisibility(View.VISIBLE);
                                 }
 
@@ -334,8 +354,7 @@ public class MostraLista extends AppCompatActivity {
                             intent.putExtra("position", position);
                             intent.putExtra("tipoL", tipoLista);
                             startActivity(intent);
-                        }
-                        else{
+                        } else {
                             mDatabase.child(idL).child("finalizada").setValue(true);
                             Intent intent = new Intent(MostraLista.this, MinhasListas.class);
                             intent.putExtra("userTlm", userTlm);
