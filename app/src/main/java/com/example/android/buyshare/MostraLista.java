@@ -310,7 +310,6 @@ public class MostraLista extends AppCompatActivity {
             membros.putExtra("idL", idL);
             membros.putExtra("tipoL", tipoLista);
 
-
             startActivity(membros);
 
         } else if (id == R.id.estimarCusto) {
