@@ -42,6 +42,7 @@ public class DividasReceber extends AppCompatActivity {
     private String nome , idN;
     private TableRow tr;
     //private List<String> notificacoes;
+    private String quemPagou;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +85,7 @@ public class DividasReceber extends AppCompatActivity {
                 Double emprestado = custoFinal - (custoFinal / membrosL.size());
                 e = String.valueOf(Math.round(emprestado * 100.0) / 100.0);
                 Double d = custoFinal / membrosL.size();
+                quemPagou = l.getQuemPagou();
 
                 final String deveTE = String.valueOf(Math.round(d * 100.0) / 100.0);
                 final Double quantiaADever = custoFinal / membrosL.size();
@@ -94,10 +96,10 @@ public class DividasReceber extends AppCompatActivity {
                 numPessoasTextV.setText("Nº de pessoas envolvidas: " + membrosL.size() + "");
                 valorEmprestado.setText("Emprestaste: " + e + "€");
 
-                int i = 0;
+                //int i = 0;
                 posNotifica = 1;
                 for (final String a : membrosL) {
-                    if (i != 0) {
+                    if (!a.equals(userTlm) ){
                         Query qU = mDatabaseU.child(a);
                         qU.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -153,7 +155,7 @@ public class DividasReceber extends AppCompatActivity {
                                                         }
 
                                                         Notificacao n = new Notificacao(idN, idL,
-                                                                membrosL.get(0), posNumTlNotifica.get(v.getId()), quantiaADever, nomeLista, "");
+                                                                quemPagou, posNumTlNotifica.get(v.getId()), quantiaADever, nomeLista, "");
                                                         mDatabaseN.child(idN).setValue(n);
 
                                                         mDatabaseU.child(posNumTlNotifica.get(v.getId())).child("notificacoes").setValue(notificacoes);
@@ -190,7 +192,7 @@ public class DividasReceber extends AppCompatActivity {
                         });
                     }
 
-                    i++;
+                    //i++;
 
 
                 }
