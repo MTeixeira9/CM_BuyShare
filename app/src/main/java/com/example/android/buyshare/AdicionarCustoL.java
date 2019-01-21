@@ -26,7 +26,7 @@ import java.util.HashMap;
 public class AdicionarCustoL extends AppCompatActivity {
 
     //private Spinner spinner;
-    private String userTlm, nomeLista, key, position;
+    private String userTlm, nomeLista, key, position, tipoLista;
     private DatabaseReference mDatabaseL, mDatabaseU;
     private ValueEventListener mListener;
     private TextView tv;
@@ -48,6 +48,7 @@ public class AdicionarCustoL extends AppCompatActivity {
         nomeLista = getIntent().getStringExtra("nameL");
         key = getIntent().getStringExtra("key");
         position = getIntent().getStringExtra("position");
+        tipoLista = getIntent().getStringExtra("tipoL");
 
         mDatabaseL = FirebaseDatabase.getInstance().getReference("listas");
         mDatabaseU = FirebaseDatabase.getInstance().getReference("users");
@@ -193,8 +194,11 @@ public class AdicionarCustoL extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(AdicionarCustoL.this, MinhasListas.class);
+        Intent i = new Intent(AdicionarCustoL.this, MostraLista.class);
         i.putExtra("userTlm", userTlm);
+        i.putExtra("nameL", nomeLista);
+        i.putExtra("position", position);
+        i.putExtra("tipoL", tipoLista);
         startActivity(i);
     }
 }

@@ -10,11 +10,11 @@
         android:title="Ver Membros"
         app:showAsAction="never"/>
 
-    <item android:id="@+id/finalizar"
-        android:title="Finalizar"
-        app:showAsAction="never"/>
-
     <item android:id="@+id/estimarCusto"
         android:title="Estimar Custo"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/finalizar"
+        android:title="Finalizar"
+        app:showAsAction="never" />
 </menu>

@@ -54,21 +54,13 @@ public class VerMembros extends AppCompatActivity {
         listVerMembros.setAdapter(mAdapter);
 
         membros = new ArrayList<>();
-
         mDatabase = FirebaseDatabase.getInstance().getReference("listas");
-
 
         mListener = mDatabase.child(idL).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Lista l = dataSnapshot.getValue(Lista.class);
-
-                //Toast.makeText(getApplicationContext(), "Nome Lista: " + l.getNomeLista(), Toast.LENGTH_LONG).show();
-
                 membros = l.getMembrosLista();
-
-
-                //Toast.makeText(getApplicationContext(), "Membros: " + membros.size(), Toast.LENGTH_LONG).show();
 
                 if(membros != null){
                     for(String a : membros) {
@@ -107,7 +99,6 @@ public class VerMembros extends AppCompatActivity {
         i.putExtra("userTlm", userTlm);
         i.putExtra("nameL", nameL);
         i.putExtra("position", position);
-        i.putExtra("idL", idL);
         i.putExtra("tipoL", tipoLista);
 
         startActivity(i);

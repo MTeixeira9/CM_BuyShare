@@ -143,11 +143,10 @@ public class FragAddMembrosAmigos extends Fragment implements IOnBackPressed {
                             }
                         });
 
-                        Intent i = new Intent(getActivity(), VerMembros.class );
+                        Intent i = new Intent(getActivity(), MostraLista.class );
                         i.putExtra("userTlm", userTlm);
                         i.putExtra("nameL", nomeLista);
                         i.putExtra("position", position);
-                        i.putExtra("idL", idL);
                         i.putExtra("tipoL", tipoLista);
                         startActivity(i);
 
@@ -188,7 +187,6 @@ public class FragAddMembrosAmigos extends Fragment implements IOnBackPressed {
         i.putExtra("userTlm", userTlm);
         i.putExtra("nameL", nomeLista);
         i.putExtra("position", position);
-        i.putExtra("idL", idL);
         i.putExtra("tipoL", tipoLista);
         startActivity(i);
     }

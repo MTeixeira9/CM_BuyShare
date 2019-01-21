@@ -120,7 +120,7 @@ public class MostraLista extends AppCompatActivity {
                                 }
 
                                 Double custoF = l.getCustoFinal();
-                                if(l.isFinalizada() == true) {
+                                if(l.isFinalizada()) {
                                     custoTotal.setText("Total: " + String.valueOf(custoF) + "€");
                                 }
 
@@ -157,7 +157,7 @@ public class MostraLista extends AppCompatActivity {
 
                                 idL = l.getIdL();
                                 finalizada = String.valueOf(l.isFinalizada());
-                                Toast.makeText(getApplicationContext(), "FIN - " + finalizada, Toast.LENGTH_LONG).show();
+
                                 for (Map.Entry<String, HashMap<String, Double>> a : prodQuantCusto.entrySet()) {
                                     CheckBox cb = new CheckBox(getApplicationContext());
                                     cb.setTextSize(18);
@@ -258,8 +258,7 @@ public class MostraLista extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-
-
+        
         Query q = mDatabase.orderByChild("idL").equalTo(idL);
         q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -309,7 +308,6 @@ public class MostraLista extends AppCompatActivity {
             membros.putExtra("position", position);
             membros.putExtra("idL", idL);
             membros.putExtra("tipoL", tipoLista);
-
 
             startActivity(membros);
 
