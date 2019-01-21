@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Notificacoes extends AppCompatActivity {
+public class    Notificacoes extends AppCompatActivity {
 
     private String userTlm, nomeLista;
     private DatabaseReference mDatabaseN, mDatabaseU, mDatabaseU2;
