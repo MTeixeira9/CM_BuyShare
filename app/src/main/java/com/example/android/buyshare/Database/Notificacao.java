@@ -12,6 +12,7 @@ public class Notificacao {
     private String nomeL;
     private String nomeP;
     private Double quantia;
+    private boolean pago;
 
     public Notificacao(){
 
@@ -25,6 +26,7 @@ public class Notificacao {
         this.quantia = quantia;
         this.nomeL = nomeL;
         this.nomeP = nomeP;
+        this.pago = false;
     }
 
     public String getIdL() {
@@ -50,4 +52,8 @@ public class Notificacao {
     public String getNomeL() {return nomeL; }
 
     public String getNomeP() { return nomeP; }
+
+    public boolean isPago() {
+        return pago;
+    }
 }

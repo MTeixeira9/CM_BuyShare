@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -61,28 +62,37 @@ public class    Notificacoes extends AppCompatActivity {
                 List<String> notificacoes = u.getNotificacoes();
 
                 if (notificacoes != null) {
-                    for (String idNot : notificacoes) {
+                    for (final String idNot : notificacoes) {
                         Query qN = mDatabaseN.child(idNot);
                         qN.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 Notificacao n = dataSnapshot.getValue(Notificacao.class);
-                                quantia = n.getQuantia();
-                                nomeLista = n.getNomeL();
+                                if (!n.isPago()) {
+                                    quantia = n.getQuantia();
+                                    nomeLista = n.getNomeL();
 
-                                String texto = "Deves " + (double) Math.round(quantia * 100) / 100 +
-                                        "€ a referente à lista: " + nomeLista;
+                                    String texto = "Deves " + (double) Math.round(quantia * 100) / 100 +
+                                            "€ a referente à lista: " + nomeLista;
 
-                                TableRow tr = new TableRow(getApplicationContext());
-                                TextView tv = new TextView(getApplicationContext());
-                                tv.setText(texto);
-                                tv.setTextSize(16);
+                                    TableRow tr = new TableRow(getApplicationContext());
+                                    TextView tv = new TextView(getApplicationContext());
+                                    tv.setText(texto);
+                                    tv.setTextSize(16);
 
-                                Button pagar = new Button(getApplicationContext());
-                                pagar.setText("Pagar");
-                                tr.addView(tv);
-                                tr.addView(pagar);
-                                tableLayout.addView(tr);
+                                    Button pagar = new Button(getApplicationContext());
+                                    pagar.setText("Pagar");
+                                    tr.addView(tv);
+                                    tr.addView(pagar);
+                                    tableLayout.addView(tr);
+
+                                    pagar.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            mDatabaseN.child(idNot).child("pago").setValue(true);
+                                        }
+                                    });
+                                }
                             }
 
                             @Override
