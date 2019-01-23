@@ -35,6 +35,7 @@ public class    Notificacoes extends AppCompatActivity {
     private double quantia;
     private User u;
     private List<String> notificacoes;
+    private TableRow tr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class    Notificacoes extends AppCompatActivity {
                                     String texto = "Deves " + (double) Math.round(quantia * 100) / 100 +
                                             "€ a referente à lista: " + nomeLista;
 
-                                    TableRow tr = new TableRow(getApplicationContext());
+                                    tr = new TableRow(getApplicationContext());
                                     TextView tv = new TextView(getApplicationContext());
                                     tv.setText(texto);
                                     tv.setTextSize(16);
@@ -91,6 +92,7 @@ public class    Notificacoes extends AppCompatActivity {
                                         @Override
                                         public void onClick(View v) {
                                             mDatabaseN.child(idNot).child("pago").setValue(true);
+                                            tableLayout.removeView(tr);
                                         }
                                     });
                                 }

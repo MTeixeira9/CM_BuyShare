@@ -1,6 +1,8 @@
 package com.example.android.buyshare;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -36,12 +38,12 @@ public class FragAddMembrosAmigos extends Fragment implements IOnBackPressed {
     private String userTlm, nomeLista, position, idL, tipoLista;
     private ArrayAdapter<String> mAdapter;
     private DatabaseReference mDatabase, mDatabaseL;
-    private ValueEventListener mListener, mListenerL;
     private Map<String, String> amigos;
     private LinearLayout linearLayout;
     private Button adicionar;
     private List<String> paraAdicionar;
     private ArrayList<String> membrosLista;
+    private Lista l;
 
     public FragAddMembrosAmigos() {
         // Required empty public constructor
@@ -66,54 +68,61 @@ public class FragAddMembrosAmigos extends Fragment implements IOnBackPressed {
 
         membrosLista = new ArrayList<>();
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("users");
-        mListener = mDatabase.child(userTlm).addValueEventListener(new ValueEventListener() {
-
+        mDatabaseL = FirebaseDatabase.getInstance().getReference("listas");
+        mDatabaseL.child(idL).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User u = dataSnapshot.getValue(User.class);
-                amigos = u.getAmigos();
 
-                if (amigos != null) {
-                    for (Map.Entry<String, String> a : amigos.entrySet()) {
-                        CheckBox cb = new CheckBox(getContext());
-                        cb.setTextSize(18);
-                        cb.setText(a.getValue() + " " + a.getKey());
-                        linearLayout.addView(cb);
-                    }
-                }
+                l = dataSnapshot.getValue(Lista.class);
 
-                //botao
-                adicionar.setOnClickListener(new View.OnClickListener() {
+                mDatabase = FirebaseDatabase.getInstance().getReference("users");
+                mDatabase.child(userTlm).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        User u = dataSnapshot.getValue(User.class);
+                        amigos = u.getAmigos();
 
-                        paraAdicionar = new ArrayList<>();
-                        for (int a = 0; a <= linearLayout.getChildCount(); a++) {
+                        if (amigos != null) {
+                            for (Map.Entry<String, String> a : amigos.entrySet()) {
+                                CheckBox cb = new CheckBox(getContext());
+                                cb.setTextSize(18);
+                                cb.setText(a.getValue() + " " + a.getKey());
 
-                            View view = linearLayout.getChildAt(a);
-                            if (view instanceof CheckBox) {
-                                CheckBox c = (CheckBox) view;
-                                //cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                //  @Override
-                                //public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                                if (c.isChecked()) {
-                                    String[] add = c.getText().toString().split("\\s+");
-                                    paraAdicionar.add(add[add.length-1]);
+                                if (l.getMembrosLista().contains(a.getKey())) {
+                                    cb.setChecked(true);
+                                    cb.setPaintFlags(cb.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                                    cb.setTextColor(Color.GRAY);
                                 }
 
+                                linearLayout.addView(cb);
                             }
                         }
 
-
-                        mDatabaseL = FirebaseDatabase.getInstance().getReference("listas");
-                        mListenerL = mDatabaseL.child(idL).addValueEventListener(new ValueEventListener() {
+                        //botao
+                        adicionar.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            public void onClick(View v) {
 
-                                Lista l = dataSnapshot.getValue(Lista.class);
+                                paraAdicionar = new ArrayList<>();
+                                for (int a = 0; a <= linearLayout.getChildCount(); a++) {
 
+                                    View view = linearLayout.getChildAt(a);
+                                    if (view instanceof CheckBox) {
+                                        CheckBox c = (CheckBox) view;
+                                        //cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                        //  @Override
+                                        //public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                                        if (c.isChecked()) {
+                                            String[] add = c.getText().toString().split("\\s+");
+
+                                            if(!l.getMembrosLista().contains(add[add.length - 1])) {
+                                                paraAdicionar.add(add[add.length - 1]);
+                                            }
+                                        }
+
+                                    }
+                                }
 
 
                                 membrosLista = l.getMembrosLista();
@@ -135,29 +144,28 @@ public class FragAddMembrosAmigos extends Fragment implements IOnBackPressed {
                                 mDatabaseL.child(idL).child("membrosLista").setValue(membrosLista);
 
 
-                            }
+                                Intent i = new Intent(getActivity(), MinhasListas.class);
+                                i.putExtra("userTlm", userTlm);
+                                i.putExtra("nameL", nomeLista);
+                                i.putExtra("position", position);
+                                i.putExtra("tipoL", tipoLista);
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                startActivity(i);
 
                             }
                         });
 
-                        Intent i = new Intent(getActivity(), MostraLista.class );
-                        i.putExtra("userTlm", userTlm);
-                        i.putExtra("nameL", nomeLista);
-                        i.putExtra("position", position);
-                        i.putExtra("tipoL", tipoLista);
-                        startActivity(i);
-
                     }
 
-                });
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
 
-
-            //@Override
+            @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
@@ -170,7 +178,7 @@ public class FragAddMembrosAmigos extends Fragment implements IOnBackPressed {
     }
 
     @Override
-    public boolean onOptionsItemSelected (MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // app icon in action bar clicked; go home
