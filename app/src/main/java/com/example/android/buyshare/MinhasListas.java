@@ -236,11 +236,12 @@ public class MinhasListas extends AppCompatActivity implements AdapterView.OnIte
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        if (id == R.id.meusGrupos) {
+        /*if (id == R.id.meusGrupos) {
             Intent grupos = new Intent(MinhasListas.this, MeusGrupos.class);
             grupos.putExtra("userTlm", userTlm);
             startActivity(grupos);
-        } else if (id == R.id.amigos) {
+        } else*/
+        if (id == R.id.amigos) {
             Intent amigos = new Intent(MinhasListas.this, Amigos.class);
             amigos.putExtra("userTlm", userTlm);
             startActivity(amigos);

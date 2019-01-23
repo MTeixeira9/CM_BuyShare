@@ -119,6 +119,23 @@ public class MostraLista extends AppCompatActivity {
                                     cb.setTextSize(18);
                                     cb.setText(a.getKey());
                                     linearLayout.addView(cb);
+
+                                    cb.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            CheckBox cb = (CheckBox) view;
+                                            if (cb.isChecked()) {
+                                                cb.setPaintFlags(cb.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                                                cb.setTextColor(Color.GRAY);
+                                            }
+                                            else {
+                                                if ((cb.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) > 0) {
+                                                    cb.setPaintFlags(cb.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                                                    cb.setTextColor(Color.BLACK);
+                                                }
+                                            }
+                                        }
+                                    });
                                 }
 
                                 Double custoF = l.getCustoFinal();
