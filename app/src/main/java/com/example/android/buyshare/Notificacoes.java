@@ -75,12 +75,12 @@ public class    Notificacoes extends AppCompatActivity {
                                     nomeLista = n.getNomeL();
 
                                     String texto = "Deves " + (double) Math.round(quantia * 100) / 100 +
-                                            "€ a referente à lista: " + nomeLista;
+                                            "€\n referente à lista: " + nomeLista;
 
                                     tr = new TableRow(getApplicationContext());
                                     TextView tv = new TextView(getApplicationContext());
                                     tv.setText(texto);
-                                    tv.setTextSize(16);
+                                    tv.setTextSize(15);
 
                                     Button pagar = new Button(getApplicationContext());
                                     pagar.setText("Pagar");

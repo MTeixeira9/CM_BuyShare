@@ -109,8 +109,8 @@ public class DividasReceber extends AppCompatActivity {
                                 TextView quemDeve = new TextView(getApplicationContext());
                                 nome = String.valueOf(dataSnapshot.child("nome").getValue());
                                 String numTlm = String.valueOf(dataSnapshot.child("numeroTlm").getValue());
-                                quemDeve.setTextSize(18);
-                                quemDeve.setText(nome + " deve-te " + deveTE + "€!");
+                                quemDeve.setTextSize(15);
+                                quemDeve.setText(nome + "\ndeve-te " + deveTE + "€!");
 
                                 Boolean notificado = notificados.get(a);
 
@@ -130,13 +130,9 @@ public class DividasReceber extends AppCompatActivity {
                                     posNumTlNotifica.put(posNotifica, numTlm);
                                     botoesNotifica.add(notifica);
                                     tr.addView(notifica);
-                                    //Toast.makeText(getApplicationContext(),posNotifica + " <- POSnOTIFICA" ,Toast.LENGTH_LONG).show();
                                     notifica.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(final View v) {
-                                            //Toast.makeText(getApplicationContext(),v.getId()+" <- ID" ,Toast.LENGTH_LONG).show();
-
-
                                             Query qU = mDatabaseU.orderByChild("numeroTlm").equalTo(posNumTlNotifica.get(v.getId()));
                                             qU.addListenerForSingleValueEvent(new ValueEventListener() {
 

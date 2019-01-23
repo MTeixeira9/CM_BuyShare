@@ -39,8 +39,6 @@ public class VerMembros extends AppCompatActivity {
         idL = getIntent().getStringExtra("idL");
         tipoLista = getIntent().getStringExtra("tipoL");
 
-        Toast.makeText(getApplicationContext(), "idLista: " + idL, Toast.LENGTH_LONG).show();
-
         getSupportActionBar().setTitle(nameL);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
