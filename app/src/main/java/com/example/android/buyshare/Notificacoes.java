@@ -34,6 +34,7 @@ public class    Notificacoes extends AppCompatActivity {
     private TableLayout tableLayout;
     private double quantia;
     private User u;
+    private List<String> notificacoes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

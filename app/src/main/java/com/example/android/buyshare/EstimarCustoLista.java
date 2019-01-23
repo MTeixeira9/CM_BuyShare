@@ -83,8 +83,8 @@ public class EstimarCustoLista extends AppCompatActivity {
         mListener = mDatabase.child(key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Lista l = dataSnapshot.getValue(Lista.class);
-                    //ArrayList<String> prod = l.getProdutos();
+                Lista l = dataSnapshot.getValue(Lista.class);
+                 //ArrayList<String> prod = l.getProdutos();
 
 
                     prodQuantCusto = l.getProdutoCusto();
@@ -193,7 +193,7 @@ public class EstimarCustoLista extends AppCompatActivity {
                 }
 
                 mDatabase.child(key).child("produtoCusto").setValue(novoHashMap);
-                mDatabase.child(key).child("custoFinal").setValue(Math.round(totalCusto*100.0) / 100.0);
+                //mDatabase.child(key).child("custoFinal").setValue(Math.round(totalCusto*100.0) / 100.0);
 
 
                 //POPUP
